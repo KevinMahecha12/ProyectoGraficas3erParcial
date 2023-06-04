@@ -31,7 +31,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     private BufferedImage buffer;
     private Graphics2D buffer2D;
 
-    double[][] cuadrado = {
+    double[][] Cuadrado = {
         {100, 100, 100}, // Vértice A
         {200, 100, 100}, // Vértice B
         {200, 200, 100}, // Vértice C
@@ -41,17 +41,40 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {200, 200, 200}, // Vértice G
         {100, 200, 200} // Vértice H
     };
-
     double[][] Volcan = {
-        {100, 100, 100}, // Vértice A
-        {250, 100, 100}, // Vértice B
-        {370, 300, 100}, // Vértice C
-        {-10, 300, 100}, // Vértice D
-        {200, 100, 200}, // Vértice E
-        {500, 100, 200}, // Vértice F
-        {780, 200, 200}, // Vértice G
-        {-128, 280, 200} // Vértice H
+        {90, 170, 100}, // Vértice A
+        {180, 170, 100}, // Vértice B
+        {340, 400, 100}, // Vértice C
+        {-30, 400, 100}, // Vértice D
+        {190, 260, 200}, // Vértice E
+        {360, 260, 200}, // Vértice F
+        {700, 570, 200}, // Vértice G
+        {-130, 540, 200} // Vértice H
     };
+    double[][] BaseMeteoro = {
+        //X,Y,Z
+        {100, 100, 100}, // Vértice A
+        {200, 100, 100}, // Vértice B
+        {200, 200, 100}, // Vértice C
+        {100, 200, 100}, // Vértice D
+        {100, 100, 200}, // Vértice E
+        {200, 100, 200}, // Vértice F
+        {200, 200, 200}, // Vértice G
+        {100, 200, 200} // Vértice H
+    };
+    double[][] FuegoMeteoro = {
+        //X,Y,Z
+        {200, 400, 100}, // Vértice A
+        {400, 100, 100}, // Vértice B
+        {600, 400, 100}, // Vértice C
+        {400, 900, 100}, // Vértice D
+        {200, 100, 200}, // Vértice E
+        {400, 100, 200}, // Vértice F
+        {600, 200, 200}, // Vértice G
+        {400, 200, 200} // Vértice H
+    };
+
+    List<Figura> MeteoroIncendiado = new ArrayList<Figura>();
 
     ProyectoFinalGraficas3erParcial() {
         setTitle("Rotación 3D, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
@@ -71,10 +94,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 buffer2D.clearRect(0, 0, buffer.getWidth(), buffer.getHeight());
                 buffer2D.setBackground(new Color(238, 238, 238));
 
-                RellenarObjeto(Volcan, new Color(185, 122, 87), new Color(185, 122, 87), new Color(185, 122, 87), new Color(185, 122, 87), new Color(185, 122, 87), new Color(185, 122, 87), true);
-                //hacerProyeccion(cuadrado, 60, xp, yp, zp,Color.white);
-                //hacerProyeccion(Volcan, 60, xp, yp, zp, Color.BLACK);
+                ColocarFondoDetras();
+                ColocarFondoPiso(0, 600, 300);
+                ColocarVolcan();
+                ColocarMeteoro();
                 imprimirPuntosYdibujarContorno(false);
+
                 g.drawImage(buffer, 0, 0, null);
                 g.dispose();
             }
@@ -85,30 +110,221 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         this.pack();
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
+        Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
+        Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
+        Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
+
+    }
+
+    public void ColocarFondoPiso(int x, int y, int altura) {
+        int r1 = 0;
+        int g1 = 128;
+        int b1 = 64;
+        int r2 = 0;
+        int g2 = 198;
+        int b2 = 99;
+
+        // Degradado Azul
+        for (int i = 0; i < altura; i++) {
+            int r = r1 + i * (r2 - r1) / altura;
+            int g = g1 + i * (g2 - g1) / altura;
+            int b = b1 + i * (b2 - b1) / altura;
+            Color c = new Color(r, g, b);
+            putLineaDDA(x, i + y, getWidth() + x, i + y, c);
+        }
+    }
+
+    public void ColocarFondoDetras() {
+        int altura = 600;
+        int r1 = 0;
+        int g1 = 50;
+        int b1 = 150;
+        int r2 = 0;
+        int g2 = 160;
+        int b2 = 230;
+
+        // Degradado Azul
+        for (int i = 0; i < altura; i++) {
+            int r = r1 + i * (r2 - r1) / altura;
+            int g = g1 + i * (g2 - g1) / altura;
+            int b = b1 + i * (b2 - b1) / altura;
+            Color c = new Color(r, g, b);
+            putLineaDDA(0, i, getWidth(), i, c);
+        }
+    }
+
+    public Figura HacerRectangulo(int x1, int y1, int x2, int y2, int Ancho, int Alto, Color c) {
+
+        // Crear objeto Forma con los puntos correspondientes al rectángulo
+        int minX = Math.min(x1, x2);
+        int minY = Math.min(y1, y2);
+        Figura figura = new Figura(minX, minY, minX + Ancho, minY, minX + Ancho, minY + Alto, minX, minY + Alto);
+        return figura;
+    }
+
+    public void ColocarVolcan() {
+        Color cafe = new Color(105, 65, 44);
+        Color cafeclaro = new Color(185, 122, 87);
+        RellenarObjeto(Volcan, cafe, cafe, cafe, cafe, cafe, cafe, true, cafeclaro);
+        RellenarElipse(buffer, 500, 373, 112, 50, Color.BLACK);
+
+    }
+
+    public void ColocarMeteoro() {
+        FuegoOrtogonal(150, 200, 5, 3);
+        FuegoOrtogonal(210, 180, 5, 2);
+        FuegoOrtogonal(220, 210, 5, 3);
+        colocarFiguraOrtogonal(10, 20, 1);
+        colocarFiguraOrtogonal(45, 130, 2);
+        colocarFiguraOrtogonal(85, 50, 2);
+
+
+
+    }
+
+    public void colocarFiguraOrtogonal(int x, int y, double tamaño) {
+        // Obtener los puntos proyectados en 2D
+        double[][] cord2d = ProyeccionOrtogonal(BaseMeteoro);
+
+        // Imprimir los puntos proyectados en 2D
+        System.out.println("Puntos Ortogonales en 2D:");
+        for (int i = 0; i < cord2d.length; i++) {
+            System.out.println("Punto " + (i + 1) + ": (" + cord2d[i][0] + ", " + cord2d[i][1] + ")");
+            // Dibujar los puntos en la ventana
+            int pixelX = (int) (cord2d[i][0] / tamaño) + x;
+            int pixelY = (int) (cord2d[i][1] / tamaño) + y;
+            addPixel(pixelX, pixelY, Color.BLACK);
+
+            // Conectar los puntos de manera automática
+            if (i > 0) {
+                int prevPixelX = (int) (cord2d[i - 1][0] / tamaño) + x;
+                int prevPixelY = (int) (cord2d[i - 1][1] / tamaño) + y;
+                putLineaDDA(pixelX, pixelY, prevPixelX, prevPixelY, Color.BLACK);
+            }
+
+            // Conectar el último punto con el primer punto para cerrar el contorno
+            if (i == cord2d.length - 1) {
+                int firstPixelX = (int) (cord2d[0][0] / tamaño) + x;
+                int firstPixelY = (int) (cord2d[0][1] / tamaño) + y;
+                putLineaDDA(pixelX, pixelY, firstPixelX, firstPixelY, Color.BLACK);
+            }
+        }
+
+        // Crear la figura BaseMeteoro2D con los puntos 2D obtenidos
+        Figura BaseMeteoro2D = new Figura(
+                (int) (cord2d[0][0] / tamaño) + x, (int) (cord2d[0][1] / tamaño) + y, // Punto 1
+                (int) (cord2d[1][0] / tamaño) + x, (int) (cord2d[1][1] / tamaño) + y, // Punto 2
+                (int) (cord2d[2][0] / tamaño) + x, (int) (cord2d[2][1] / tamaño) + y, // Punto 3
+                (int) (cord2d[3][0] / tamaño) + x, (int) (cord2d[3][1] / tamaño) + y // Punto 4
+        );
+        MeteoroIncendiado.add(BaseMeteoro2D);
+        RellenarFiguraScanLine(BaseMeteoro2D, Color.BLACK, Color.BLACK, Color.BLACK);
+    }
+
+    public void FuegoOrtogonal(int x, int y, double tamaño, double ancho) {
+        // Obtener los puntos proyectados en 2D
+        double[][] cord2d = ProyeccionOrtogonal(FuegoMeteoro);
+
+        // Imprimir los puntos proyectados en 2D
+        System.out.println("Puntos Ortogonales del fuego en 2D:");
+        for (int i = 0; i < cord2d.length; i++) {
+            System.out.println("Punto " + (i + 1) + ": (" + cord2d[i][0] + ", " + cord2d[i][1] + ")");
+            // Dibujar los puntos en la ventana
+            int pixelX = (int) (-cord2d[i][0] / (tamaño * ancho)) + x;  // Invierte la coordenada X y ajusta el ancho
+            int pixelY = (int) (-cord2d[i][1] / tamaño) + y;  // Invierte la coordenada Y
+
+            // Dibuja el punto en la ventana con las coordenadas invertidas
+            addPixel(pixelX, pixelY, Color.BLACK);
+        }
+
+        // Crear la figura BaseMeteoro2D con los puntos 2D obtenidos
+        Figura FuegoOrtogonal = new Figura(
+                (int) (-cord2d[0][0] / (tamaño * ancho)) + x, (int) (-cord2d[0][1] / tamaño) + y, // Punto 1
+                (int) (-cord2d[1][0] / (tamaño * ancho)) + x, (int) (-cord2d[1][1] / tamaño) + y, // Punto 2
+                (int) (-cord2d[2][0] / (tamaño * ancho)) + x, (int) (-cord2d[2][1] / tamaño) + y, // Punto 3
+                (int) (-cord2d[3][0] / (tamaño * ancho)) + x, (int) (-cord2d[3][1] / tamaño) + y // Punto 4
+        );
+        RellenarFiguraScanLine(FuegoOrtogonal, Color.BLACK, Color.RED, Color.RED);
+        MeteoroIncendiado.add(FuegoOrtogonal);
+    }
+
+    public double[][] ProyeccionOrtogonal(double[][] objeto) {
+        int numPuntos = objeto.length;
+        double[][] cord2d = new double[numPuntos][2];
+
+        for (int i = 0; i < numPuntos; i++) {
+            double x = objeto[i][0];
+            double y = objeto[i][1];
+            // Ignoramos el eje z para proyección ortogonal
+            cord2d[i][0] = x;
+            cord2d[i][1] = y;
+        }
+
+        return cord2d;
+    }
+
+    public void RellenarElipse(BufferedImage image, int xc, int yc, int rx, int ry, Color color) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        BufferedImage tempImage = new BufferedImage(width, height, image.getType());
+        Graphics2D g = tempImage.createGraphics();
+        g.drawImage(image, 0, 0, null);
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (Math.pow((x - xc), 2) / Math.pow(rx, 2) + Math.pow((y - yc), 2) / Math.pow(ry, 2) <= 1) {
+                    int pixel = image.getRGB(x, y);
+                    if (pixel != Color.BLACK.getRGB()) {
+                        tempImage.setRGB(x, y, color.getRGB());
+                    } else {
+                        tempImage.setRGB(x, y, color.getRGB());
+                    }
+                }
+            }
+        }
+
+        image.setData(tempImage.getData());
+    }
+
+    public void hacerElipse(int xc, int yc, int rx, int ry, Color color) {
+        double ang;
+        int x1, y1, x2, y2;
+        for (int i = 0; i < 360; i++) {
+            ang = Math.toRadians(i);
+            x1 = (int) Math.round(xc + rx * Math.cos(ang));
+            y1 = (int) Math.round(yc + ry * Math.sin(ang));
+            ang = Math.toRadians(i + 1);
+            x2 = (int) Math.round(xc + rx * Math.cos(ang));
+            y2 = (int) Math.round(yc + ry * Math.sin(ang));
+            putLineaDDA(x1, y1, x2, y2, color);
+        }
+    }
 
     public void imprimirPuntosYdibujarContorno(Boolean OcultarCaras) {
 
         double xp = 4;
         double yp = 6;
         double zp = 3;
-        double[][] cordenadas2d = hacerProyeccion(Volcan, 60, xp, yp, zp, Color.BLACK,OcultarCaras);
+        double[][] cordenadas2d = hacerProyeccionOblicua(Volcan, 60, xp, yp, zp, Color.BLACK, OcultarCaras);
 
         // Imprimir coordenadas 2D
         for (int i = 0; i < cordenadas2d.length; i++) {
             double[] punto = cordenadas2d[i];
             System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
         }
-
         System.out.println(); // Agregar una línea en blanco después del punto 8
 
     }
 
-    public void RellenarObjeto(double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, Boolean OcultarCaras) {
+    public void RellenarObjeto(double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, Boolean OcultarCaras, Color Final) {
         double xp = 4;
         double yp = 6;
         double zp = 3;
         boolean carasocultas = true;
-        double[][] puntos2D = hacerProyeccion(Objeto, 60, xp, yp, zp, Color.white,carasocultas);
+        double[][] puntos2D = hacerProyeccionOblicua(Objeto, 60, xp, yp, zp, Color.white, carasocultas);
 
         // Imprimir coordenadas 2D
         for (int i = 0; i < puntos2D.length; i++) {
@@ -151,42 +367,41 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 (int) puntos2D[6][0], (int) puntos2D[6][1], // Punto 7
                 (int) puntos2D[2][0], (int) puntos2D[2][1] // Punto 3
         );
-      if (OcultarCaras == true) {
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior);
-            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera);
-            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha);
-            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior);
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior);
-            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal);
+        if (OcultarCaras == true) {
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final);
         } else {
             carasocultas = false;
-            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Inferior);
-            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior);
-            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal);
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior);
-            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera);
-            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha);
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Inferior, Final);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final);
         }
-  
+
         System.out.println(); // Agregar una línea en blanco después del punto 8
     }
 
-    public void RellenarFiguraScanLine(Figura figura, Color colorBorde, Color colorRelleno) {
-
+    public void RellenarFiguraScanLine(Figura figura, Color colorBorde, Color colorRellenoInicial, Color colorRellenoFinal) {
         // Obtenemos los puntos de la figura
         Puntos punto1 = figura.obtenerPT1();
         Puntos punto2 = figura.obtenerPT2();
         Puntos punto4 = figura.obtenerPT3();
         Puntos punto3 = figura.obtenerPT4();
 
-// Se crea una lista de puntos ordenados por coordenada Y
+        // Se crea una lista de puntos ordenados por coordenada Y
         List<Puntos> puntosOrdenados = new ArrayList<>();
         puntosOrdenados.add(punto1);
         puntosOrdenados.add(punto2);
         puntosOrdenados.add(punto4);
         puntosOrdenados.add(punto3);
 
-// Obtenemos las coordenadas mínimas y máximas
+        // Obtenemos las coordenadas mínimas y máximas
         int minX = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
         int minY = Integer.MAX_VALUE;
@@ -209,6 +424,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 maxY = y;
             }
         }
+
         // Scanline dentro del cuadrado
         for (int y = minY + 1; y < maxY; y++) {
             List<Integer> intersecciones = new ArrayList<>();
@@ -234,12 +450,30 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 int xInicio = intersecciones.get(i);
                 int xFin = intersecciones.get(i + 1);
 
+                Color colorRelleno = interpolarColor(colorRellenoInicial, colorRellenoFinal, (float) (y - minY) / (float) (maxY - minY));
+
                 for (int x = xInicio; x <= xFin; x++) {
                     buffer.setRGB(x, y, colorRelleno.getRGB());
                 }
             }
         }
+
         colocarforma(figura, colorBorde);
+    }
+
+    private Color interpolarColor(Color colorInicial, Color colorFinal, float fraccion) {
+        int rInicial = colorInicial.getRed();
+        int gInicial = colorInicial.getGreen();
+        int bInicial = colorInicial.getBlue();
+        int rFinal = colorFinal.getRed();
+        int gFinal = colorFinal.getGreen();
+        int bFinal = colorFinal.getBlue();
+
+        int rInterpolado = (int) (rInicial + (rFinal - rInicial) * fraccion);
+        int gInterpolado = (int) (gInicial + (gFinal - gInicial) * fraccion);
+        int bInterpolado = (int) (bInicial + (bFinal - bInicial) * fraccion);
+
+        return new Color(rInterpolado, gInterpolado, bInterpolado);
     }
 
     public void colocarforma(Figura figura, Color colorBorde) {
@@ -251,7 +485,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         }
     }
 
-    private double[][] hacerProyeccion(double[][] cord3d, int tamaño, double xp, double yp, double zp, Color Borde, boolean PonerContorno) {
+    private double[][] hacerProyeccionOblicua(double[][] cord3d, int tamaño, double xp, double yp, double zp, Color Borde, boolean PonerContorno) {
         int[][] conexiones = {
             {0, 1}, {1, 2}, {2, 3}, {3, 0}, // Lados horizontales inferiores
             {4, 5}, {5, 6}, {6, 7}, {7, 4}, // Lados horizontales superiores
@@ -285,23 +519,14 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             cord2d[p1Index][1] = ptY; // Guarda la coordenada Y del punto en cord2d
             cord2d[p2Index][0] = ptX2; // Guarda la coordenada X del punto en cord2d
             cord2d[p2Index][1] = ptY2; // Guarda la coordenada Y del punto en cord2d
-            
+
             if (PonerContorno == true) {
-                  putLineaDDA(ptX, ptY, ptX2, ptY2, Borde);
+                putLineaDDA(ptX, ptY, ptX2, ptY2, Borde);
             }
-          
 
         }
 
         return cord2d; // Devuelve el arreglo de coordenadas 2D
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
-        Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.cuadrado, 45, 1));
-        Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.cuadrado, 45, 2));
-        Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.cuadrado, 45, 3));
-
     }
 
     public int obtenerpuntos(double[][] cord3d) {
@@ -547,5 +772,5 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             this.numVertices = numVertices;
         }
     }
-    //Rotacion 3D TERMINADO...., KEVIN M.
+    //PROYECTO GRAFICAS EN CURSO....
 }
