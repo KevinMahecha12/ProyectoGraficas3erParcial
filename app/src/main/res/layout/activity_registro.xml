@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registro">
+    tools:context=".RegistroActivity">
 
     <TextView
         android:id="@+id/TituloRegistro"
@@ -106,7 +106,7 @@
             android:textColorHint="#424141"
             android:drawablePadding="18dp"
             android:backgroundTint="@color/black"
-            android:drawableLeft="@drawable/contraseña"
+            android:drawableLeft="@drawable/contrasena"
             android:scaleType="fitStart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemPerfil"
+        android:icon="@drawable/perfil"
+        android:title="Perfil" />
+
+    <item
+        android:id="@+id/itemEjercicios"
+        android:icon="@drawable/ejercicios"
+        android:title="Ejercicios" />
+
+    <item
+        android:id="@+id/itemGym"
+        android:icon="@drawable/maps"
+        android:title="Gym" />
+
+    <item
+        android:id="@+id/itemTimer"
+        android:icon="@drawable/timer"
+        android:title="Timer" />
+
+    <item
+        android:id="@+id/itemLector"
+        android:icon="@drawable/camara"
+        android:title="Lector" />
+
+</menu>
