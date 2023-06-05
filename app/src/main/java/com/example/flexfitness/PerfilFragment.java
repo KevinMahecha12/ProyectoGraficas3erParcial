@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
@@ -52,13 +53,50 @@ public class PerfilFragment extends Fragment {
         }
     }
 
+    private Button btnFecha;
+
+    private int diaAlarma = 0;
+    private int mesAlarma = 0;
+    private int anoAlarma = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+        View root = inflater.inflate(R.layout.fragment_perfil, container, false);
+
+        btnFecha = root.findViewById(R.id.btnFecha);
+
+        btnFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFechaMembresia();
+            }
+        });
+
+        return root;
     }
 
+    public void setFechaMembresia(){
+        //Instancia para calendario
+        Calendar horarioHoy = Calendar.getInstance();
+        //Obtener los valores actuales del sistema
+        int anioActual = horarioHoy.get(Calendar.YEAR);
+        int mesActual = horarioHoy.get(Calendar.MONTH);
+        int diaActual = horarioHoy.get(Calendar.DAY_OF_MONTH);
+
+        //Fecha para elegir la cita
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                anoAlarma = i;
+                mesAlarma = i1;
+                diaAlarma = i2;
+            }
+        }, anioActual, mesActual, diaActual);
+        datePickerDialog.setTitle("Fecha de Cita");
+        datePickerDialog.show();
+    }//setFechaAlarma
 
 
 }//PerfilFragment

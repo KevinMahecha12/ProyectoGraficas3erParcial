@@ -86,7 +86,7 @@ public class MenuActivity extends AppCompatActivity {
 
     }//Fragment
 
-   public void setFechaMembresia(View view){
+   /*public void setFechaMembresia(View view){
         //Instancia para calendario
         Calendar horarioHoy = Calendar.getInstance();
         //Obtener los valores actuales del sistema
@@ -105,7 +105,7 @@ public class MenuActivity extends AppCompatActivity {
         }, anioActual, mesActual, diaActual);
         datePickerDialog.setTitle("Fecha de Cita");
         datePickerDialog.show();
-    }//setFechaAlarma
+    }//setFechaAlarma*/
 
     public void registrarMembresia(View view){
         String tipoMembresia = "";
