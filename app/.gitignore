@@ -1,5 +1,4 @@
 /build
 local.properties
-build.gradle
 .gradle/
 build/

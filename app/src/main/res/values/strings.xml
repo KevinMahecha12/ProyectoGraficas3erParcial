@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">FlexFitness</string>
-    <string name="api_key">>@string/API_KEY</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
