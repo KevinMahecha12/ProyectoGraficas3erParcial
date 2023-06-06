@@ -36,12 +36,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {100, 200, 200} // Vértice H
     };
     double[][] Volcan = {
-        {90, 170, 100}, // Vértice A
-        {180, 170, 100}, // Vértice B
+  {110, 160, 100}, // Vértice A
+        {160, 150, 100}, // Vértice B
         {340, 400, 100}, // Vértice C
         {-30, 400, 100}, // Vértice D
-        {190, 260, 200}, // Vértice E
-        {360, 260, 200}, // Vértice F
+      {190, 260, 200}, // Vértice E
+        {360, 250, 200}, // Vértice F
         {700, 570, 200}, // Vértice G
         {-130, 540, 200} // Vértice H
     };
@@ -78,7 +78,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {327, 423, 100}, // Vértice R
         {448, 500, 100}, // Vértice S
         {428, 614, 100}, // Vértice T
-        {498, 635, 100}, // Vértice U
+        {498, 635, 100}, // Vértice U  21 VERTICES
 
         {500, 700, 200}, // Vértice A
         {700, 600, 200}, // Vértice B
@@ -113,13 +113,45 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {600, 200, 200}, // Vértice G
         {400, 200, 200} // Vértice H
     };
+    double[][] Roca3D = {
+        //X,Y,Z
+        {200, 100, 100}, // Vértice A
+        {100, 250, 100}, // Vértice B
+        {100, 380, 100}, // Vértice C
+        {270, 395, 100}, // Vértice D
+        {368, 238, 100}, // Vértice E
+        {282, 159, 100}, // Vértice F
+        {200, 100, 150}, // Vértice A'
+        {100, 250, 150}, // Vértice B'
+        {100, 380, 150}, // Vértice C'
+        {270, 395, 150}, // Vértice D'
+        {368, 238, 150}, // Vértice E'
+        {282, 159, 150}, // Vértice F'
+    };
+    double[][] MontañaPrespectiva1Punto = {
+        {100, 600, 0}, // A (X, Y, Z)
+        {500, 600, 0}, // B
+        {100, 800, 0}, // C
+        {300, 800, 0}, // D
+        {-1920, 200, 500}, // E
+        {-880, -550, 400}, // F
+    };
+
+    double[][] MontañaPrespectiva1Punto2 = {
+        {700, 1200, 0}, // A (X, Y, Z)
+        {1600, 900, 0}, // B
+        {100, 800, 0}, // C
+        {800, 800, 0}, // D
+        {-12420, 200, 500}, // E
+        {-2480, -2950, 400}, // F
+    };
 
     List<Figura> FuegosMeteoroPoligonal1 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal1 = new ArrayList<Poligono>();
     int xMeteoro1, xMeteoro2;
 
     ProyectoFinalGraficas3erParcial() {
-        setTitle("Rotación 3D, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
+        setTitle("Proyecto Final gráficas 3er Parcial, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
         setSize(1200, 1200);
         this.setResizable(false);
         setVisible(true);
@@ -132,13 +164,17 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
+
                 ColocarFondoDetras();
+                ColocarMontaña1punto(0, 300, 2);
+                ColocarMontaña1punto(100, 400, 2);
+                ColocarMontaña1punto2(480,320, 3);
                 ColocarFondoPiso(0, 600, 300);
                 ColocarVolcan();
-
                 imprimirPuntosYdibujarContorno(false);
-
+                //DibujarRoca3D(true);
                 ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
+
                 g.drawImage(buffer, 0, 0, null);
                 g.dispose();
             }
@@ -147,6 +183,172 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         panel.setPreferredSize(new Dimension(1000, 900));
         this.add(panel);
         this.pack();
+    }
+
+    public void ColocarMontaña1punto2(int x, int y, int tamaño) {
+
+        // Parámetros del punto de fuga
+        double xc = 100;
+        double yc = 50;
+        double zc = 30;
+
+        // Realiza proyección del cubo en 3D a 2D
+        double[][] cord2d = proyectarPunto1(MontañaPrespectiva1Punto2, xc, yc, zc);
+
+        // Escala proporcional al tamaño inverso
+        double escala = 1.0 / tamaño;
+
+        // Unir puntos con líneas y aplicar la escala
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y);
+        putLineaDDA((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, (int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y);
+        putLineaDDA((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y);
+        putLineaDDA((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, (int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y);
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y);
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y);
+        putLineaDDA((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y);
+        putLineaDDA((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, (int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y);
+        putLineaDDA((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, (int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y);
+        putLineaDDA((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y);
+
+// Guardar los puntos de la montaña en el orden F, A, C
+        Puntos[] vertices = new Puntos[3];
+        vertices[0] = new Puntos((int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y); // F
+        vertices[1] = new Puntos((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y); // A
+        vertices[2] = new Puntos((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y); // C
+
+// Guardar los puntos de la montaña en el orden F, E, B, A
+        Puntos[] vertices2 = new Puntos[4];
+        vertices2[0] = new Puntos((int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y); // F
+        vertices2[1] = new Puntos((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y); // E
+        vertices2[2] = new Puntos((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y); // B
+        vertices2[3] = new Puntos((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y); // A
+
+        // Guardar los puntos de la montaña en el orden E, D, B
+        Puntos[] vertices3 = new Puntos[3];
+        vertices3[0] = new Puntos((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y); // E
+        vertices3[1] = new Puntos((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y); // D
+        vertices3[2] = new Puntos((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y); // B
+
+        Poligono poligono = new Poligono(vertices);
+        Poligono poligono2 = new Poligono(vertices2);
+        Poligono poligono3 = new Poligono(vertices3);
+        Color colorBorde = Color.RED;
+        Color colorRellenoInicial = new Color(37, 37, 37);
+        Color colorRellenoFinal = new Color(185, 122, 87);
+        RellenarPoligono(poligono2, colorBorde, new Color(135, 92, 68), new Color(37, 37, 37), false);
+        RellenarPoligono(poligono3, colorBorde, new Color(37, 37, 37), new Color(135, 92, 68), false);
+
+        RellenarPoligono(poligono, colorBorde, new Color(135, 92, 68), new Color(135, 92, 68), false);
+
+    }
+
+    public void ColocarMontaña1punto(int x, int y, int tamaño) {
+
+        // Parámetros del punto de fuga
+        double xc = 100;
+        double yc = 50;
+        double zc = 30;
+
+        // Realiza proyección del cubo en 3D a 2D
+        double[][] cord2d = proyectarPunto1(MontañaPrespectiva1Punto, xc, yc, zc);
+
+        // Escala proporcional al tamaño inverso
+        double escala = 1.0 / tamaño;
+
+        // Unir puntos con líneas y aplicar la escala
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, (int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, (int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, (int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, (int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y, Color.BLACK);
+        putLineaDDA((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y, Color.BLACK);
+
+// Guardar los puntos de la montaña en el orden F, A, C
+        Puntos[] vertices = new Puntos[3];
+        vertices[0] = new Puntos((int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y); // F
+        vertices[1] = new Puntos((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y); // A
+        vertices[2] = new Puntos((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y); // C
+
+// Guardar los puntos de la montaña en el orden F, E, B, A
+        Puntos[] vertices2 = new Puntos[4];
+        vertices2[0] = new Puntos((int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y); // F
+        vertices2[1] = new Puntos((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y); // E
+        vertices2[2] = new Puntos((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y); // B
+        vertices2[3] = new Puntos((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y); // A
+
+        // Guardar los puntos de la montaña en el orden E, D, B
+        Puntos[] vertices3 = new Puntos[3];
+        vertices3[0] = new Puntos((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y); // E
+        vertices3[1] = new Puntos((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y); // D
+        vertices3[2] = new Puntos((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y); // B
+
+        Poligono poligono = new Poligono(vertices);
+        Poligono poligono2 = new Poligono(vertices2);
+        Poligono poligono3 = new Poligono(vertices3);
+        Color colorBorde = Color.BLACK;
+        Color colorRellenoInicial = new Color(37, 37, 37);
+        Color colorRellenoFinal = new Color(105, 65, 44);
+        RellenarPoligono(poligono2, colorBorde, new Color(37, 37, 37), new Color(135, 92, 68), false);
+        RellenarPoligono(poligono3, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
+
+        RellenarPoligono(poligono, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
+
+    }
+
+    public double[][] proyectarPunto1(double[][] cord3d, double xc, double yc, double zc) {
+        int puntosObtenidos = cord3d.length;
+        double[][] cord2d = new double[puntosObtenidos][2];
+
+        for (int i = 0; i < puntosObtenidos; i++) {
+            double x1 = cord3d[i][0];
+            double y1 = cord3d[i][1];
+            double z1 = cord3d[i][2];
+
+            double u = zc / (zc - z1);
+            double xProyectado = xc + (x1 - xc) * u;
+            double yProyectado = yc + (y1 - yc) * u;
+
+            cord2d[i][0] = xProyectado;
+            cord2d[i][1] = yProyectado;
+        }
+
+        return cord2d;
+    }
+
+    public void DibujarRoca3D(Boolean OcultarCaras) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] cordenadas2d = hacerProyeccionOblicua(Roca3D, 30, xp, yp, zp, Color.RED, false);
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < cordenadas2d.length; i++) {
+            double[] punto = cordenadas2d[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+            addPixel((int) punto[0], (int) punto[1], Color.RED);
+        }
+
+        System.out.println(); // Agregar una línea en blanco después de imprimir los puntos
+
+        putLineaDDA((int) cordenadas2d[0][0], (int) cordenadas2d[0][1], (int) cordenadas2d[1][0], (int) cordenadas2d[1][1], Color.RED); // A -> B
+        putLineaDDA((int) cordenadas2d[1][0], (int) cordenadas2d[1][1], (int) cordenadas2d[2][0], (int) cordenadas2d[2][1], Color.RED); // B -> C
+        putLineaDDA((int) cordenadas2d[2][0], (int) cordenadas2d[2][1], (int) cordenadas2d[3][0], (int) cordenadas2d[3][1], Color.RED); // C -> D
+        putLineaDDA((int) cordenadas2d[3][0], (int) cordenadas2d[3][1], (int) cordenadas2d[4][0], (int) cordenadas2d[4][1], Color.RED); // D -> E
+        putLineaDDA((int) cordenadas2d[4][0], (int) cordenadas2d[4][1], (int) cordenadas2d[5][0], (int) cordenadas2d[5][1], Color.RED); // Une E con F
+        putLineaDDA((int) cordenadas2d[5][0], (int) cordenadas2d[5][1], (int) cordenadas2d[0][0], (int) cordenadas2d[0][1], Color.RED); // Une F con A
+        putLineaDDA((int) cordenadas2d[4][0], (int) cordenadas2d[4][1], (int) cordenadas2d[6][0], (int) cordenadas2d[6][1], Color.RED); // Une E con G
+        putLineaDDA((int) cordenadas2d[5][0], (int) cordenadas2d[5][1], (int) cordenadas2d[6][0], (int) cordenadas2d[6][1], Color.RED); // Une F con G
+        putLineaDDA((int) cordenadas2d[0][0], (int) cordenadas2d[0][1], (int) cordenadas2d[6][0], (int) cordenadas2d[6][1], Color.RED); // Une A con G
+        putLineaDDA((int) cordenadas2d[2][0], (int) cordenadas2d[2][1], (int) cordenadas2d[7][0], (int) cordenadas2d[7][1], Color.RED); // Une C con H
+        putLineaDDA((int) cordenadas2d[1][0], (int) cordenadas2d[1][1], (int) cordenadas2d[7][0], (int) cordenadas2d[7][1], Color.RED); // Une B con H
+        putLineaDDA((int) cordenadas2d[3][0], (int) cordenadas2d[3][1], (int) cordenadas2d[6][0], (int) cordenadas2d[6][1], Color.RED); // Une D con G
+        putLineaDDA((int) cordenadas2d[6][0], (int) cordenadas2d[6][1], (int) cordenadas2d[7][0], (int) cordenadas2d[7][1], Color.RED); // Une G con H
+        putLineaDDA((int) cordenadas2d[0][0], (int) cordenadas2d[0][1], (int) cordenadas2d[6][0], (int) cordenadas2d[6][1], Color.RED); // Une A con G
+
     }
 
     public void ColocarMeteoro(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
@@ -185,6 +387,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         }
 
         Poligono poligono = new Poligono(vertices);
+
         MeteoroPoligonal1.add(poligono);
         Color colorBorde = Color.BLACK;
         Color colorRellenoInicial = new Color(37, 37, 37);
@@ -276,8 +479,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                     }
                 }
 
-            
-
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -368,12 +569,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
     }
 
-    public void RellenarObjeto(double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, Boolean OcultarCaras, Color Final) {
+    public void RellenarObjeto(Boolean Contorno,double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, Boolean OcultarCaras, Color Final) {
         double xp = 4;
         double yp = 6;
         double zp = 3;
         boolean carasocultas = true;
-        double[][] puntos2D = hacerProyeccionOblicua(Objeto, 60, xp, yp, zp, Color.white, carasocultas);
+        double[][] puntos2D = hacerProyeccionOblicua(Objeto, 60, xp, yp, zp,new Color(56, 31, 48), Contorno);
 
         // Imprimir coordenadas 2D
         for (int i = 0; i < puntos2D.length; i++) {
@@ -417,20 +618,20 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 (int) puntos2D[2][0], (int) puntos2D[2][1] // Punto 3
         );
         if (OcultarCaras == true) {
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final, true);
-            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final, true);
-            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final, true);
-            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final, true);
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final, true);
-            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final, true);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.BLACK, Color.BLACK, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final, false);
         } else {
             carasocultas = false;
-            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Inferior, Final, true);
-            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final, true);
-            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final, true);
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final, true);
-            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final, true);
-            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final, true);
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Inferior, Final, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.BLACK, Color.BLACK, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final, false);
         }
 
         System.out.println(); // Agregar una línea en blanco después del punto 8
@@ -585,29 +786,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         return puntos;
     }
 
-    public void putLineaDDA(Graphics gr, int x1, int y1, int x2, int y2, Color color) {
-        float x = x1;
-        float y = y1;
-        int dx = x2 - x1;
-        int dy = y2 - y1;
-        int pasos = Math.max(Math.abs(dx), Math.abs(dy));
-        float xIncrement = (float) dx / (float) pasos;
-        float yIncrement = (float) dy / (float) pasos;
-
-        for (int i = 0; i <= pasos; i++) {
-            int px = Math.round(x);
-            int py = Math.round(y);
-            putPixel(gr, px, py, color);
-            x += xIncrement;
-            y += yIncrement;
-        }
-    }
-
-    public void putPixel(Graphics g, int x, int y, Color c) {
-        buffer.setRGB(0, 0, c.getRGB());
-        g.drawImage(buffer, x, y, this);
-    }
-
+  
     public void rotacion(double[][] cord3d, int angulo, int eje) {
 
         while (true) {
@@ -817,11 +996,29 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             y += yIncrement;
         }
     }
+    public void putLineaDDA(int x1, int y1, int x2, int y2) {
+        float x = x1;
+        float y = y1;
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+        int pasos = Math.max(Math.abs(dx), Math.abs(dy));
+        float xIncrement = (float) dx / (float) pasos;
+        float yIncrement = (float) dy / (float) pasos;
 
+        for (int i = 0; i <= pasos; i++) {
+            int px = Math.round(x);
+            int py = Math.round(y);
+            addPixel(px, py);
+            x += xIncrement;
+            y += yIncrement;
+        }
+    }
     public void addPixel(int x, int y, Color color) {
         buffer.setRGB(x, y, color.getRGB());
     }
-
+    public void addPixel(int x, int y) {
+        buffer.setRGB(x, y,0);
+    }
     public void RellenarPoligono(Poligono poligono, Color colorBorde, Color colorRellenoInicial, Color colorRellenoFinal, boolean contorno) {
         Puntos[] vertices = poligono.getVertices();
         int numVertices = poligono.getNumVertices();
@@ -1029,10 +1226,10 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     }
 
     public void ColocarVolcan() {
-        Color cafe = new Color(105, 65, 44);
+        Color cafe = new Color(48, 30, 42);
         Color cafeclaro = new Color(185, 122, 87);
-        RellenarObjeto(Volcan, cafe, cafe, cafe, cafe, cafe, cafe, true, cafeclaro);
-        RellenarElipse(buffer, 500, 373, 112, 50, Color.BLACK);
+        RellenarObjeto(false, Volcan, cafe, cafe, cafe, cafe, cafe, cafe, true, cafeclaro);
+
 
     }
 
