@@ -36,11 +36,11 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {100, 200, 200} // Vértice H
     };
     double[][] Volcan = {
-  {110, 160, 100}, // Vértice A
+        {110, 160, 100}, // Vértice A
         {160, 150, 100}, // Vértice B
         {340, 400, 100}, // Vértice C
         {-30, 400, 100}, // Vértice D
-      {190, 260, 200}, // Vértice E
+        {190, 260, 200}, // Vértice E
         {360, 250, 200}, // Vértice F
         {700, 570, 200}, // Vértice G
         {-130, 540, 200} // Vértice H
@@ -145,10 +145,55 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {-12420, 200, 500}, // E
         {-2480, -2950, 400}, // F
     };
+    double[][] MontañaPrespectiva1Punto3 = {
+        {-140, 1200, 0}, // A (X, Y, Z)
+        {1500, 1186, 0}, // B
+        {-840, 1200, 0}, // C
+        {2300, 1186, 0}, // D
+        {-12120, 450, 500}, // E
+        {2180, -1500, 400}, // F
+    };
+    double[][] ArbolOrtogonal1 = {
+        {358, 734, 100}, // A (X, Y, Z)
+        {518, 533, 100}, // B
+        {411, 569, 100}, // C
+        {510, 373, 100}, // D
+        {400, 400, 100}, // E
+        {500, 200, 100}, // F
+        {400, 250, 100}, // G
+        {400, 100, 100}, // H
+        {300, 100, 100}, // I
+        {300, 250, 100}, // J
+        {200, 200, 100}, // K
+        {300, 400, 100}, // L
+        {200, 356, 100}, // N
+        {300, 574, 100}, // O
+        {200, 519, 100}, // P
+
+        {358, 734, 200}, // A (X, Y, Z)
+        {518, 533, 200}, // B
+        {411, 569, 200}, // C
+        {510, 373, 200}, // D
+        {400, 400, 200}, // E
+        {500, 200, 200}, // F
+        {400, 250, 200}, // G
+        {400, 100, 200}, // H
+        {300, 100, 200}, // I
+        {300, 250, 200}, // J
+        {200, 200, 200}, // K
+        {300, 400, 200}, // L
+        {200, 356, 200}, // N
+        {300, 574, 200}, // O
+        {200, 519, 200}, // P
+    };
 
     List<Figura> FuegosMeteoroPoligonal1 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal1 = new ArrayList<Poligono>();
     int xMeteoro1, xMeteoro2;
+
+    List<Figura> FuegosMeteoroPoligonal2 = new ArrayList<Figura>();
+    List<Poligono> MeteoroPoligonal2 = new ArrayList<Poligono>();
+    int xMeteoro12, xMeteoro22;
 
     ProyectoFinalGraficas3erParcial() {
         setTitle("Proyecto Final gráficas 3er Parcial, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
@@ -166,14 +211,23 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 super.paintComponent(g);
 
                 ColocarFondoDetras();
+                ColocarMontaña1punto3(280, 210, 3);
                 ColocarMontaña1punto(0, 300, 2);
                 ColocarMontaña1punto(100, 400, 2);
-                ColocarMontaña1punto2(480,320, 3);
+                ColocarMontaña1punto2(480, 320, 3);
                 ColocarFondoPiso(0, 600, 300);
                 ColocarVolcan();
+                ArbolOrtogonal1(10, 780, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(20, 890, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(600, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(200, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(350, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(460, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 imprimirPuntosYdibujarContorno(false);
                 //DibujarRoca3D(true);
                 ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
+                //ColocarMeteoro2(xMeteoro12, xMeteoro22, 7, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
 
                 g.drawImage(buffer, 0, 0, null);
                 g.dispose();
@@ -183,6 +237,114 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         panel.setPreferredSize(new Dimension(1000, 900));
         this.add(panel);
         this.pack();
+    }
+
+    public void ArbolOrtogonal1(int x, int y, double tamaño, Color c, Color inicial, Color colorfinal) {
+        // Obtener los puntos proyectados en 2D
+        double[][] cord2d = ProyeccionOrtogonal(ArbolOrtogonal1);
+
+        // Escala proporcional al tamaño inverso
+        double escala = 1.0 / tamaño;
+
+        // Imprimir los puntos proyectados en 2D
+        System.out.println("Puntos Ortogonales del arbol 1 en 2D:");
+        for (int i = 0; i < cord2d.length; i++) {
+            System.out.println("Punto " + (i + 1) + ": (" + cord2d[i][0] + ", " + cord2d[i][1] + ")");
+
+            // Dibujar los puntos en la ventana
+            int pixelX = (int) (cord2d[i][0] / tamaño) + x;  // Invierte la coordenada X y ajusta el ancho
+            int pixelY = (int) (-cord2d[i][1] / tamaño) + y;  // No invierte la coordenada Y
+
+        }
+
+        Puntos[] verticesArbol = {
+            new Puntos((int) (cord2d[0][0] * escala) + x, (int) (-cord2d[0][1] * escala) + y),
+            new Puntos((int) (cord2d[1][0] * escala) + x, (int) (-cord2d[1][1] * escala) + y),
+            new Puntos((int) (cord2d[2][0] * escala) + x, (int) (-cord2d[2][1] * escala) + y),
+            new Puntos((int) (cord2d[3][0] * escala) + x, (int) (-cord2d[3][1] * escala) + y),
+            new Puntos((int) (cord2d[4][0] * escala) + x, (int) (-cord2d[4][1] * escala) + y),
+            new Puntos((int) (cord2d[5][0] * escala) + x, (int) (-cord2d[5][1] * escala) + y),
+            new Puntos((int) (cord2d[6][0] * escala) + x, (int) (-cord2d[6][1] * escala) + y),
+            new Puntos((int) (cord2d[7][0] * escala) + x, (int) (-cord2d[7][1] * escala) + y),
+            new Puntos((int) (cord2d[8][0] * escala) + x, (int) (-cord2d[8][1] * escala) + y),
+            new Puntos((int) (cord2d[9][0] * escala) + x, (int) (-cord2d[9][1] * escala) + y),
+            new Puntos((int) (cord2d[10][0] * escala) + x, (int) (-cord2d[10][1] * escala) + y),
+            new Puntos((int) (cord2d[11][0] * escala) + x, (int) (-cord2d[11][1] * escala) + y),
+            new Puntos((int) (cord2d[12][0] * escala) + x, (int) (-cord2d[12][1] * escala) + y),
+            new Puntos((int) (cord2d[13][0] * escala) + x, (int) (-cord2d[13][1] * escala) + y),
+            new Puntos((int) (cord2d[14][0] * escala) + x, (int) (-cord2d[14][1] * escala) + y)
+        };
+
+        Poligono poligono = new Poligono(verticesArbol);
+        Color colorBorde = new Color(37, 37, 37);
+        Color colorBorde1 = new Color(135, 92, 68);
+        RellenarPoligono(poligono, colorBorde, new Color(60, 172, 3), new Color(135, 92, 68), false);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
+        Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
+        Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
+        Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
+        Thread mover = new Thread(() -> rotacion.moverMeteoro(10, 150, 1, 10, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
+        Thread mover2 = new Thread(() -> rotacion.moverMeteoro2(10, 150, 10, 5, rotacion.FuegosMeteoroPoligonal2, rotacion.MeteoroPoligonal2));
+        mover.start();
+        //mover2.start();
+    }
+
+    public void ColocarMontaña1punto3(int x, int y, int tamaño) {
+
+        // Parámetros del punto de fuga
+        double xc = 100;
+        double yc = 50;
+        double zc = 30;
+
+        // Realiza proyección del cubo en 3D a 2D
+        double[][] cord2d = proyectarPunto1(MontañaPrespectiva1Punto3, xc, yc, zc);
+
+        // Escala proporcional al tamaño inverso
+        double escala = 1.0 / tamaño;
+
+        // Unir puntos con líneas y aplicar la escala
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y);
+        putLineaDDA((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, (int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y);
+        putLineaDDA((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y);
+        putLineaDDA((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, (int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y);
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y);
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y);
+        putLineaDDA((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y);
+        putLineaDDA((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, (int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y);
+        putLineaDDA((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, (int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y);
+        putLineaDDA((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y, (int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y);
+
+// Guardar los puntos de la montaña en el orden F, A, C
+        Puntos[] vertices = new Puntos[3];
+        vertices[0] = new Puntos((int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y); // F
+        vertices[1] = new Puntos((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y); // A
+        vertices[2] = new Puntos((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y); // C
+
+// Guardar los puntos de la montaña en el orden F, E, B, A
+        Puntos[] vertices2 = new Puntos[4];
+        vertices2[0] = new Puntos((int) (cord2d[5][0] * escala) + x, (int) (cord2d[5][1] * escala) + y); // F
+        vertices2[1] = new Puntos((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y); // E
+        vertices2[2] = new Puntos((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y); // B
+        vertices2[3] = new Puntos((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y); // A
+
+        // Guardar los puntos de la montaña en el orden E, D, B
+        Puntos[] vertices3 = new Puntos[3];
+        vertices3[0] = new Puntos((int) (cord2d[4][0] * escala) + x, (int) (cord2d[4][1] * escala) + y); // E
+        vertices3[1] = new Puntos((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y); // D
+        vertices3[2] = new Puntos((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y); // B
+
+        Poligono poligono = new Poligono(vertices);
+        Poligono poligono2 = new Poligono(vertices2);
+        Poligono poligono3 = new Poligono(vertices3);
+        Color colorBorde = new Color(37, 37, 37);
+        Color colorBorde1 = new Color(135, 92, 68);
+        RellenarPoligono(poligono2, colorBorde1, new Color(135, 92, 68), new Color(37, 37, 37), true);
+        RellenarPoligono(poligono3, colorBorde, new Color(37, 37, 37), new Color(135, 92, 68), true);
+        RellenarPoligono(poligono, colorBorde1, new Color(135, 92, 68), new Color(135, 92, 68), true);
+
     }
 
     public void ColocarMontaña1punto2(int x, int y, int tamaño) {
@@ -232,13 +394,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         Poligono poligono = new Poligono(vertices);
         Poligono poligono2 = new Poligono(vertices2);
         Poligono poligono3 = new Poligono(vertices3);
-        Color colorBorde = Color.RED;
-        Color colorRellenoInicial = new Color(37, 37, 37);
-        Color colorRellenoFinal = new Color(185, 122, 87);
-        RellenarPoligono(poligono2, colorBorde, new Color(135, 92, 68), new Color(37, 37, 37), false);
-        RellenarPoligono(poligono3, colorBorde, new Color(37, 37, 37), new Color(135, 92, 68), false);
+        Color colorBorde = new Color(37, 37, 37);
+        Color colorBorde1 = new Color(135, 92, 68);
 
-        RellenarPoligono(poligono, colorBorde, new Color(135, 92, 68), new Color(135, 92, 68), false);
+        RellenarPoligono(poligono2, colorBorde1, new Color(135, 92, 68), new Color(37, 37, 37), true);
+        RellenarPoligono(poligono3, colorBorde, new Color(37, 37, 37), new Color(135, 92, 68), true);
+        RellenarPoligono(poligono, colorBorde1, new Color(135, 92, 68), new Color(135, 92, 68), true);
 
     }
 
@@ -351,6 +512,51 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
     }
 
+    public void ColocarMeteoro2(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
+
+        xMeteoro12 = x;
+        xMeteoro22 = y;
+        double meteoroTamaño = 7;
+
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 80, y + 75, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 100, y + 100, 5, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 80, 6, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 115, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 125, y + 80, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 132, y + 77, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 132, y + 60, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 112, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 75, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 100, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+
+        double[][] cord2d = ProyeccionOrtogonal(METEORITOPOLIGONAL);
+
+        // Aplicar transformaciones de posición (x, y) y tamaño inverso a los puntos en 2D
+        for (int i = 0; i < cord2d.length; i++) {
+            cord2d[i][0] = cord2d[i][0] * (1 / meteoroTamaño) + x;
+            cord2d[i][1] = cord2d[i][1] * (1 / meteoroTamaño) + y;
+        }
+
+        // Definir el orden de los índices de los vértices en sentido horario
+        int[] indices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+
+        Puntos[] vertices = new Puntos[indices.length];
+        for (int i = 0; i < indices.length; i++) {
+            int index = indices[i];
+            vertices[i] = new Puntos((int) cord2d[index][0], (int) cord2d[index][1]);
+        }
+
+        Poligono poligono = new Poligono(vertices);
+
+        MeteoroPoligonal2.add(poligono);
+        Color colorBorde = Color.BLACK;
+        Color colorRellenoInicial = new Color(37, 37, 37);
+        Color colorRellenoFinal = new Color(105, 65, 44);
+
+        RellenarPoligono(poligono, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
+    }
+
     public void ColocarMeteoro(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
 
         xMeteoro1 = x;
@@ -396,15 +602,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         RellenarPoligono(poligono, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
-        Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
-        Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
-        Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
-        Thread mover = new Thread(() -> rotacion.moverMeteoro(10, 150, 1, 10, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
-        mover.start();
-    }
-
     public void FuegoOrtogonal(List<Figura> Objeto, int x, int y, double tamaño, double ancho, Color c, Color inicial, Color colorfinal) {
         // Obtener los puntos proyectados en 2D
         double[][] cord2d = ProyeccionOrtogonal(FuegoMeteoro);
@@ -430,6 +627,63 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         );
         RellenarFiguraScanLine(FuegoOrtogonal, inicial, inicial, colorfinal, false);
         FuegosMeteoroPoligonal1.add(FuegoOrtogonal);
+    }
+
+    public void moverMeteoro2(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+
+                // Actualizar las coordenadas del meteoro
+                if (xMeteoro12 == 0 && xMeteoro22 == 0) {
+                    xMeteoro12 = posX + desplazamientoX;
+                    xMeteoro22 = posY + desplazamientoY;
+                } else {
+                    xMeteoro12 += desplazamientoX;
+                    xMeteoro22 += desplazamientoY;
+                }
+
+                // Recorrer la lista de figuras de fuego del meteoro y actualizar sus coordenadas
+                List<Figura> copiaFuegosMeteoro = new ArrayList<>(FuegosMeteoroPoligonal2);
+                for (Figura fuego : copiaFuegosMeteoro) {
+                    double[][] puntos = {
+                        {fuego.getX()[0], fuego.getX()[1], fuego.getX()[2], fuego.getX()[3]}, // coordenadas x de los vértices
+                        {fuego.getY()[0], fuego.getY()[1], fuego.getY()[2], fuego.getY()[3]}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+                    double[][] puntosTransformados = matrizPorPuntos(matrizTranslacion, puntos);
+                    fuego.setX(puntosTransformados[0]);
+                    fuego.setY(puntosTransformados[1]);
+                }
+                List<Poligono> copiaCuerpoMeteoro = new ArrayList<>(MeteoroPoligonal2);
+                // Recorrer la lista de polígonos del meteoro y actualizar sus coordenadas
+                for (Poligono poligono : copiaCuerpoMeteoro) {
+                    double[][] puntos = new double[3][poligono.getVertices().length];
+                    for (int i = 0; i < poligono.getVertices().length; i++) {
+                        puntos[0][i] = poligono.getVertices()[i].getposX();
+                        puntos[1][i] = poligono.getVertices()[i].getposY();
+                        puntos[2][i] = 1; // Coordenada homogénea constante
+                    }
+                    double[][] puntosTransformados = matrizPorPuntos(matrizTranslacion, puntos);
+                    for (int i = 0; i < poligono.getVertices().length; i++) {
+                        poligono.getVertices()[i].setposX((int) puntosTransformados[0][i]);
+                        poligono.getVertices()[i].setposY((int) puntosTransformados[1][i]);
+                    }
+                }
+
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            repaint();
+        }
+
     }
 
     public void moverMeteoro(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
@@ -569,12 +823,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
     }
 
-    public void RellenarObjeto(Boolean Contorno,double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, Boolean OcultarCaras, Color Final) {
+    public void RellenarObjeto(Boolean Contorno, double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, Boolean OcultarCaras, Color Final) {
         double xp = 4;
         double yp = 6;
         double zp = 3;
         boolean carasocultas = true;
-        double[][] puntos2D = hacerProyeccionOblicua(Objeto, 60, xp, yp, zp,new Color(56, 31, 48), Contorno);
+        double[][] puntos2D = hacerProyeccionOblicua(Objeto, 60, xp, yp, zp, new Color(56, 31, 48), Contorno);
 
         // Imprimir coordenadas 2D
         for (int i = 0; i < puntos2D.length; i++) {
@@ -786,7 +1040,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         return puntos;
     }
 
-  
     public void rotacion(double[][] cord3d, int angulo, int eje) {
 
         while (true) {
@@ -996,6 +1249,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             y += yIncrement;
         }
     }
+
     public void putLineaDDA(int x1, int y1, int x2, int y2) {
         float x = x1;
         float y = y1;
@@ -1013,12 +1267,15 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             y += yIncrement;
         }
     }
+
     public void addPixel(int x, int y, Color color) {
         buffer.setRGB(x, y, color.getRGB());
     }
+
     public void addPixel(int x, int y) {
-        buffer.setRGB(x, y,0);
+        buffer.setRGB(x, y, 0);
     }
+
     public void RellenarPoligono(Poligono poligono, Color colorBorde, Color colorRellenoInicial, Color colorRellenoFinal, boolean contorno) {
         Puntos[] vertices = poligono.getVertices();
         int numVertices = poligono.getNumVertices();
@@ -1229,7 +1486,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         Color cafe = new Color(48, 30, 42);
         Color cafeclaro = new Color(185, 122, 87);
         RellenarObjeto(false, Volcan, cafe, cafe, cafe, cafe, cafe, cafe, true, cafeclaro);
-
 
     }
 
