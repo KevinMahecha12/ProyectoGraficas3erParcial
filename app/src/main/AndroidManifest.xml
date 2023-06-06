@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlexFitness"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB48P_hk5uAT7xwpVZAWB5GtmYHwHNqUlA" />
+
         <activity
             android:name=".LoginActivity"
             android:exported="false">
