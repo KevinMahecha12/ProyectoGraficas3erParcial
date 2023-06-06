@@ -26,10 +26,6 @@ public class MenuActivity extends AppCompatActivity {
 
     ActivityMenuBinding binding;
 
-    private int diaAlarma = 0;
-    private int mesAlarma = 0;
-    private int anoAlarma = 0;
-
     RadioButton rbMensual, rbAnual;
 
     @Override
@@ -85,51 +81,5 @@ public class MenuActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }//Fragment
-
-   /*public void setFechaMembresia(View view){
-        //Instancia para calendario
-        Calendar horarioHoy = Calendar.getInstance();
-        //Obtener los valores actuales del sistema
-        int anioActual = horarioHoy.get(Calendar.YEAR);
-        int mesActual = horarioHoy.get(Calendar.MONTH);
-        int diaActual = horarioHoy.get(Calendar.DAY_OF_MONTH);
-
-        //Fecha para elegir la cita
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                anoAlarma = i;
-                mesAlarma = i1;
-                diaAlarma = i2;
-            }
-        }, anioActual, mesActual, diaActual);
-        datePickerDialog.setTitle("Fecha de Cita");
-        datePickerDialog.show();
-    }//setFechaAlarma*/
-
-    public void registrarMembresia(View view){
-        String tipoMembresia = "";
-
-        //Toast.makeText((Context) this, (CharSequence) rbAnual, Toast.LENGTH_SHORT).show();
-
-        if(diaAlarma == 0 || mesAlarma == 0 || anoAlarma == 0){
-            Toast.makeText(this, "Seleccione la fecha en la que inició el periodo de su membresía.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(rbAnual.isChecked()){
-            tipoMembresia = "Anual";
-        }else if(rbMensual.isChecked()){
-            tipoMembresia = "Mensual";
-        }else{
-            Toast.makeText(this, "Seleccione el tipo de membresia que registrará.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Toast.makeText(this, "Registrado, tipo " + tipoMembresia, Toast.LENGTH_SHORT).show();
-
-    }//registrarMembresia
-
-
 
 }//MenuActivity

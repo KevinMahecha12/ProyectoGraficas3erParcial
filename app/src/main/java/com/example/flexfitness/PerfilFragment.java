@@ -10,8 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +24,13 @@ import java.util.Calendar;
  * create an instance of this fragment.
  */
 public class PerfilFragment extends Fragment {
+
+    private int diaAlarma = 0;
+    private int mesAlarma = 0;
+    private int anoAlarma = 0;
+
+    RadioButton rbMensual, rbAnual;
+    Button btnFecha, btnRegistrarMembresia;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,12 +65,6 @@ public class PerfilFragment extends Fragment {
         }
     }
 
-    private Button btnFecha;
-
-    private int diaAlarma = 0;
-    private int mesAlarma = 0;
-    private int anoAlarma = 0;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -66,6 +72,9 @@ public class PerfilFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         btnFecha = root.findViewById(R.id.btnFecha);
+        btnRegistrarMembresia = root.findViewById(R.id.btnGuardarMembresia);
+        rbAnual = root.findViewById(R.id.rbAnual);
+        rbMensual = root.findViewById(R.id.rbMensual);
 
         btnFecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +82,14 @@ public class PerfilFragment extends Fragment {
                 setFechaMembresia();
             }
         });
+
+        btnRegistrarMembresia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registrarMembresia();
+            }
+        });
+
 
         return root;
     }
@@ -97,6 +114,62 @@ public class PerfilFragment extends Fragment {
         datePickerDialog.setTitle("Fecha de Cita");
         datePickerDialog.show();
     }//setFechaAlarma
+
+    public void registrarMembresia(){
+        String tipoMembresia = "";
+
+        //Toast.makeText((Context) this, (CharSequence) rbAnual, Toast.LENGTH_SHORT).show();
+
+        if(diaAlarma == 0 || mesAlarma == 0 || anoAlarma == 0){
+            Toast.makeText(getContext(), "Seleccione la fecha en la que inició el periodo de su membresía.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(rbAnual.isChecked()){
+            tipoMembresia = "Anual";
+        }else if(rbMensual.isChecked()){
+            tipoMembresia = "Mensual";
+        }else{
+            Toast.makeText(getContext(), "Seleccione el tipo de membresia que registrará.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //Fecha de Inicio
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, anoAlarma);
+        calendar.set(Calendar.MONTH, mesAlarma); // Los meses comienzan desde 0 (enero = 0)
+        calendar.set(Calendar.DAY_OF_MONTH, diaAlarma);
+
+        Date fecha = calendar.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String fechaFormateadaInicio = dateFormat.format(fecha);
+
+        //Fecha de fin
+        int tempoAno = anoAlarma;
+        int tempoMes = mesAlarma;
+
+        if(tipoMembresia == "Anual"){
+            tempoAno += 1;
+        }
+
+        if(tipoMembresia == "Mensual"){
+            if (mesAlarma == 11){
+                tempoMes = 0;
+            }else{
+                tempoMes+=1;
+            }
+        }//tipoMembresia
+
+        calendar.set(Calendar.YEAR, tempoAno);
+        calendar.set(Calendar.MONTH, tempoMes); // Los meses comienzan desde 0 (enero = 0)
+        calendar.set(Calendar.DAY_OF_MONTH, diaAlarma);
+
+        fecha = calendar.getTime();
+        String fechaFormateadaFinal = dateFormat.format(fecha);
+
+        Toast.makeText(getContext(), "Registrado, fecha inicio: " + fechaFormateadaInicio + " fecha final: " + fechaFormateadaFinal, Toast.LENGTH_SHORT).show();
+
+    }//registrarMembresia
 
 
 }//PerfilFragment
