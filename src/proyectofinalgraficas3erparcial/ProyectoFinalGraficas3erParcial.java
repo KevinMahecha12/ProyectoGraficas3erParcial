@@ -186,14 +186,32 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {300, 574, 200}, // O
         {200, 519, 200}, // P
     };
+    double[][] LavaAscendiente = {
+        {90, 136, 100}, // Vértice A
+        {270, 360, 100}, // Vértice B
+        {730, 445, 100}, // Vértice C
+        {860, 185, 100}, // Vértice D
+        {90, 136, 200}, // Vértice A
+        {270, 360, 200}, // Vértice B
+        {730, 445, 200}, // Vértice C
+        {860, 185, 200}, // Vértice D
+    };
 
+    List<Figura> VolcanOblicuo = new ArrayList<Figura>();
     List<Figura> FuegosMeteoroPoligonal1 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal1 = new ArrayList<Poligono>();
     int xMeteoro1, xMeteoro2;
 
     List<Figura> FuegosMeteoroPoligonal2 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal2 = new ArrayList<Poligono>();
+
+    List<Figura> LavaOrtogonal = new ArrayList<Figura>();
+
     int xMeteoro12, xMeteoro22;
+    int xLava, yLava;
+    int xVolcan, yVolcan;
+
+    boolean detenerLava = false;
 
     ProyectoFinalGraficas3erParcial() {
         setTitle("Proyecto Final gráficas 3er Parcial, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
@@ -226,7 +244,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 imprimirPuntosYdibujarContorno(false);
                 //DibujarRoca3D(true);
-                ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
+                //ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
                 //ColocarMeteoro2(xMeteoro12, xMeteoro22, 7, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
 
                 g.drawImage(buffer, 0, 0, null);
@@ -237,6 +255,42 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         panel.setPreferredSize(new Dimension(1000, 900));
         this.add(panel);
         this.pack();
+    }
+
+    public void LavaAscendiente(int x, int y, double tamaño, Color c, Color inicial, Color colorfinal) {
+
+        xLava = x;
+        yLava = y;
+
+        // Obtener los puntos proyectados en 2D
+        double[][] cord2d = ProyeccionOrtogonal(LavaAscendiente);
+
+        // Escala proporcional al tamaño inverso
+        double escala = 1.0 / tamaño;
+
+        // Imprimir los puntos proyectados en 2D
+        System.out.println("Puntos Ortogonales Lava ascendiente en 2D:");
+        for (int i = 0; i < cord2d.length; i++) {
+            System.out.println("Punto " + (i + 1) + ": (" + cord2d[i][0] + ", " + cord2d[i][1] + ")");
+
+            // Dibujar los puntos en la ventana
+            int pixelX = (int) (cord2d[i][0] * escala) + x;
+            int pixelY = (int) (cord2d[i][1] * escala) + y;
+            addPixel(pixelX, pixelY, Color.RED);
+        }
+        putLineaDDA((int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, (int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, Color.RED);
+        putLineaDDA((int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, Color.RED);
+        putLineaDDA((int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, (int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, Color.RED);
+        putLineaDDA((int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y, (int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, Color.RED);
+
+        Figura Lava = new Figura(
+                (int) (cord2d[0][0] * escala) + x, (int) (cord2d[0][1] * escala) + y, // Punto 1 (A)
+                (int) (cord2d[1][0] * escala) + x, (int) (cord2d[1][1] * escala) + y, // Punto 2 (B)
+                (int) (cord2d[2][0] * escala) + x, (int) (cord2d[2][1] * escala) + y, // Punto 3 (C)
+                (int) (cord2d[3][0] * escala) + x, (int) (cord2d[3][1] * escala) + y // Punto 4 (D)
+        );
+        LavaOrtogonal.add(Lava);
+        RellenarFiguraScanLine(Lava, Color.BLACK, new Color(217, 14, 1), new Color(254, 102, 16), false);
     }
 
     public void ArbolOrtogonal1(int x, int y, double tamaño, Color c, Color inicial, Color colorfinal) {
@@ -282,13 +336,21 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     }
 
     public static void main(String[] args) throws InterruptedException {
+
         ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
         Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
         Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
         Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
         Thread mover = new Thread(() -> rotacion.moverMeteoro(10, 150, 1, 10, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
         Thread mover2 = new Thread(() -> rotacion.moverMeteoro2(10, 150, 10, 5, rotacion.FuegosMeteoroPoligonal2, rotacion.MeteoroPoligonal2));
+        Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
+        Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
+
+        moverVolcan.start();
+        moverLava.start();
+
         mover.start();
+
         //mover2.start();
     }
 
@@ -686,6 +748,116 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
     }
 
+    public void moverVolcan(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Volcan) {
+
+        while (true) {
+            System.out.println("X VOLCAN : " + xVolcan + "-  Y VOLVAN : " + yVolcan);
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+
+                // Actualizar las coordenadas de la lava
+                if (xVolcan == 0 && yVolcan == 0) {
+                    xVolcan = posX + desplazamientoX;
+                    yVolcan = posY + desplazamientoY;
+                } else {
+                    xVolcan += desplazamientoX;
+                    yVolcan += desplazamientoY;
+                }
+
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Volcan);
+                for (Figura volcan : copiaVolcan) {
+                    double[][] puntos = {
+                        {volcan.obtenerPT1().getposX(), volcan.obtenerPT2().getposX(), volcan.obtenerPT3().getposX(), volcan.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {volcan.obtenerPT1().getposY(), volcan.obtenerPT2().getposY(), volcan.obtenerPT3().getposY(), volcan.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    volcan.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    volcan.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    volcan.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    volcan.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    volcan.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    volcan.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    volcan.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    volcan.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            repaint();
+
+        }
+    }
+
+    public void moverLava(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Lava) {
+        while (true) {
+            System.out.println("X LAVA : " + xLava + "-  Y LAVA : " + yLava);
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+
+                // Actualizar las coordenadas de la lava
+                if (xLava == 0 && yLava == 0) {
+                    xLava = posX + desplazamientoX;
+                    yLava = posY + desplazamientoY;
+                } else {
+                    xLava += desplazamientoX;
+                    yLava += desplazamientoY;
+                }
+
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaLava = new ArrayList<>(Lava);
+                for (Figura lava : copiaLava) {
+                    double[][] puntos = {
+                        {lava.obtenerPT1().getposX(), lava.obtenerPT2().getposX(), lava.obtenerPT3().getposX(), lava.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {lava.obtenerPT1().getposY(), lava.obtenerPT2().getposY(), lava.obtenerPT3().getposY(), lava.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    lava.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    lava.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    lava.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    lava.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    lava.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    lava.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    lava.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    lava.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            repaint();
+            // Verificar la condición de detención
+            if (yLava == 330) {
+                break; // Salir del bucle
+            }
+        }
+    }
+
     public void moverMeteoro(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
         while (true) {
             try {
@@ -823,7 +995,11 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
     }
 
-    public void RellenarObjeto(Boolean Contorno, double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, Boolean OcultarCaras, Color Final) {
+    public void RellenarObjeto(int x, int y, boolean Contorno, double[][] Objeto, Color Superior, Color Inferior, Color Izquierda, Color Derecha, Color Frontal, Color Trasera, boolean OcultarCaras, Color Final) {
+
+        xVolcan = x;
+        yVolcan = y;
+
         double xp = 4;
         double yp = 6;
         double zp = 3;
@@ -833,60 +1009,70 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         // Imprimir coordenadas 2D
         for (int i = 0; i < puntos2D.length; i++) {
             double[] punto = puntos2D[i];
-            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+            System.out.println("Punto " + (i + 1) + ": (" + (punto[0] + x) + ", " + (punto[1] + y) + ")");
         }
+
         Figura cuadradoTrasero = new Figura(
-                (int) puntos2D[4][0], (int) puntos2D[4][1], // Punto 5
-                (int) puntos2D[5][0], (int) puntos2D[5][1], // Punto 6
-                (int) puntos2D[6][0], (int) puntos2D[6][1], // Punto 7
-                (int) puntos2D[7][0], (int) puntos2D[7][1] // Punto 8
+                (int) puntos2D[4][0] + x, (int) puntos2D[4][1] + y, // Punto 5
+                (int) puntos2D[5][0] + x, (int) puntos2D[5][1] + y, // Punto 6
+                (int) puntos2D[6][0] + x, (int) puntos2D[6][1] + y, // Punto 7
+                (int) puntos2D[7][0] + x, (int) puntos2D[7][1] + y // Punto 8
         );
         Figura cuadradoFrontal = new Figura(
-                (int) puntos2D[0][0], (int) puntos2D[0][1], // Punto 1
-                (int) puntos2D[1][0], (int) puntos2D[1][1], // Punto 2
-                (int) puntos2D[2][0], (int) puntos2D[2][1],// Punto 3
-                (int) puntos2D[3][0], (int) puntos2D[3][1]// Punto 4
+                (int) puntos2D[0][0] + x, (int) puntos2D[0][1] + y, // Punto 1
+                (int) puntos2D[1][0] + x, (int) puntos2D[1][1] + y, // Punto 2
+                (int) puntos2D[2][0] + x, (int) puntos2D[2][1] + y,// Punto 3
+                (int) puntos2D[3][0] + x, (int) puntos2D[3][1] + y// Punto 4
         );
         Figura cuadradoLateralIzquierdo = new Figura(
-                (int) puntos2D[5][0], (int) puntos2D[5][1], // Punto 6
-                (int) puntos2D[1][0], (int) puntos2D[1][1], // Punto 2
-                (int) puntos2D[2][0], (int) puntos2D[2][1], // Punto 3        
-                (int) puntos2D[6][0], (int) puntos2D[6][1]// Punto 7
+                (int) puntos2D[5][0] + x, (int) puntos2D[5][1] + y, // Punto 6
+                (int) puntos2D[1][0] + x, (int) puntos2D[1][1] + y, // Punto 2
+                (int) puntos2D[2][0] + x, (int) puntos2D[2][1] + y, // Punto 3        
+                (int) puntos2D[6][0] + x, (int) puntos2D[6][1] + y// Punto 7
         );
         Figura cuadradoLateralDerecho = new Figura(
-                (int) puntos2D[4][0], (int) puntos2D[4][1], // Punto 5
-                (int) puntos2D[0][0], (int) puntos2D[0][1], // Punto 1
-                (int) puntos2D[3][0], (int) puntos2D[3][1], // Punto 4
-                (int) puntos2D[7][0], (int) puntos2D[7][1] // Punto 8
+                (int) puntos2D[4][0] + x, (int) puntos2D[4][1] + y, // Punto 5
+                (int) puntos2D[0][0] + x, (int) puntos2D[0][1] + y, // Punto 1
+                (int) puntos2D[3][0] + x, (int) puntos2D[3][1] + y, // Punto 4
+                (int) puntos2D[7][0] + x, (int) puntos2D[7][1] + y // Punto 8
         );
         Figura cuadradoSuperiorTecho = new Figura(
-                (int) puntos2D[0][0], (int) puntos2D[0][1], // Punto 1
-                (int) puntos2D[4][0], (int) puntos2D[4][1], // Punto 5
-                (int) puntos2D[5][0], (int) puntos2D[5][1], // Punto 6
-                (int) puntos2D[1][0], (int) puntos2D[1][1] // Punto 2
+                (int) puntos2D[0][0] + x, (int) puntos2D[0][1] + y, // Punto 1
+                (int) puntos2D[4][0] + x, (int) puntos2D[4][1] + y, // Punto 5
+                (int) puntos2D[5][0] + x, (int) puntos2D[5][1] + y, // Punto 6
+                (int) puntos2D[1][0] + x, (int) puntos2D[1][1] + y // Punto 2
         );
         Figura cuadradoinferior = new Figura(
-                (int) puntos2D[3][0], (int) puntos2D[3][1], // Punto 4
-                (int) puntos2D[7][0], (int) puntos2D[7][1], // Punto 8
-                (int) puntos2D[6][0], (int) puntos2D[6][1], // Punto 7
-                (int) puntos2D[2][0], (int) puntos2D[2][1] // Punto 3
+                (int) puntos2D[3][0] + x, (int) puntos2D[3][1] + y, // Punto 4
+                (int) puntos2D[7][0] + x, (int) puntos2D[7][1] + y, // Punto 8
+                (int) puntos2D[6][0] + x, (int) puntos2D[6][1] + y, // Punto 7
+                (int) puntos2D[2][0] + x, (int) puntos2D[2][1] + y // Punto 3
         );
-        if (OcultarCaras == true) {
+
+        if (OcultarCaras) {
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, new Color(117, 24, 4), false);
             RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, Final, false);
             RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final, false);
+            LavaAscendiente(xLava, yLava, 5, Color.BLACK, Color.BLACK, Color.BLACK);
             RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final, false);
             RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final, false);
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.BLACK, Color.BLACK, false);
             RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final, false);
         } else {
             carasocultas = false;
             RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Inferior, Final, false);
             RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Inferior, Final, false);
             RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Frontal, Final, false);
-            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.BLACK, Color.BLACK, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Superior, new Color(117, 24, 4), false);
             RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Trasera, Final, false);
             RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Derecha, Final, false);
         }
+
+        VolcanOblicuo.add(cuadradoTrasero);
+        VolcanOblicuo.add(cuadradoFrontal);
+        VolcanOblicuo.add(cuadradoLateralIzquierdo);
+        VolcanOblicuo.add(cuadradoLateralDerecho);
+        VolcanOblicuo.add(cuadradoSuperiorTecho);
+        VolcanOblicuo.add(cuadradoinferior);
 
         System.out.println(); // Agregar una línea en blanco después del punto 8
     }
@@ -1485,7 +1671,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     public void ColocarVolcan() {
         Color cafe = new Color(48, 30, 42);
         Color cafeclaro = new Color(185, 122, 87);
-        RellenarObjeto(false, Volcan, cafe, cafe, cafe, cafe, cafe, cafe, true, cafeclaro);
+        RellenarObjeto(xVolcan, yVolcan, false, Volcan, cafe, cafe, cafe, cafe, cafe, cafe, true, cafeclaro);
 
     }
 
