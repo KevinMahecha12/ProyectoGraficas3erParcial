@@ -3,6 +3,8 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+
 android {
     namespace 'com.example.flexfitness'
     compileSdk 33
@@ -15,6 +17,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "API_KEY", "\"AIzaSyB48P_hk5uAT7xwpVZAWB5GtmYHwHNqUlA\""
     }
 
     buildTypes {
