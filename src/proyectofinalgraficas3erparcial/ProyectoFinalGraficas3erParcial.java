@@ -210,7 +210,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     int xMeteoro12, xMeteoro22;
     int xLava, yLava;
     int xVolcan, yVolcan;
-
+        int cont=0;
     boolean detenerLava = false;
 
     ProyectoFinalGraficas3erParcial() {
@@ -338,20 +338,30 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     public static void main(String[] args) throws InterruptedException {
 
         ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
+
         Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
         Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
         Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
+
         Thread mover = new Thread(() -> rotacion.moverMeteoro(10, 150, 1, 10, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
         Thread mover2 = new Thread(() -> rotacion.moverMeteoro2(10, 150, 10, 5, rotacion.FuegosMeteoroPoligonal2, rotacion.MeteoroPoligonal2));
+
         Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
         Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
 
-        moverVolcan.start();
-        moverLava.start();
+        Thread contador = new Thread(() -> {
+            try {
+                
+                moverLava.start();
+                Thread.sleep(5000);
+                moverVolcan.start();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
-        mover.start();
+        contador.start();
 
-        //mover2.start();
     }
 
     public void ColocarMontaña1punto3(int x, int y, int tamaño) {
@@ -799,64 +809,83 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
             repaint();
 
+            int limiteX = 0;
+
+            if (xVolcan < limiteX) {
+                moverVolcan(0, 0, 2, 0, VolcanOblicuo);
+            } else {
+                moverVolcan(0, 0, -2, 0, VolcanOblicuo);
+            }
         }
     }
 
-    public void moverLava(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Lava) {
-        while (true) {
-            System.out.println("X LAVA : " + xLava + "-  Y LAVA : " + yLava);
-            try {
-                // Construir la matriz de transformación de traslación
-                double[][] matrizTranslacion = {
-                    {1, 0, desplazamientoX},
-                    {0, 1, desplazamientoY},
-                    {0, 0, 1}
+public void moverLava(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Lava) {
+    while (true) {
+        System.out.println("X LAVA: " + xLava + " - Y LAVA: " + yLava);
+        try {
+            // Construir la matriz de transformación de traslación
+            double[][] matrizTranslacion = {
+                {1, 0, desplazamientoX},
+                {0, 1, desplazamientoY},
+                {0, 0, 1}
+            };
+
+            // Actualizar las coordenadas de la lava
+            if (xLava == 0 && yLava == 0) {
+                xLava = posX + desplazamientoX;
+                yLava = posY + desplazamientoY;
+            } else {
+                xLava += desplazamientoX;
+                yLava += desplazamientoY;
+            }
+
+            // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+            List<Figura> copiaLava = new ArrayList<>(Lava);
+            for (Figura lava : copiaLava) {
+                double[][] puntos = {
+                    {lava.obtenerPT1().getposX(), lava.obtenerPT2().getposX(), lava.obtenerPT3().getposX(), lava.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                    {lava.obtenerPT1().getposY(), lava.obtenerPT2().getposY(), lava.obtenerPT3().getposY(), lava.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                    {1, 1, 1, 1} // coordenada homogénea de cada vértice
                 };
 
-                // Actualizar las coordenadas de la lava
-                if (xLava == 0 && yLava == 0) {
-                    xLava = posX + desplazamientoX;
-                    yLava = posY + desplazamientoY;
-                } else {
-                    xLava += desplazamientoX;
-                    yLava += desplazamientoY;
-                }
+                // Aplicar la transformación de traslación
+                double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
 
-                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
-                List<Figura> copiaLava = new ArrayList<>(Lava);
-                for (Figura lava : copiaLava) {
-                    double[][] puntos = {
-                        {lava.obtenerPT1().getposX(), lava.obtenerPT2().getposX(), lava.obtenerPT3().getposX(), lava.obtenerPT4().getposX()}, // coordenadas x de los vértices
-                        {lava.obtenerPT1().getposY(), lava.obtenerPT2().getposY(), lava.obtenerPT3().getposY(), lava.obtenerPT4().getposY()}, // coordenadas y de los vértices
-                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
-                    };
+                // Actualizar las coordenadas de la figura de lava
+                lava.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                lava.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                lava.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                lava.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                lava.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                lava.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                lava.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                lava.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+            }
 
-                    // Aplicar la transformación de traslación
-                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-                    // Actualizar las coordenadas de la figura de lava
-                    lava.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
-                    lava.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
-                    lava.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
-                    lava.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
-                    lava.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
-                    lava.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
-                    lava.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
-                    lava.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
-                }
+        repaint();
 
-                Thread.sleep(200);
+        // Verificar la condición de detención
+        if (yLava == 330) {
+            try {
+                // Pausar durante 3 segundos
+                Thread.sleep(4500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            repaint();
-            // Verificar la condición de detención
-            if (yLava == 330) {
-                break; // Salir del bucle
-            }
+            moverLava(posX, posY, 0, -1, Lava);
+     
         }
+               if(yLava == 305){
+                break;
+            }
     }
+}
+
 
     public void moverMeteoro(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
         while (true) {
