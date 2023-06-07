@@ -40,7 +40,7 @@
         android:layout_height="318dp"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
-
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/layoutMembresiaExistente"
         android:layout_width="290dp"
         android:layout_height="352dp"
         android:gravity="center_horizontal|center_vertical"
@@ -117,28 +117,28 @@
 
         <EditText
             android:id="@+id/edtFechaInicio"
-            android:layout_width="175dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_calendar_month_24"
+            android:drawablePadding="16dp"
             android:ems="10"
             android:enabled="false"
             android:hint="Fecha Inicio"
-            android:inputType="date"
-            android:textColor="@color/black"
-            android:drawableLeft="@drawable/ic_baseline_calendar_month_24"
-            android:drawablePadding="16dp"/>
+            android:inputType="textPersonName"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/edtFechaFin"
-            android:layout_width="175dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:drawableLeft="@drawable/ic_baseline_calendar_month_24"
+            android:drawablePadding="16dp"
             android:ems="10"
             android:enabled="false"
             android:hint="Fecha Final"
-            android:inputType="date"
-            android:textColor="@color/black"
-            android:drawableLeft="@drawable/ic_baseline_calendar_month_24"
-            android:drawablePadding="16dp"/>
+            android:inputType="textPersonName"
+            android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRenovarMembresia"
@@ -174,11 +174,11 @@
         android:layout_height="54dp"
         android:background="@drawable/botones"
         android:backgroundTint="@color/black"
+        android:drawableLeft="@drawable/logout"
+        android:drawablePadding="2dp"
         android:padding="10dp"
         android:text="Log Out"
         android:textColor="@color/white"
-        android:drawableLeft="@drawable/logout"
-        android:drawablePadding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
