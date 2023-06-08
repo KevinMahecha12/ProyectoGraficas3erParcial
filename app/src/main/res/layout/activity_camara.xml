@@ -84,6 +84,7 @@
         android:layout_margin="50dp"
         android:background="@drawable/botones"
         android:text="Leer QR"
+        android:onClick="escanearCodigoBarra"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20dp"

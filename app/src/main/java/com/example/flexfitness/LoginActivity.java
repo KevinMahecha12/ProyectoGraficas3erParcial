@@ -34,28 +34,31 @@ public class LoginActivity extends AppCompatActivity {
 
     }//onCreate
 
-    public void iniciarSesion(View view){
+    public void iniciarSesion(View view) {
 
         String correo = edtCorreoLogin.getText().toString();
         String contra = edtContraLogin.getText().toString();
 
-        if (correo.isEmpty() || contra.isEmpty())
-            Toast.makeText(this, "Debes de ingresar un correo y una contraseña para iniciar sesión.", Toast.LENGTH_SHORT).show();
+        if (correo.isEmpty() || contra.isEmpty()) {
+            Toast.makeText(this, "Debes ingresar un correo y una contraseña para iniciar sesión.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        firebaseAuth.signInWithEmailAndPassword(correo, contra).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-                    dameToastdeerror(errorCode);
-                }
-            }
-        });
+        firebaseAuth.signInWithEmailAndPassword(correo, contra)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
+
 
     public void registrase(View view){
         Intent intent = new Intent(LoginActivity.this, RegistroActivity.class);

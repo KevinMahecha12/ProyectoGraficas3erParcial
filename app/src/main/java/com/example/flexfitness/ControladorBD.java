@@ -1,13 +1,11 @@
-package com.example.sqlite;
+package com.example.flexfitness;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class ControladorBD extends SQLiteOpenHelper {
@@ -20,37 +18,20 @@ public class ControladorBD extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase nombreBD) {
 
-        // tabla parque
-        String sqlParque = "CREATE TABLE parque ("
-                + "id_parque INT PRIMARY KEY,"
-                + "nombre TEXT,"
-                + "ubicacion TEXT,"
-                + "tamano REAL,"
-                + "aforo_maximo INT"
+        String sqlPesos = "CREATE TABLE pesos ("
+                + "id_maquina INT PRIMARY KEY,"
+                + "nombre_maquina TEXT,"
+                + "peso_registrado INT,"
+                + "record_peso INT"
                 + ")";
 
-        try {
-            nombreBD.execSQL(sqlParque);
-        } catch (SQLException e) {
-            Toast.makeText(null, "Error al crear la tabla 'parque'.", Toast.LENGTH_SHORT).show();
-        }
-
-        // tabla guardabosques
-        String sqlGuardabosques = "CREATE TABLE guardabosques ("
-                + "id_guardabosque INT PRIMARY KEY,"
-                + "nombre TEXT,"
-                + "apellido TEXT,"
-                + "edad INT,"
-                + "experiencia INT"
-                + ")";
 
         try {
-            nombreBD.execSQL(sqlGuardabosques);
+            nombreBD.execSQL(sqlPesos);
         } catch (SQLException e) {
-            Toast.makeText(null, "Error al crear la tabla 'guardabosques'.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(null, "Error al crear la tabla 'pesos'.", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase nombreBD, int oldVersion, int newVersion) {

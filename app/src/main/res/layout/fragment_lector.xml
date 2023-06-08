@@ -7,6 +7,23 @@
     tools:context=".LectorFragment">
 
     <TextView
+        android:id="@+id/MAQUINA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Máquina"
+        android:textAlignment="center"
+        android:textColor="@color/c1"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.565" />
+
+    <TextView
         android:id="@+id/RECORD_PESO"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:background="@drawable/botones"
-        android:text="Registrar peso"
+        android:text="Registrar peso/tiempo"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20dp"
@@ -66,7 +83,8 @@
         android:drawableLeft="@drawable/peso"
         android:drawablePadding="18dp"
         android:ems="10"
-        android:hint="Peso utilizado"
+        android:textSize="18dp"
+        android:hint="Peso utilizado / tiempo"
         android:inputType="numberDecimal"
         android:scaleType="fitStart"
         android:textColorHint="#424141"
@@ -83,6 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:background="@drawable/botones"
+        android:onClick="escanearCodigoBarra"
         android:text="Leer QR"
         android:textAllCaps="false"
         android:textColor="@color/white"

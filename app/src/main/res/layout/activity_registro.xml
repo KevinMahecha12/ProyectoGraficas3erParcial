@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".RegistroActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Volver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:background="@drawable/botones"
+        android:onClick="volver"
+        android:text="Volver"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976" />
+
     <TextView
         android:id="@+id/TituloRegistro"
         android:layout_width="match_parent"
@@ -82,6 +100,7 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:inputType="textPersonName"
+
             android:hint="Apellido"
             android:drawablePadding="18dp"
             android:drawableLeft="@drawable/nombre"
@@ -123,17 +142,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
-        android:textSize="20dp"
         android:background="@drawable/botones"
+        android:onClick="registrar"
         android:text="Registrar"
         android:textAllCaps="false"
         android:textColor="@color/white"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.62"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
+        app:layout_constraintVertical_bias="0.852" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
