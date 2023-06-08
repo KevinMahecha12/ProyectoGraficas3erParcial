@@ -196,7 +196,16 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {730, 445, 200}, // Vértice C
         {860, 185, 200}, // Vértice D
     };
-
+    double[][] LavaHumo = {
+        {227, 54, 100}, // A
+        {58, 64, 100}, // B
+        {188, 100, 100}, // C
+        {86, 120, 100}, // D
+        {227, 54, 100}, // E
+        {58, 64, 100}, // F
+        {188, 100, 100}, // G
+        {86, 120, 100} // H
+    };
     List<Figura> VolcanOblicuo = new ArrayList<Figura>();
     List<Figura> FuegosMeteoroPoligonal1 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal1 = new ArrayList<Poligono>();
@@ -206,11 +215,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     List<Poligono> MeteoroPoligonal2 = new ArrayList<Poligono>();
 
     List<Figura> LavaOrtogonal = new ArrayList<Figura>();
-
-    int xMeteoro12, xMeteoro22;
+    List<Poligono> HumoOblicua = new ArrayList<Poligono>();
+    int xMeteoro12, yMeteoro22;
     int xLava, yLava;
     int xVolcan, yVolcan;
-        int cont=0;
+    int xHumo, yHumo;
+    int cont = 0;
     boolean detenerLava = false;
 
     ProyectoFinalGraficas3erParcial() {
@@ -235,6 +245,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ColocarMontaña1punto2(480, 320, 3);
                 ColocarFondoPiso(0, 600, 300);
                 ColocarVolcan();
+
                 ArbolOrtogonal1(10, 780, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(20, 890, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(600, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
@@ -243,6 +254,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ArbolOrtogonal1(460, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 imprimirPuntosYdibujarContorno(false);
+                ColocarHumo(xHumo, yHumo, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16),new int[]{1, 2});
                 //DibujarRoca3D(true);
                 //ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
                 //ColocarMeteoro2(xMeteoro12, xMeteoro22, 7, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
@@ -255,6 +267,171 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         panel.setPreferredSize(new Dimension(1000, 900));
         this.add(panel);
         this.pack();
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
+
+        Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
+        Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
+        Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
+
+        Thread mover = new Thread(() -> rotacion.moverMeteoro(10, 150, 1, 10, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
+        Thread mover2 = new Thread(() -> rotacion.moverMeteoro2(10, 150, 10, 5, rotacion.FuegosMeteoroPoligonal2, rotacion.MeteoroPoligonal2));
+
+        Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
+        Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
+        Thread expanderhumo = new Thread(() -> rotacion.moverHumo(0, 0, -1, -1, rotacion.HumoOblicua, new int[]{1, 2}));
+        expanderhumo.start();
+        Thread contador = new Thread(() -> {
+            try {
+                moverLava.start();
+                Thread.sleep(5000);
+                moverVolcan.start();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        contador.start();
+    }
+public void moverHumo(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Poligono> Humo, int[] puntosAMover) {
+    while (true) {
+        try {
+            // Actualizar las coordenadas del humo
+            if (xHumo == 0 && yHumo == 0) {
+                xHumo = posX + desplazamientoX;
+                yHumo = posY + desplazamientoY;
+            } else {
+                xHumo += desplazamientoX;
+                yHumo += desplazamientoY;
+            }
+
+            // Recorrer la lista de polígonos del humo y actualizar las coordenadas de los puntos seleccionados
+            for (Poligono poligono : Humo) {
+                Puntos[] puntos = poligono.getVertices();
+
+                // Verificar si hay al menos 8 puntos en el polígono
+                if (puntos.length >= 8) {
+                    for (int punto : puntosAMover) {
+                        switch (punto) {
+                            case 1: // Mover punto E
+                                puntos[4].setposX(puntos[4].getposX()+ desplazamientoX);
+                                puntos[4].setposY(puntos[4].getposY()+ desplazamientoY);
+                                break;
+                            case 2: // Mover punto F
+                                puntos[5].setposX(puntos[5].getposX() + desplazamientoX);
+                                puntos[5].setposY(puntos[5].getposY() + desplazamientoY);
+                                break;
+                            case 3: // Mover punto G
+                                puntos[6].setposX(puntos[6].getposX() + desplazamientoX);
+                                puntos[6].setposY(puntos[6].getposY() + desplazamientoY);
+                                break;
+                            case 4: // Mover punto H
+                                puntos[7].setposX(puntos[7].getposX() + desplazamientoX);
+                                puntos[7].setposY(puntos[7].getposY() + desplazamientoY);
+                                break;
+                            default:
+                                System.out.println("El valor del punto a mover es inválido");
+                                break;
+                        }
+                    }
+                } else {
+                    System.out.println("El polígono del humo no tiene suficientes puntos");
+                }
+            }
+
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        repaint();
+    }
+}
+
+
+    public void ColocarHumo(int x, int y, double tamaño, Color c, Color inicial, Color colorfinal, int[] puntosAMover) {
+        xHumo = x;
+        yHumo = y;
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] cordenadas2d = hacerProyeccionOblicua(LavaHumo, 30, xp, yp, zp, Color.RED, false);
+
+        // Escala proporcional al tamaño inverso
+        double escala = 1.0 / tamaño;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < cordenadas2d.length; i++) {
+            double[] punto = cordenadas2d[i];
+            addPixel((int) punto[0], (int) punto[1], Color.WHITE);
+        }
+        putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), Color.RED); // A a B
+        putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), Color.RED); // C a D
+        putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), Color.RED); // A a C
+        putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), Color.RED); // B a D
+        putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) (cordenadas2d[4][0] * escala), (int) (cordenadas2d[4][1] * escala), Color.RED); // A a E
+        putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) (cordenadas2d[5][0] * escala), (int) (cordenadas2d[5][1] * escala), Color.RED); // B a F
+        putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) (cordenadas2d[6][0] * escala), (int) (cordenadas2d[6][1] * escala), Color.RED); // C a G
+        putLineaDDA((int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), (int) (cordenadas2d[7][0] * escala), (int) (cordenadas2d[7][1] * escala), Color.RED); // D a H
+
+        // Obtener las coordenadas de los puntos E, F, G y H
+        double xE = cordenadas2d[4][0] * escala;
+        double yE = cordenadas2d[4][1] * escala;
+
+        double xF = cordenadas2d[5][0] * escala;
+        double yF = cordenadas2d[5][1] * escala;
+
+        double xG = cordenadas2d[7][0] * escala;
+        double yG = cordenadas2d[7][1] * escala;
+
+        double xH = cordenadas2d[6][0] * escala;
+        double yH = cordenadas2d[6][1] * escala;
+
+ // Mover los puntos seleccionados
+    for (int punto : puntosAMover) {
+        switch (punto) {
+            case 1: // Mover el punto E
+                xE += x;
+                yE += y;
+                putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) xE, (int) yE, Color.RED);
+                break;
+            case 2: // Mover el punto F
+                xF += x;
+                yF += y;
+                putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) xF, (int) yF, Color.RED);
+                break;
+            case 3: // Mover el punto G
+                xG += x;
+                yG += y;
+                putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) xG, (int) yG, Color.RED);
+                break;
+            case 4: // Mover el punto H
+                xH += x;
+                yH += y;
+                putLineaDDA((int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), (int) xH, (int) yH, Color.RED);
+                break;
+            default:
+                System.out.println("Punto inválido");
+                break;
+        }
+
+// Crear los puntos E, F, G y H con las nuevas coordenadas
+        Puntos puntoE = new Puntos((int) xE, (int) yE);
+        Puntos puntoF = new Puntos((int) xF, (int) yF);
+        Puntos puntoG = new Puntos((int) xG, (int) yG);
+        Puntos puntoH = new Puntos((int) xH, (int) yH);
+
+// Crear el polígono con los nuevos puntos E, F, G y H
+        Puntos[] verticeslavahumo = {puntoE, puntoF, puntoG, puntoH};
+        Poligono poligono = new Poligono(verticeslavahumo);
+
+// Agregar el polígono a la lista HumoOblicua
+        HumoOblicua.add(poligono);
+        RellenarPoligono(poligono, c, inicial, colorfinal, false);
+        System.out.println(); // Agregar una línea en blanco después de imprimir los puntos
+    }
     }
 
     public void LavaAscendiente(int x, int y, double tamaño, Color c, Color inicial, Color colorfinal) {
@@ -333,35 +510,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         Color colorBorde = new Color(37, 37, 37);
         Color colorBorde1 = new Color(135, 92, 68);
         RellenarPoligono(poligono, colorBorde, new Color(60, 172, 3), new Color(135, 92, 68), false);
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-
-        ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
-
-        Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
-        Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
-        Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
-
-        Thread mover = new Thread(() -> rotacion.moverMeteoro(10, 150, 1, 10, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
-        Thread mover2 = new Thread(() -> rotacion.moverMeteoro2(10, 150, 10, 5, rotacion.FuegosMeteoroPoligonal2, rotacion.MeteoroPoligonal2));
-
-        Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
-        Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
-
-        Thread contador = new Thread(() -> {
-            try {
-                
-                moverLava.start();
-                Thread.sleep(5000);
-                moverVolcan.start();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-
-        contador.start();
-
     }
 
     public void ColocarMontaña1punto3(int x, int y, int tamaño) {
@@ -587,7 +735,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     public void ColocarMeteoro2(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
 
         xMeteoro12 = x;
-        xMeteoro22 = y;
+        yMeteoro22 = y;
         double meteoroTamaño = 7;
 
         FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 80, y + 75, 7, 4, Color.RED, Color.RED, Color.ORANGE);
@@ -712,12 +860,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 };
 
                 // Actualizar las coordenadas del meteoro
-                if (xMeteoro12 == 0 && xMeteoro22 == 0) {
+                if (xMeteoro12 == 0 && yMeteoro22 == 0) {
                     xMeteoro12 = posX + desplazamientoX;
-                    xMeteoro22 = posY + desplazamientoY;
+                    yMeteoro22 = posY + desplazamientoY;
                 } else {
                     xMeteoro12 += desplazamientoX;
-                    xMeteoro22 += desplazamientoY;
+                    yMeteoro22 += desplazamientoY;
                 }
 
                 // Recorrer la lista de figuras de fuego del meteoro y actualizar sus coordenadas
@@ -819,73 +967,72 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         }
     }
 
-public void moverLava(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Lava) {
-    while (true) {
-        System.out.println("X LAVA: " + xLava + " - Y LAVA: " + yLava);
-        try {
-            // Construir la matriz de transformación de traslación
-            double[][] matrizTranslacion = {
-                {1, 0, desplazamientoX},
-                {0, 1, desplazamientoY},
-                {0, 0, 1}
-            };
-
-            // Actualizar las coordenadas de la lava
-            if (xLava == 0 && yLava == 0) {
-                xLava = posX + desplazamientoX;
-                yLava = posY + desplazamientoY;
-            } else {
-                xLava += desplazamientoX;
-                yLava += desplazamientoY;
-            }
-
-            // Recorrer la lista de figuras de lava y actualizar sus coordenadas
-            List<Figura> copiaLava = new ArrayList<>(Lava);
-            for (Figura lava : copiaLava) {
-                double[][] puntos = {
-                    {lava.obtenerPT1().getposX(), lava.obtenerPT2().getposX(), lava.obtenerPT3().getposX(), lava.obtenerPT4().getposX()}, // coordenadas x de los vértices
-                    {lava.obtenerPT1().getposY(), lava.obtenerPT2().getposY(), lava.obtenerPT3().getposY(), lava.obtenerPT4().getposY()}, // coordenadas y de los vértices
-                    {1, 1, 1, 1} // coordenada homogénea de cada vértice
+    public void moverLava(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Lava) {
+        while (true) {
+            System.out.println("X LAVA: " + xLava + " - Y LAVA: " + yLava);
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
                 };
 
-                // Aplicar la transformación de traslación
-                double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+                // Actualizar las coordenadas de la lava
+                if (xLava == 0 && yLava == 0) {
+                    xLava = posX + desplazamientoX;
+                    yLava = posY + desplazamientoY;
+                } else {
+                    xLava += desplazamientoX;
+                    yLava += desplazamientoY;
+                }
 
-                // Actualizar las coordenadas de la figura de lava
-                lava.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
-                lava.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
-                lava.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
-                lava.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
-                lava.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
-                lava.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
-                lava.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
-                lava.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
-            }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaLava = new ArrayList<>(Lava);
+                for (Figura lava : copiaLava) {
+                    double[][] puntos = {
+                        {lava.obtenerPT1().getposX(), lava.obtenerPT2().getposX(), lava.obtenerPT3().getposX(), lava.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {lava.obtenerPT1().getposY(), lava.obtenerPT2().getposY(), lava.obtenerPT3().getposY(), lava.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
 
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
 
-        repaint();
+                    // Actualizar las coordenadas de la figura de lava
+                    lava.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    lava.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    lava.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    lava.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    lava.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    lava.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    lava.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    lava.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
 
-        // Verificar la condición de detención
-        if (yLava == 330) {
-            try {
-                // Pausar durante 3 segundos
-                Thread.sleep(4500);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            moverLava(posX, posY, 0, -1, Lava);
-     
-        }
-               if(yLava == 305){
+
+            repaint();
+
+            // Verificar la condición de detención
+            if (yLava == 330) {
+                try {
+                    // Pausar durante 3 segundos
+                    Thread.sleep(4500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                moverLava(posX, posY, 0, -1, Lava);
+
+            }
+            if (yLava == 305) {
                 break;
             }
+        }
     }
-}
-
 
     public void moverMeteoro(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
         while (true) {
