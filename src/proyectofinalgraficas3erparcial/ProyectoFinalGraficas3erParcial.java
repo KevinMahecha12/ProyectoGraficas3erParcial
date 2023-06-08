@@ -219,7 +219,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     int xMeteoro12, yMeteoro22;
     int xLava, yLava;
     int xVolcan, yVolcan;
-    int xHumo, yHumo;
+    int xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH;
     int cont = 0;
     boolean detenerLava = false;
 
@@ -254,7 +254,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ArbolOrtogonal1(460, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 imprimirPuntosYdibujarContorno(false);
-                ColocarHumo(xHumo, yHumo, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16),new int[]{1, 2});
+                ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16), new int[]{1, 2});
                 //DibujarRoca3D(true);
                 //ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
                 //ColocarMeteoro2(xMeteoro12, xMeteoro22, 7, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
@@ -282,7 +282,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
         Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
         Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
-        Thread expanderhumo = new Thread(() -> rotacion.moverHumo(0, 0, -1, -1, rotacion.HumoOblicua, new int[]{1, 2}));
+        Thread expanderhumo = new Thread(() -> rotacion.moverHumo(0, 0, -1, -1, 2, -2, rotacion.HumoOblicua, new int[]{1, 2}));
         expanderhumo.start();
         Thread contador = new Thread(() -> {
             try {
@@ -295,65 +295,63 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         });
         contador.start();
     }
-public void moverHumo(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Poligono> Humo, int[] puntosAMover) {
-    while (true) {
-        try {
-            // Actualizar las coordenadas del humo
-            if (xHumo == 0 && yHumo == 0) {
-                xHumo = posX + desplazamientoX;
-                yHumo = posY + desplazamientoY;
-            } else {
-                xHumo += desplazamientoX;
-                yHumo += desplazamientoY;
-            }
 
-            // Recorrer la lista de polígonos del humo y actualizar las coordenadas de los puntos seleccionados
-            for (Poligono poligono : Humo) {
-                Puntos[] puntos = poligono.getVertices();
-
-                // Verificar si hay al menos 8 puntos en el polígono
-                if (puntos.length >= 8) {
-                    for (int punto : puntosAMover) {
-                        switch (punto) {
-                            case 1: // Mover punto E
-                                puntos[4].setposX(puntos[4].getposX()+ desplazamientoX);
-                                puntos[4].setposY(puntos[4].getposY()+ desplazamientoY);
-                                break;
-                            case 2: // Mover punto F
-                                puntos[5].setposX(puntos[5].getposX() + desplazamientoX);
-                                puntos[5].setposY(puntos[5].getposY() + desplazamientoY);
-                                break;
-                            case 3: // Mover punto G
-                                puntos[6].setposX(puntos[6].getposX() + desplazamientoX);
-                                puntos[6].setposY(puntos[6].getposY() + desplazamientoY);
-                                break;
-                            case 4: // Mover punto H
-                                puntos[7].setposX(puntos[7].getposX() + desplazamientoX);
-                                puntos[7].setposY(puntos[7].getposY() + desplazamientoY);
-                                break;
-                            default:
-                                System.out.println("El valor del punto a mover es inválido");
-                                break;
-                        }
-                    }
+    public void moverHumo(int posX, int posY, int desplazamientoX1, int desplazamientoY1, int desplazamientoX2, int desplazamientoY2, List<Poligono> Humo, int[] puntosAMover) {
+        while (true) {
+            try {
+                // Actualizar las coordenadas del humo
+                if (xHumoE == 0 && yHumoE == 0) {
+                    xHumoE = posX + desplazamientoX1;
+                    yHumoE = posY + desplazamientoY1;
                 } else {
-                    System.out.println("El polígono del humo no tiene suficientes puntos");
+                    xHumoE += desplazamientoX1;
+                    yHumoE += desplazamientoY1;
                 }
+
+                if (xHumoF == 0 && yHumoF == 0) {
+                    xHumoF = posX + desplazamientoX2;
+                    yHumoF = posY + desplazamientoY2;
+                } else {
+                    xHumoF += desplazamientoX2;
+                    yHumoF += desplazamientoY2;
+                }
+
+                // Recorrer la lista de polígonos del humo y actualizar las coordenadas de los puntos seleccionados
+                for (Poligono poligono : Humo) {
+                    Puntos[] puntos = poligono.getVertices();
+
+                    // Verificar si hay al menos 8 puntos en el polígono
+                    if (puntos.length >= 8) {
+                        for (int punto : puntosAMover) {
+                            if (punto == 1) { // Mover punto E
+                                puntos[4].setposX(puntos[4].getposX() + desplazamientoX1);
+                                puntos[4].setposY(puntos[4].getposY() + desplazamientoY1);
+                            } else if (punto == 2) { // Mover punto F
+                                puntos[5].setposX(puntos[5].getposX() + desplazamientoX2);
+                                puntos[5].setposY(puntos[5].getposY() + desplazamientoY2);
+                            } else { // No mover otros puntos
+                                System.out.println("El valor del punto a mover es inválido");
+                            }
+                        }
+                    } else {
+                        System.out.println("El polígono del humo no tiene suficientes puntos");
+                    }
+                }
+
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            repaint();
         }
-
-        repaint();
     }
-}
 
-
-    public void ColocarHumo(int x, int y, double tamaño, Color c, Color inicial, Color colorfinal, int[] puntosAMover) {
-        xHumo = x;
-        yHumo = y;
+    public void ColocarHumo(int x, int y, int xf, int yf, double tamaño, Color c, Color inicial, Color colorfinal, int[] puntosAMover) {
+        xHumoE = x;
+        yHumoE = y;
+        xHumoF = xf;
+        yHumoF = yf;
         double xp = 4;
         double yp = 6;
         double zp = 3;
@@ -389,49 +387,49 @@ public void moverHumo(int posX, int posY, int desplazamientoX, int desplazamient
         double xH = cordenadas2d[6][0] * escala;
         double yH = cordenadas2d[6][1] * escala;
 
- // Mover los puntos seleccionados
-    for (int punto : puntosAMover) {
-        switch (punto) {
-            case 1: // Mover el punto E
-                xE += x;
-                yE += y;
-                putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) xE, (int) yE, Color.RED);
-                break;
-            case 2: // Mover el punto F
-                xF += x;
-                yF += y;
-                putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) xF, (int) yF, Color.RED);
-                break;
-            case 3: // Mover el punto G
-                xG += x;
-                yG += y;
-                putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) xG, (int) yG, Color.RED);
-                break;
-            case 4: // Mover el punto H
-                xH += x;
-                yH += y;
-                putLineaDDA((int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), (int) xH, (int) yH, Color.RED);
-                break;
-            default:
-                System.out.println("Punto inválido");
-                break;
-        }
+        // Mover los puntos seleccionados
+        for (int punto : puntosAMover) {
+            switch (punto) {
+                case 1: // Mover el punto E
+                    xE += x;
+                    yE += y;
+                    putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) xE, (int) yE, Color.RED);
+                    break;
+                case 2: // Mover el punto F
+                    xF += xf;
+                    yF += yf;
+                    putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) xF, (int) yF, Color.RED);
+                    break;
+                case 3: // Mover el punto G
+                    xG += x;
+                    yG += y;
+                    putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) xG, (int) yG, Color.RED);
+                    break;
+                case 4: // Mover el punto H
+                    xH += x;
+                    yH += y;
+                    putLineaDDA((int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), (int) xH, (int) yH, Color.RED);
+                    break;
+                default:
+                    System.out.println("Punto inválido");
+                    break;
+            }
 
 // Crear los puntos E, F, G y H con las nuevas coordenadas
-        Puntos puntoE = new Puntos((int) xE, (int) yE);
-        Puntos puntoF = new Puntos((int) xF, (int) yF);
-        Puntos puntoG = new Puntos((int) xG, (int) yG);
-        Puntos puntoH = new Puntos((int) xH, (int) yH);
+            Puntos puntoE = new Puntos((int) xE, (int) yE);
+            Puntos puntoF = new Puntos((int) xF, (int) yF);
+            Puntos puntoG = new Puntos((int) xG, (int) yG);
+            Puntos puntoH = new Puntos((int) xH, (int) yH);
 
 // Crear el polígono con los nuevos puntos E, F, G y H
-        Puntos[] verticeslavahumo = {puntoE, puntoF, puntoG, puntoH};
-        Poligono poligono = new Poligono(verticeslavahumo);
+            Puntos[] verticeslavahumo = {puntoE, puntoF, puntoG, puntoH};
+            Poligono poligono = new Poligono(verticeslavahumo);
 
 // Agregar el polígono a la lista HumoOblicua
-        HumoOblicua.add(poligono);
-        RellenarPoligono(poligono, c, inicial, colorfinal, false);
-        System.out.println(); // Agregar una línea en blanco después de imprimir los puntos
-    }
+            HumoOblicua.add(poligono);
+            RellenarPoligono(poligono, c, inicial, colorfinal, false);
+            System.out.println(); // Agregar una línea en blanco después de imprimir los puntos
+        }
     }
 
     public void LavaAscendiente(int x, int y, double tamaño, Color c, Color inicial, Color colorfinal) {
