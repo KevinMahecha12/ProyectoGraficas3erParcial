@@ -10,4 +10,5 @@
     <color name="c1">#E32A2A</color>
     <color name="c2">#E63636</color>
     <color name="c3">#ED4242</color>
+    <color name="disabledColor">#9C0000</color>
 </resources>

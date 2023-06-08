@@ -3,6 +3,8 @@ package com.example.flexfitness;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,11 +33,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,14 +55,14 @@ public class PerfilFragment extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    String uid = firebaseAuth.getCurrentUser().getUid();
-    DocumentReference docRef = db.collection("usuarios").document(uid);
+    DocumentReference docRef = db.collection("usuarios").document(firebaseAuth.getCurrentUser().getUid());
 
     RadioButton rbMensual, rbAnual;
-    Button btnFecha, btnRegistrarMembresia, btnLogout, btnBorrar;
+    RadioGroup group;
+    Button btnFecha, btnRegistrarMembresia, btnRenovarMembresia, btnLogout, btnBorrar;
     LinearLayout nuevaMembresia, membresiaExistente;
     EditText edtFechaInicio, edtFechaFinal;
-    TextView txtEstatus;
+    TextView txtEstatus, txtNombrePerfil;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -102,6 +108,7 @@ public class PerfilFragment extends Fragment {
         btnRegistrarMembresia = root.findViewById(R.id.btnGuardarMembresia);
         btnLogout = root.findViewById(R.id.btnLogout);
         btnBorrar = root.findViewById(R.id.btnBorrarMembresia);
+        btnRenovarMembresia = root.findViewById(R.id.btnRenovarMembresia);
         rbAnual = root.findViewById(R.id.rbAnual);
         rbMensual = root.findViewById(R.id.rbMensual);
         nuevaMembresia = root.findViewById(R.id.layoutNuevaMembresia);
@@ -109,11 +116,28 @@ public class PerfilFragment extends Fragment {
         edtFechaInicio = root.findViewById(R.id.edtFechaInicio);
         edtFechaFinal = root.findViewById(R.id.edtFechaFin);
         txtEstatus = root.findViewById(R.id.txtEstatusMembresia);
+        txtNombrePerfil = root.findViewById(R.id.txtNombrePerfil);
+        group = root.findViewById(R.id.group);
 
         nuevaMembresia.setVisibility(View.INVISIBLE);
         membresiaExistente.setVisibility(View.INVISIBLE);
 
-        existeMembresia();
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                String nombre = documentSnapshot.getString("nombre");
+                txtNombrePerfil.setText("¡Hola " + nombre + "!");
+
+            }//onSuccess
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), "Error al cargar nombre", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
+                existeMembresia();
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,8 +167,71 @@ public class PerfilFragment extends Fragment {
             }
         });
 
+        btnRenovarMembresia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                renovarMembresia();
+            }
+        });
+
         return root;
     }
+
+    public void renovarMembresia(){
+        Calendar calendarioHoy = Calendar.getInstance();
+        calendarioHoy.set(Calendar.HOUR_OF_DAY, 1);
+        calendarioHoy.set(Calendar.MINUTE, 0);
+        calendarioHoy.set(Calendar.SECOND, 0);
+        calendarioHoy.set(Calendar.MILLISECOND, 0);
+        Date fechaHoy = calendarioHoy.getTime();
+
+                    //Fecha de fin
+                    int tempoAno = calendarioHoy.get(Calendar.YEAR);
+                    int tempoMes = calendarioHoy.get(Calendar.MONTH);
+                    String tipoMembresia = "";
+
+                    if(rbAnual.isChecked()){
+                        tempoAno += 1;
+                        tipoMembresia = "Anual";
+                    }else if(rbMensual.isChecked()){
+                        tipoMembresia = "Mensual";
+
+                        if (mesAlarma == 11){
+                            tempoMes = 0;
+                        }else{
+                            tempoMes+=1;
+                        }
+                    }//tipoMembresia
+
+                    calendarioHoy.set(Calendar.YEAR, tempoAno);
+                    calendarioHoy.set(Calendar.MONTH, tempoMes); // Los meses comienzan desde 0 (enero = 0)
+
+                    Date fechaFinal = calendarioHoy.getTime();
+
+                    Map<String, Object> membresiaMap = new HashMap<>();
+                    membresiaMap.put("fechaInicio", fechaHoy);
+                    membresiaMap.put("fechaFinal", fechaFinal);
+                    membresiaMap.put("tipo", tipoMembresia);
+
+                    docRef.update("membresia", membresiaMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // Actualización exitosa
+                                    Toast.makeText(getContext(), "Membresia Renovada Correctamente", Toast.LENGTH_SHORT).show();
+                                    existeMembresia();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Error al actualizar
+                                    Toast.makeText(getContext(), "Algo fallo en Renovar membresia update", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+    }//renovarMembresia
 
     public void borrarMembresia(){
         Map<String, Object> membresiaMap = new HashMap<>();
@@ -162,26 +249,34 @@ public class PerfilFragment extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Error al actualizar
-                        Toast.makeText(getContext(), "PUTAMADE", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Algo salio mal en borrarMembre", Toast.LENGTH_SHORT).show();
                     }
                 });
     }//borrarMembresia
 
     public void existeMembresia(){
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.contains("membresia.fechaInicio")) {
                     membresiaExistente.setVisibility(View.VISIBLE);
                     nuevaMembresia.setVisibility(View.INVISIBLE);
 
-                    Log.d("FirestoreData", documentSnapshot.getData().toString());
+                    //Log.d("FirestoreData", documentSnapshot.getData().toString());
 
+                    //Fecha de hoy
+                    Calendar calendarioHoy = Calendar.getInstance();
+                    Date fechaHoy = calendarioHoy.getTime();
+
+                    //Fechas de la BdD
                     Map<String, Object> membresia = documentSnapshot.getData();
                     Map<String, Object> fechas = (Map<String, Object>) membresia.get("membresia");
 
                     Timestamp fechaInicioTimestamp = (Timestamp) fechas.get("fechaInicio");
                     Timestamp fechaFinalTimestamp = (Timestamp) fechas.get("fechaFinal");
+                    String tipoMembresia = (String) fechas.get("tipo");
+                    Toast.makeText(getContext(), "TIPOMEMBRE " + tipoMembresia, Toast.LENGTH_SHORT).show();
 
                     // Convertir los timestamps a objetos Date
                     Date fechaInicio = fechaInicioTimestamp.toDate();
@@ -190,17 +285,50 @@ public class PerfilFragment extends Fragment {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                     String fechaFormateadaInicio = dateFormat.format(fechaInicio);
                     String fechaFormateadaFinal = dateFormat.format(fechaFinal);
+                    String fechaFormateadaHoy = dateFormat.format(fechaHoy);
 
                     edtFechaInicio.setText("Inicio: " + fechaFormateadaInicio);
                     edtFechaFinal.setText("Final: " + fechaFormateadaFinal);
-                    txtEstatus.setText("Aqui estan los datos registrados de tu membresía:");
+
+                    if (tipoMembresia == "Anual"){
+                        rbAnual.setChecked(true);
+                        rbMensual.setChecked(false);
+                    }else if(tipoMembresia == "Mensual"){
+                        rbMensual.setChecked(true);
+                        rbAnual.setChecked(false);
+                    }
+
+                    if (fechaHoy.after(fechaFinal)) {
+                        int color = getResources().getColor(R.color.c1);
+                        btnRenovarMembresia.getBackground().setColorFilter(color, PorterDuff.Mode.SRC);
+                        btnRenovarMembresia.setEnabled(true);
+
+                        txtEstatus.setText("¡Tu membresia se ha vencido!");
+                        edtFechaInicio.setTextColor(Color.RED);
+                        edtFechaFinal.setTextColor(Color.RED);
+
+                    } else  {
+                        int color = getResources().getColor(R.color.disabledColor);
+                        btnRenovarMembresia.getBackground().setColorFilter(color, PorterDuff.Mode.SRC);
+                        btnRenovarMembresia.setEnabled(false);
+
+                        edtFechaInicio.setTextColor(Color.BLACK);
+                        edtFechaFinal.setTextColor(Color.BLACK);
+
+                        long diffInMillies = fechaFinal.getTime() - fechaHoy.getTime();
+                        long dias = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+                        txtEstatus.setText("¡Quedan " + dias + " para que acabe tu membresia!");
+                    }
 
                 } else {
                     nuevaMembresia.setVisibility(View.VISIBLE);
                     membresiaExistente.setVisibility(View.INVISIBLE);
                     txtEstatus.setText("¡Parece que aún no has registrado tu membresía!");
-                }
-            }
+
+                    group.clearCheck();
+                }//if contans fechaInicio
+            }//onSuccess
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -293,6 +421,9 @@ public class PerfilFragment extends Fragment {
         membresiaMap.put("fechaInicio", fechaInicio);
         membresiaMap.put("tipo", tipoMembresia);
 
+        Toast.makeText(getContext(), "fecha inicio " + fechaFormateadaInicio, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "fecha final " + fechaFormateadaFinal, Toast.LENGTH_SHORT).show();
+
                 docRef.update("membresia", membresiaMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -306,7 +437,7 @@ public class PerfilFragment extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Error al actualizar
-                        Toast.makeText(getContext(), "PUTAMADE", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Algo fallo en registrarMembre", Toast.LENGTH_SHORT).show();
                     }
                 });
 
