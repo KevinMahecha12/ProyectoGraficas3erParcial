@@ -1,6 +1,10 @@
 package com.example.flexfitness;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,11 +38,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EjerciciosFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class EjerciciosFragment extends Fragment {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -48,9 +48,9 @@ public class EjerciciosFragment extends Fragment {
     int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
     TextView txtDia, txtToca;
+    ControladorBD admin;
 
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -62,14 +62,6 @@ public class EjerciciosFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EjerciciosFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static EjerciciosFragment newInstance(String param1, String param2) {
         EjerciciosFragment fragment = new EjerciciosFragment();
@@ -87,7 +79,9 @@ public class EjerciciosFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
+
+        admin = new ControladorBD(getContext(), "pesos.db", null, 1);
+    }//onCreate
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -99,16 +93,20 @@ public class EjerciciosFragment extends Fragment {
         txtDia = root.findViewById(R.id.txtDia);
         txtToca = root.findViewById(R.id.txtToca);
 
+        //Si estamos en otro dia, eliminar lo guardado
+        eliminarEjerciciosDiaAnterior();
+
         switch (dayOfWeek) {
             case Calendar.MONDAY:
                 txtDia.setText("¡Hoy es Lunes!");
                 txtToca.setText("¡Dia de Pierna!");
-                ejerciciosLunesViernes(root);
+                ejerciciosLunes(root);
                 break;
             case Calendar.TUESDAY:
                 txtDia.setText("¡Hoy es Martes!");
                 txtToca.setText("¡Dia de Hombro y Tricep!");
                 //Aqui definimos los ejercicios
+                ejerciciosMartes(root);
                 break;
             case Calendar.WEDNESDAY:
                 txtDia.setText("¡Hoy es Miércoles!");
@@ -126,7 +124,7 @@ public class EjerciciosFragment extends Fragment {
                 txtDia.setText("¡Hoy es Viernes!");
                 txtToca.setText("¡Dia de Pierna!");
                 //Aqui definimos los ejercicios
-                ejerciciosLunesViernes(root);
+                ejerciciosViernes(root);
                 break;
             case Calendar.SATURDAY:
                 txtDia.setText("¡Hoy es Sábado!");
@@ -142,56 +140,170 @@ public class EjerciciosFragment extends Fragment {
                 break;
         }//switch dia de la semana
 
-
-
         return root;
     }//onCreateView
 
-    public void ejerciciosLunesViernes(View root){
+    public void eliminarEjerciciosDiaAnterior(){
+        String dia = "";
+
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                dia = "Lunes";
+                break;
+            case Calendar.TUESDAY:
+                dia = "Martes";
+                break;
+            case Calendar.WEDNESDAY:
+                dia = "Miercoles";
+                break;
+            case Calendar.THURSDAY:
+                dia = "Jueves";
+                break;
+            case Calendar.FRIDAY:
+                dia = "Viernes";
+                break;
+            case Calendar.SATURDAY:
+                dia = "Sabado";
+                break;
+            case Calendar.SUNDAY:
+                dia = "Domingo";
+                break;
+            default:
+                txtDia.setText("¡Hoy es Día no válido!");
+                break;
+        }//switch dia de la semana
+
+        /*String ejercicios = "CREATE TABLE ejercicios ("
+                + "id INT PRIMARY KEY,"
+                + "dia TEXT,"
+                + "ejercicio TEXT,"
+                + "descripcion TEXT,"
+                + "video TEXT"
+                + ")";
+        SQLiteDatabase dbw = admin.getWritableDatabase();
+        try {
+            dbw.execSQL(ejercicios);
+        } catch (SQLException e) {
+            Toast.makeText(getContext(), "Error al crear la tabla 'pesos' O 'sqlEjercicios'.", Toast.LENGTH_SHORT).show();
+        }*/
+
+        String selectQuery = "SELECT COUNT(*) FROM ejercicios WHERE dia = ?";
+        String[] selectionArgs = { dia };
+
+        SQLiteDatabase db = admin.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            if (count == 0) {
+                String deleteQuery = "DELETE FROM ejercicios";
+                db = admin.getReadableDatabase();
+                db.execSQL(deleteQuery);
+            }
+        }//si no hay ningun registro
+
+    }//eliminarEjerciciosDiasAnterior
+
+    public void ejerciciosLunes(View root){
         DocumentReference docRef = docRutinas.document("pierna");
+        ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
+        RecyclerView recycler = root.findViewById(R.id.recycler);
 
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
-                RecyclerView recycler = root.findViewById(R.id.recycler);
+        String countQuery = "SELECT COUNT(*) FROM ejercicios";
+        SQLiteDatabase db = admin.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
 
-                if (documentSnapshot.contains("ejercicios")) {
-                    Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
-                    List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            if (count == 0) {
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                    // Seleccionar aleatoriamente 3 ejercicios
-                    Collections.shuffle(ejerciciosList);
-                    List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 4);
+                        if (documentSnapshot.contains("ejercicios")) {
+                            Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                            List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
 
-                    // Utilizar los ejercicios aleatorios como desees
-                    for (String ejercicio : ejerciciosAleatorios) {
-                        Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
-                        String video = (String) ejercicioMap.get("video");
-                        String desc = (String) ejercicioMap.get("desc");
+                            // Seleccionar aleatoriamente 3 ejercicios
+                            Collections.shuffle(ejerciciosList);
+                            List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 4);
 
-                        //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                            // Utilizar los ejercicios aleatorios como desees
+                            for (String ejercicio : ejerciciosAleatorios) {
+                                Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                                String video = (String) ejercicioMap.get("video");
+                                String desc = (String) ejercicioMap.get("desc");
+
+                                //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                                arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                                SQLiteDatabase db = admin.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+                                values.put("dia", "Lunes");
+                                values.put("ejercicio", ejercicio);
+                                values.put("descripcion", desc);
+                                values.put("video", video);
+
+                                long resultado = db.insert("ejercicios", null, values);
+                                if (resultado != -1) {
+                                    // El registro se insertó correctamente
+                                } else {
+                                    Toast.makeText(getContext(), "No se guardo", Toast.LENGTH_SHORT).show();
+                                }
+
+                                db.close();
+
+                                //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            //Log.d("TAG", "El documento no contiene el campo 'ejercicios'");
+                            Toast.makeText(getContext(), "El documento no contiene el campo 'ejercicios'", Toast.LENGTH_SHORT).show();
+                        }
+
+                        ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                        recycler.setAdapter(adaptador);
+                        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }//onSuccess
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            } else {
+                //IF NO ESTA VACÍA
+                String selectQuery = "SELECT * FROM ejercicios";
+
+                db = admin.getReadableDatabase();
+                cursor = db.rawQuery(selectQuery, null);
+
+                // Itera sobre el cursor para obtener los registros
+                if (cursor.moveToFirst()) {
+                    do {
+                        // Lee los valores de las columnas según corresponda
+                        @SuppressLint("Range") String ejercicio = cursor.getString(cursor.getColumnIndex("ejercicio")); // Reemplaza "columna1" con el nombre real de la columna
+                        @SuppressLint("Range") String desc = cursor.getString(cursor.getColumnIndex("descripcion")); // Reemplaza "columna2" con el nombre real de la columna
+                        @SuppressLint("Range") String video = cursor.getString(cursor.getColumnIndex("video"));
+
+                        // Realiza las acciones correspondientes con los valores del registro
                         arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
 
-                        //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    //Log.d("TAG", "El documento no contiene el campo 'ejercicios'");
-                    Toast.makeText(getContext(), "El documento no contiene el campo 'ejercicios'", Toast.LENGTH_SHORT).show();
-                }
+                    } while (cursor.moveToNext());
+                }//if existen registros
+
+                cursor.close();
+                db.close();
 
                 ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
                 recycler.setAdapter(adaptador);
                 recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+            }//else
+        }//if move first
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
-                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        cursor.close();
+
     }//ejerciciosLunes
 
     public void ejerciciosMartes(View root){
@@ -200,95 +312,75 @@ public class EjerciciosFragment extends Fragment {
         ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
         RecyclerView recycler = root.findViewById(R.id.recycler);
 
-        docRefHombro.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+        String countQuery = "SELECT COUNT(*) FROM ejercicios";
+        SQLiteDatabase db = admin.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
 
-                Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
-                List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            if (count == 0) {
 
-                // Seleccionar aleatoriamente 3 ejercicios
-                Collections.shuffle(ejerciciosList);
-                List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+                docRefHombro.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                // Utilizar los ejercicios aleatorios como desees
-                for (String ejercicio : ejerciciosAleatorios) {
-                    Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
-                    String video = (String) ejercicioMap.get("video");
-                    String desc = (String) ejercicioMap.get("desc");
-
-                    //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
-                    arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
-
-                    //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
-                }
-
-                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
-                recycler.setAdapter(adaptador);
-                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            }//onSuccess
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
-                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }//onFailure
-        });
-
-        docRefTricep.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
-                List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
-
-                // Seleccionar aleatoriamente 3 ejercicios
-                Collections.shuffle(ejerciciosList);
-                List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
-
-                // Utilizar los ejercicios aleatorios como desees
-                for (String ejercicio : ejerciciosAleatorios) {
-                    Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
-                    String video = (String) ejercicioMap.get("video");
-                    String desc = (String) ejercicioMap.get("desc");
-
-                    //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
-                    arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
-
-                    //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
-                }
-
-                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
-                recycler.setAdapter(adaptador);
-                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            }//onSuccess
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
-                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }//onFailure
-        });
-    }//ejerciciosMartes
-
-    public void ejerciciosMiercoles(View root){
-        DocumentReference docRef = docRutinas.document("espalda");
-
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
-                RecyclerView recycler = root.findViewById(R.id.recycler);
-
-                    if (documentSnapshot.contains("ejercicios")) {
                         Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
                         List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
 
                         // Seleccionar aleatoriamente 3 ejercicios
                         Collections.shuffle(ejerciciosList);
-                        List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 4);
+                        List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+
+                        // Utilizar los ejercicios aleatorios como desees
+                        for (String ejercicio : ejerciciosAleatorios) {
+                            Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                            String video = (String) ejercicioMap.get("video");
+                            String desc = (String) ejercicioMap.get("desc");
+
+                            //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                            arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+                            SQLiteDatabase db = admin.getWritableDatabase();
+                            ContentValues values = new ContentValues();
+                            values.put("dia", "Martes");
+                            values.put("ejercicio", ejercicio);
+                            values.put("descripcion", desc);
+                            values.put("video", video);
+
+                            long resultado = db.insert("ejercicios", null, values);
+                            if (resultado != -1) {
+                                // El registro se insertó correctamente
+                            } else {
+                                Toast.makeText(getContext(), "No se guardo", Toast.LENGTH_SHORT).show();
+                            }
+
+                            db.close();
+
+                            //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                        }
+
+                        ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                        recycler.setAdapter(adaptador);
+                        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }//onSuccess
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
+                        Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }//onFailure
+                });
+
+                docRefTricep.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                        List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                        // Seleccionar aleatoriamente 3 ejercicios
+                        Collections.shuffle(ejerciciosList);
+                        List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
 
                         // Utilizar los ejercicios aleatorios como desees
                         for (String ejercicio : ejerciciosAleatorios) {
@@ -299,25 +391,174 @@ public class EjerciciosFragment extends Fragment {
                             //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
                             arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
 
+                            SQLiteDatabase db = admin.getWritableDatabase();
+                            ContentValues values = new ContentValues();
+                            values.put("dia", "Martes");
+                            values.put("ejercicio", ejercicio);
+                            values.put("descripcion", desc);
+                            values.put("video", video);
+
+                            long resultado = db.insert("ejercicios", null, values);
+                            if (resultado != -1) {
+                                // El registro se insertó correctamente
+                            } else {
+                                Toast.makeText(getContext(), "No se guardo", Toast.LENGTH_SHORT).show();
+                            }
+
+                            db.close();
+
                             //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        //Log.d("TAG", "El documento no contiene el campo 'ejercicios'");
-                        Toast.makeText(getContext(), "El documento no contiene el campo 'ejercicios'", Toast.LENGTH_SHORT).show();
-                    }
+
+                        ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                        recycler.setAdapter(adaptador);
+                        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }//onSuccess
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
+                        Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }//onFailure
+                });
+
+            }else{
+
+                //IF NO ESTA VACÍA
+                String selectQuery = "SELECT * FROM ejercicios";
+
+                db = admin.getReadableDatabase();
+                cursor = db.rawQuery(selectQuery, null);
+
+                // Itera sobre el cursor para obtener los registros
+                if (cursor.moveToFirst()) {
+                    do {
+                        // Lee los valores de las columnas según corresponda
+                        @SuppressLint("Range") String ejercicio = cursor.getString(cursor.getColumnIndex("ejercicio")); // Reemplaza "columna1" con el nombre real de la columna
+                        @SuppressLint("Range") String desc = cursor.getString(cursor.getColumnIndex("descripcion")); // Reemplaza "columna2" con el nombre real de la columna
+                        @SuppressLint("Range") String video = cursor.getString(cursor.getColumnIndex("video"));
+
+                        // Realiza las acciones correspondientes con los valores del registro
+                        arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                    } while (cursor.moveToNext());
+                }//if existen registros
+
+                cursor.close();
+                db.close();
 
                 ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
                 recycler.setAdapter(adaptador);
                 recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
+            }//else
+        }//if move first
+
+        cursor.close();
+
+    }//ejerciciosMartes
+
+    public void ejerciciosMiercoles(View root){
+        DocumentReference docRef = docRutinas.document("espalda");
+        ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
+        RecyclerView recycler = root.findViewById(R.id.recycler);
+
+        String countQuery = "SELECT COUNT(*) FROM ejercicios";
+        SQLiteDatabase db = admin.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            if (count == 0) {
+
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        if (documentSnapshot.contains("ejercicios")) {
+                            Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                            List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                            // Seleccionar aleatoriamente 3 ejercicios
+                            Collections.shuffle(ejerciciosList);
+                            List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 4);
+
+                            // Utilizar los ejercicios aleatorios como desees
+                            for (String ejercicio : ejerciciosAleatorios) {
+                                Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                                String video = (String) ejercicioMap.get("video");
+                                String desc = (String) ejercicioMap.get("desc");
+
+                                //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                                arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+                                SQLiteDatabase db = admin.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+                                values.put("dia", "Miercoles");
+                                values.put("ejercicio", ejercicio);
+                                values.put("descripcion", desc);
+                                values.put("video", video);
+
+                                long resultado = db.insert("ejercicios", null, values);
+                                if (resultado != -1) {
+                                    // El registro se insertó correctamente
+                                } else {
+                                    Toast.makeText(getContext(), "No se guardo", Toast.LENGTH_SHORT).show();
+                                }
+
+                                db.close();
+
+                                //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                            }//for
+                        } else {
+                            //Log.d("TAG", "El documento no contiene el campo 'ejercicios'");
+                            Toast.makeText(getContext(), "El documento no contiene el campo 'ejercicios'", Toast.LENGTH_SHORT).show();
+                        }
+
+                        ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                        recycler.setAdapter(adaptador);
+                        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
+                        Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }else{
+                //IF NO ESTA VACÍA
+                String selectQuery = "SELECT * FROM ejercicios";
+
+                db = admin.getReadableDatabase();
+                cursor = db.rawQuery(selectQuery, null);
+
+                // Itera sobre el cursor para obtener los registros
+                if (cursor.moveToFirst()) {
+                    do {
+                        // Lee los valores de las columnas según corresponda
+                        @SuppressLint("Range") String ejercicio = cursor.getString(cursor.getColumnIndex("ejercicio")); // Reemplaza "columna1" con el nombre real de la columna
+                        @SuppressLint("Range") String desc = cursor.getString(cursor.getColumnIndex("descripcion")); // Reemplaza "columna2" con el nombre real de la columna
+                        @SuppressLint("Range") String video = cursor.getString(cursor.getColumnIndex("video"));
+
+                        // Realiza las acciones correspondientes con los valores del registro
+                        arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                    } while (cursor.moveToNext());
+                }//if existen registros
+
+                cursor.close();
+                db.close();
+
+                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                recycler.setAdapter(adaptador);
+                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
-                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        }//if cursor move first
+
+        cursor.close();
 
     }//ejerciciosMiercoles
 
@@ -327,80 +568,252 @@ public class EjerciciosFragment extends Fragment {
         ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
         RecyclerView recycler = root.findViewById(R.id.recycler);
 
-        docRefPecho.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+        String countQuery = "SELECT COUNT(*) FROM ejercicios";
+        SQLiteDatabase db = admin.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
 
-                    Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
-                    List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            if (count == 0) {
 
-                    // Seleccionar aleatoriamente 3 ejercicios
-                    Collections.shuffle(ejerciciosList);
-                    List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+                docRefPecho.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                    // Utilizar los ejercicios aleatorios como desees
-                    for (String ejercicio : ejerciciosAleatorios) {
-                        Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
-                        String video = (String) ejercicioMap.get("video");
-                        String desc = (String) ejercicioMap.get("desc");
+                        Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                        List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
 
-                        //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                        // Seleccionar aleatoriamente 3 ejercicios
+                        Collections.shuffle(ejerciciosList);
+                        List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+
+                        // Utilizar los ejercicios aleatorios como desees
+                        for (String ejercicio : ejerciciosAleatorios) {
+                            Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                            String video = (String) ejercicioMap.get("video");
+                            String desc = (String) ejercicioMap.get("desc");
+
+                            //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                            arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                            SQLiteDatabase db = admin.getWritableDatabase();
+                            ContentValues values = new ContentValues();
+                            values.put("dia", "Jueves");
+                            values.put("ejercicio", ejercicio);
+                            values.put("descripcion", desc);
+                            values.put("video", video);
+
+                            long resultado = db.insert("ejercicios", null, values);
+                            if (resultado != -1) {
+                                // El registro se insertó correctamente
+                            } else {
+                                Toast.makeText(getContext(), "No se guardo", Toast.LENGTH_SHORT).show();
+                            }
+
+                            db.close();
+
+                            //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                        }//for
+
+                        ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                        recycler.setAdapter(adaptador);
+                        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }//onSuccess
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }//onFailure
+                });
+
+                docRefBicep.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                        List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                        // Seleccionar aleatoriamente 3 ejercicios
+                        Collections.shuffle(ejerciciosList);
+                        List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+
+                        // Utilizar los ejercicios aleatorios como desees
+                        for (String ejercicio : ejerciciosAleatorios) {
+                            Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                            String video = (String) ejercicioMap.get("video");
+                            String desc = (String) ejercicioMap.get("desc");
+
+                            //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                            arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+                            SQLiteDatabase db = admin.getWritableDatabase();
+                            ContentValues values = new ContentValues();
+                            values.put("dia", "Jueves");
+                            values.put("ejercicio", ejercicio);
+                            values.put("descripcion", desc);
+                            values.put("video", video);
+
+                            long resultado = db.insert("ejercicios", null, values);
+                            if (resultado != -1) {
+                                // El registro se insertó correctamente
+                            } else {
+                                Toast.makeText(getContext(), "No se guardo", Toast.LENGTH_SHORT).show();
+                            }
+
+                            db.close();
+
+                            //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                        }//for
+
+                        ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                        recycler.setAdapter(adaptador);
+                        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }//onSuccess
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }//onFailure
+                });
+
+            } else {
+
+                //IF NO ESTA VACÍA
+                String selectQuery = "SELECT * FROM ejercicios";
+
+                db = admin.getReadableDatabase();
+                cursor = db.rawQuery(selectQuery, null);
+
+                // Itera sobre el cursor para obtener los registros
+                if (cursor.moveToFirst()) {
+                    do {
+                        // Lee los valores de las columnas según corresponda
+                        @SuppressLint("Range") String ejercicio = cursor.getString(cursor.getColumnIndex("ejercicio")); // Reemplaza "columna1" con el nombre real de la columna
+                        @SuppressLint("Range") String desc = cursor.getString(cursor.getColumnIndex("descripcion")); // Reemplaza "columna2" con el nombre real de la columna
+                        @SuppressLint("Range") String video = cursor.getString(cursor.getColumnIndex("video"));
+
+                        // Realiza las acciones correspondientes con los valores del registro
                         arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
 
-                        //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                    } while (cursor.moveToNext());
+                }//if existen registros
+
+                cursor.close();
+                db.close();
+
+                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                recycler.setAdapter(adaptador);
+                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            }//else
+
+        }//IF cursor move to first
+
+        cursor.close();
+
+    }//ejerciciosJueves (La que esta bien)
+
+    public void ejerciciosViernes(View root){
+        DocumentReference docRef = docRutinas.document("pierna");
+        ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
+        RecyclerView recycler = root.findViewById(R.id.recycler);
+
+        String countQuery = "SELECT COUNT(*) FROM ejercicios";
+        SQLiteDatabase db = admin.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int count = cursor.getInt(0);
+            if (count == 0) {
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                        if (documentSnapshot.contains("ejercicios")) {
+                            Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                            List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                            // Seleccionar aleatoriamente 3 ejercicios
+                            Collections.shuffle(ejerciciosList);
+                            List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 4);
+
+                            // Utilizar los ejercicios aleatorios como desees
+                            for (String ejercicio : ejerciciosAleatorios) {
+                                Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                                String video = (String) ejercicioMap.get("video");
+                                String desc = (String) ejercicioMap.get("desc");
+
+                                //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                                arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                                SQLiteDatabase db = admin.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+                                values.put("dia", "Viernes");
+                                values.put("ejercicio", ejercicio);
+                                values.put("descripcion", desc);
+                                values.put("video", video);
+
+                                long resultado = db.insert("ejercicios", null, values);
+                                if (resultado != -1) {
+                                    // El registro se insertó correctamente
+                                } else {
+                                    Toast.makeText(getContext(), "No se guardo", Toast.LENGTH_SHORT).show();
+                                }
+
+                                db.close();
+
+                                //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            //Log.d("TAG", "El documento no contiene el campo 'ejercicios'");
+                            Toast.makeText(getContext(), "El documento no contiene el campo 'ejercicios'", Toast.LENGTH_SHORT).show();
+                        }
+
+                        ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                        recycler.setAdapter(adaptador);
+                        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                    }//onSuccess
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                });
+
+            } else {
+                //IF NO ESTA VACÍA
+                String selectQuery = "SELECT * FROM ejercicios";
+
+                db = admin.getReadableDatabase();
+                cursor = db.rawQuery(selectQuery, null);
+
+                // Itera sobre el cursor para obtener los registros
+                if (cursor.moveToFirst()) {
+                    do {
+                        // Lee los valores de las columnas según corresponda
+                        @SuppressLint("Range") String ejercicio = cursor.getString(cursor.getColumnIndex("ejercicio")); // Reemplaza "columna1" con el nombre real de la columna
+                        @SuppressLint("Range") String desc = cursor.getString(cursor.getColumnIndex("descripcion")); // Reemplaza "columna2" con el nombre real de la columna
+                        @SuppressLint("Range") String video = cursor.getString(cursor.getColumnIndex("video"));
+
+                        // Realiza las acciones correspondientes con los valores del registro
+                        arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                    } while (cursor.moveToNext());
+                }//if existen registros
+
+                cursor.close();
+                db.close();
 
                 ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
                 recycler.setAdapter(adaptador);
                 recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+            }//else
+        }//if move first
 
-            }//onSuccess
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
-                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }//onFailure
-        });
-
-        docRefBicep.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
-                List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
-
-                // Seleccionar aleatoriamente 3 ejercicios
-                Collections.shuffle(ejerciciosList);
-                List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
-
-                // Utilizar los ejercicios aleatorios como desees
-                for (String ejercicio : ejerciciosAleatorios) {
-                    Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
-                    String video = (String) ejercicioMap.get("video");
-                    String desc = (String) ejercicioMap.get("desc");
-
-                    //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
-                    arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
-
-                    //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
-                }
-
-                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
-                recycler.setAdapter(adaptador);
-                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            }//onSuccess
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
-                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }//onFailure
-        });
-
-
-    }//ejerciciosJueves
+        cursor.close();
+    }//ejerciciosViernes
 
 
 }//EjerciciosFragment

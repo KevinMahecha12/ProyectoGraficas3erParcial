@@ -25,11 +25,19 @@ public class ControladorBD extends SQLiteOpenHelper {
                 + "record_peso INT"
                 + ")";
 
+        String ejercicios = "CREATE TABLE ejercicios ("
+                + "id INT PRIMARY KEY,"
+                + "dia TEXT,"
+                + "ejercicio TEXT,"
+                + "descripcion TEXT,"
+                + "video TEXT"
+                + ")";
 
         try {
             nombreBD.execSQL(sqlPesos);
+            nombreBD.execSQL(ejercicios);
         } catch (SQLException e) {
-            Toast.makeText(null, "Error al crear la tabla 'pesos'.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(null, "Error al crear la tabla 'pesos' O 'sqlEjercicios'.", Toast.LENGTH_SHORT).show();
         }
     }
 

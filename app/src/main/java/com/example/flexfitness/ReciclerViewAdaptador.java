@@ -40,7 +40,7 @@ public class ReciclerViewAdaptador extends RecyclerView.Adapter<ReciclerViewAdap
 
         String vid = this.arrayEjercicios.get(position).getVideo();
         int resourceId = this.context.getResources().getIdentifier(vid, "raw", this.context.getPackageName());
-        Toast.makeText(context, "nombreVid: " + vid + " id: " + resourceId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "nombreVid: " + vid + " id: " + resourceId, Toast.LENGTH_SHORT).show();
 
         Glide.with(this.context).load(resourceId).into(holder.imgGif);
 
