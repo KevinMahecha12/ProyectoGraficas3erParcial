@@ -221,7 +221,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     int xVolcan, yVolcan;
     int xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH;
     int cont = 0;
-    boolean detenerLava = false;
+    boolean mostrarExplosion = false;
 
     ProyectoFinalGraficas3erParcial() {
         setTitle("Proyecto Final gráficas 3er Parcial, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
@@ -254,13 +254,16 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ArbolOrtogonal1(460, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 imprimirPuntosYdibujarContorno(false);
-                ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF,xHumoG,yHumoG,xHumoH,yHumoH, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16), new int[]{1, 2,3,4});
+                ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16), new int[]{1, 2, 3, 4}, mostrarExplosion);
                 //DibujarRoca3D(true);
                 //ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
                 //ColocarMeteoro2(xMeteoro12, xMeteoro22, 7, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
 
                 g.drawImage(buffer, 0, 0, null);
                 g.dispose();
+
+                System.out.println("CORDENADAS DE E: " + xHumoE);
+                System.out.println("CORDENADAS DE H: " + xHumoH);
             }
         };
 
@@ -282,8 +285,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
         Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
         Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
-        Thread expanderhumo = new Thread(() -> rotacion.moverHumo(0, 0, 0, 0, 0, 0,0,0,0,0, rotacion.HumoOblicua, new int[]{1, 2,3,4}));
-        expanderhumo.start();
+
         Thread contador = new Thread(() -> {
             try {
                 moverLava.start();
@@ -296,7 +298,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         contador.start();
     }
 
-    public void moverHumo(int posX, int posY, int desplazamientoX1, int desplazamientoY1, int desplazamientoX2, int desplazamientoY2,  int desplazamientoX3, int desplazamientoY3,int desplazamientoX4, int desplazamientoY4,List<Poligono> Humo, int[] puntosAMover) {
+    public void moverHumo(int posX, int posY, int desplazamientoX1, int desplazamientoY1, int desplazamientoX2, int desplazamientoY2, int desplazamientoX3, int desplazamientoY3, int desplazamientoX4, int desplazamientoY4, List<Poligono> Humo, int[] puntosAMover) {
         while (true) {
             try {
                 // Actualizar las coordenadas del humo
@@ -315,16 +317,16 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                     xHumoF += desplazamientoX2;
                     yHumoF += desplazamientoY2;
                 }
-                
-                 if (xHumoG == 0 && yHumoG == 0) {
+
+                if (xHumoG == 0 && yHumoG == 0) {
                     xHumoG = posX + desplazamientoX3;
                     yHumoG = posY + desplazamientoY3;
                 } else {
                     xHumoG += desplazamientoX3;
                     yHumoG += desplazamientoY3;
                 }
-                 
-                  if (xHumoH == 0 && yHumoH == 0) {
+
+                if (xHumoH == 0 && yHumoH == 0) {
                     xHumoH = posX + desplazamientoX4;
                     yHumoH = posY + desplazamientoY4;
                 } else {
@@ -348,12 +350,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                             } else if (punto == 3) { // Mover punto G
                                 puntos[6].setposX(puntos[6].getposX() + desplazamientoX3);
                                 puntos[6].setposY(puntos[6].getposY() + desplazamientoY3);
-                            }else if (punto == 4) { // Mover punto H
+                            } else if (punto == 4) { // Mover punto H
                                 puntos[7].setposX(puntos[7].getposX() + desplazamientoX4);
                                 puntos[7].setposY(puntos[7].getposY() + desplazamientoY4);
                             }
                         }
-                    } 
+                    }
                 }
 
                 Thread.sleep(100);
@@ -365,7 +367,8 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         }
     }
 
-    public void ColocarHumo(int x, int y, int xf, int yf, int xg, int yg,int xh, int yh, double tamaño, Color c, Color inicial, Color colorfinal, int[] puntosAMover) {
+    public void ColocarHumo(int x, int y, int xf, int yf, int xg, int yg, int xh, int yh, double tamaño, Color c, Color inicial, Color colorfinal, int[] puntosAMover, Boolean Mostrar) {
+
         xHumoE = x;
         yHumoE = y;
         xHumoF = xf;
@@ -385,16 +388,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         // Imprimir coordenadas 2D
         for (int i = 0; i < cordenadas2d.length; i++) {
             double[] punto = cordenadas2d[i];
-            addPixel((int) punto[0], (int) punto[1], Color.WHITE);
         }
-        putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), Color.RED); // A a B
-        putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), Color.RED); // C a D
-        putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), Color.RED); // A a C
-        putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), Color.RED); // B a D
-        putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) (cordenadas2d[4][0] * escala), (int) (cordenadas2d[4][1] * escala), Color.RED); // A a E
-        putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) (cordenadas2d[5][0] * escala), (int) (cordenadas2d[5][1] * escala), Color.RED); // B a F
-        putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) (cordenadas2d[6][0] * escala), (int) (cordenadas2d[6][1] * escala), Color.RED); // C a G
-        putLineaDDA((int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), (int) (cordenadas2d[7][0] * escala), (int) (cordenadas2d[7][1] * escala), Color.RED); // D a H
 
         // Obtener las coordenadas de los puntos E, F, G y H
         double xE = cordenadas2d[4][0] * escala;
@@ -415,41 +409,100 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 case 1: // Mover el punto E
                     xE += x;
                     yE += y;
-                    putLineaDDA((int) (cordenadas2d[0][0] * escala), (int) (cordenadas2d[0][1] * escala), (int) xE, (int) yE, Color.RED);
                     break;
                 case 2: // Mover el punto F
                     xF += xf;
                     yF += yf;
-                    putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) xF, (int) yF, Color.RED);
                     break;
                 case 3: // Mover el punto G
                     xG += xg;
                     yG += yg;
-                    putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) xG, (int) yG, Color.RED);
                     break;
                 case 4: // Mover el punto H
                     xH += xh;
                     yH += yh;
-                    putLineaDDA((int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), (int) xH, (int) yH, Color.RED);
                     break;
                 default:
                     System.out.println("Punto inválido");
                     break;
             }
 
-// Crear los puntos E, F, G y H con las nuevas coordenadas
+            // Crear los puntos E, F, G y H con las nuevas coordenadas
             Puntos puntoE = new Puntos((int) xE, (int) yE);
             Puntos puntoF = new Puntos((int) xF, (int) yF);
             Puntos puntoG = new Puntos((int) xG, (int) yG);
             Puntos puntoH = new Puntos((int) xH, (int) yH);
 
-// Crear el polígono con los nuevos puntos E, F, G y H
+            // Crear el polígono con los nuevos puntos E, F, G y H
             Puntos[] verticeslavahumo = {puntoE, puntoF, puntoG, puntoH};
             Poligono poligono = new Poligono(verticeslavahumo);
 
-// Agregar el polígono a la lista HumoOblicua
+            // Agregar el polígono a la lista HumoOblicua
             HumoOblicua.add(poligono);
-            RellenarPoligono(poligono, c, inicial, colorfinal, false);
+
+            if (Mostrar == true) {
+                int puntoAX = (int) (cordenadas2d[0][0] * escala);
+                int puntoAY = (int) (cordenadas2d[0][1] * escala);
+                int puntoBX = (int) (cordenadas2d[1][0] * escala);
+                int puntoBY = (int) (cordenadas2d[1][1] * escala);
+
+                int puntoCX = (int) (cordenadas2d[2][0] * escala);
+                int puntoCY = (int) (cordenadas2d[2][1] * escala);
+
+                int puntoDX = (int) (cordenadas2d[3][0] * escala);
+                int puntoDY = (int) (cordenadas2d[3][1] * escala);
+
+                int puntoEX = ((int) (cordenadas2d[4][0] * escala) + x);
+                int puntoEY = (int) ((int) (cordenadas2d[4][1] * escala) + y);
+
+                int puntoFX = (int) (cordenadas2d[5][0] * escala) + xf;
+                int puntoFY = (int) (cordenadas2d[5][1] * escala) + yf;
+
+                int puntoGX = (int) (cordenadas2d[6][0] * escala) + xg;
+                int puntoGY = (int) (cordenadas2d[6][1] * escala) + yg;
+
+                int puntoHX = (int) (cordenadas2d[7][0] * escala) + xh;
+                int puntoHY = (int) (cordenadas2d[7][1] * escala) + yh;
+
+                putLineaDDA(puntoAX, puntoAY, puntoBX, puntoBY, Color.RED); // A a B
+                putLineaDDA(puntoCX, puntoCY, puntoDX, puntoDY, Color.RED); // C a D
+                putLineaDDA(puntoAX, puntoAY, puntoCX, puntoCY, Color.RED); // A a C
+                putLineaDDA(puntoBX, puntoBY, puntoDX, puntoDY, Color.RED); // B a D
+                putLineaDDA(puntoAX, puntoAY, puntoEX, puntoEY, Color.RED); // A a E
+                putLineaDDA(puntoBX, puntoBY, puntoFX, puntoFY, Color.RED); // B a F
+                putLineaDDA(puntoCX, puntoCY, puntoGX, puntoGY, Color.RED); // C a G
+                putLineaDDA(puntoDX, puntoDY, puntoHX, puntoHY, Color.RED); // D a H
+                putLineaDDA(puntoEX, puntoEY, puntoFX, puntoFY, Color.RED); // E a F
+                putLineaDDA(puntoFX, puntoFY, puntoHX, puntoHY, Color.RED); // F a H
+                putLineaDDA(puntoHX, puntoHY, puntoGX, puntoGY, Color.RED); // H a G
+                putLineaDDA(puntoGX, puntoGY, puntoEX, puntoEY, Color.RED); // G a E
+
+                Puntos[] carafrontal = {new Puntos(puntoGX, puntoGY), new Puntos(puntoHX, puntoHY), new Puntos(puntoDX, puntoDY), new Puntos(puntoCX, puntoCY)}; //G,H,D,C
+                Puntos[] caralateralderecha = {new Puntos(puntoHX, puntoHY), new Puntos(puntoFX, puntoFY), new Puntos(puntoBX, puntoBY), new Puntos(puntoDX, puntoDY)}; //HFDB
+                Puntos[] caralateralizquierda = {new Puntos(puntoGX, puntoGY), new Puntos(puntoEX, puntoEY), new Puntos(puntoAX, puntoAY), new Puntos(puntoCX, puntoCY)}; //GEAC
+                Puntos[] piso = {new Puntos(puntoAX, puntoAY), new Puntos(puntoBX, puntoBY), new Puntos(puntoDX, puntoDY), new Puntos(puntoCX, puntoCY)}; //ABDC
+                Puntos[] trasera = {new Puntos(puntoEX, puntoEY), new Puntos(puntoFX, puntoFY), new Puntos(puntoBX, puntoBY), new Puntos(puntoAX, puntoAY)}; //EFBA
+                Puntos[] techo = {new Puntos(puntoEX, puntoEY), new Puntos(puntoFX, puntoFY), new Puntos(puntoHX, puntoHY), new Puntos(puntoGX, puntoGY)}; //EFGH
+
+                Poligono pcara4 = new Poligono(piso);
+                RellenarPoligono(pcara4, c, inicial, colorfinal, false);
+
+                Poligono traseras = new Poligono(trasera);
+                RellenarPoligono(traseras, c, inicial, colorfinal, false);
+
+                Poligono pcara1 = new Poligono(carafrontal);
+                RellenarPoligono(pcara1, c, inicial, colorfinal, false);
+
+                Poligono pcara2 = new Poligono(caralateralderecha);
+                RellenarPoligono(pcara2, c, new Color(217, 14, 1), new Color(239, 178, 15), false);
+
+                Poligono pcara3 = new Poligono(caralateralizquierda);
+                RellenarPoligono(pcara3, c, new Color(217, 14, 1), new Color(239, 178, 15), false);
+
+                Poligono techos = new Poligono(techo);
+                RellenarPoligono(techos, c, inicial, colorfinal, false);
+            }
+
             System.out.println(); // Agregar una línea en blanco después de imprimir los puntos
         }
     }
@@ -1036,7 +1089,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             }
 
             repaint();
-
+            int sacudida = -1;
             // Verificar la condición de detención
             if (yLava == 330) {
                 try {
@@ -1045,12 +1098,21 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                moverLava(posX, posY, 0, -1, Lava);
-
+                moverLava(posX, posY, 0, sacudida, Lava);
+                //EXPLOSION NUBE DE LAVA
+                sacudida = 8;
+                mostrarExplosion = true;
+                moverHumo(0, 0, -3, -2, 3, -2, -2, -3, -1, -2, HumoOblicua, new int[]{1, 2, 3, 4});
+                if(xHumoE==290){
+                    break;
+                }
             }
+
             if (yLava == 305) {
                 break;
+
             }
+
         }
     }
 
