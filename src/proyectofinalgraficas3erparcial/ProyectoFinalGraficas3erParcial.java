@@ -102,6 +102,52 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {428, 614, 200}, // Vértice T
         {498, 635, 200}, // Vértice U
     };
+    double[][] METEORITOPOLIGONAL2 = {
+        //X,Y,Z
+        {500, 700, 100}, // Vértice A
+        {700, 600, 100}, // Vértice B
+        {800, 550, 100}, // Vértice C
+        {900, 600, 100}, // Vértice D
+        {900, 500, 100}, // Vértice E
+        {1000, 450, 100}, // Vértice F
+        {900, 400, 100}, // Vértice G
+        {1000, 300, 100}, // Vértice H
+        {900, 300, 100}, // Vértice I
+        {900, 200, 100}, // Vértice J
+        {800, 200, 100}, // Vértice K
+        {700, 150, 100}, // Vértice L
+        {650, 220, 100}, // Vértice M
+        {570, 150, 100}, // Vértice N
+        {530, 225, 100}, // Vértice O
+        {420, 200, 100}, // Vértice P
+        {420, 345, 100}, // Vértice Q
+        {327, 423, 100}, // Vértice R
+        {448, 500, 100}, // Vértice S
+        {428, 614, 100}, // Vértice T
+        {498, 635, 100}, // Vértice U  21 VERTICES
+
+        {500, 700, 200}, // Vértice A
+        {700, 600, 200}, // Vértice B
+        {800, 550, 200}, // Vértice C
+        {900, 600, 200}, // Vértice D
+        {900, 500, 200}, // Vértice E
+        {1000, 450, 200}, // Vértice F
+        {900, 400, 200}, // Vértice G
+        {1000, 300, 200}, // Vértice H
+        {900, 300, 200}, // Vértice I
+        {900, 200, 200}, // Vértice J
+        {800, 200, 200}, // Vértice K
+        {700, 150, 200}, // Vértice L
+        {650, 220, 200}, // Vértice M
+        {570, 150, 200}, // Vértice N
+        {530, 225, 200}, // Vértice O
+        {420, 200, 200}, // Vértice P
+        {420, 345, 200}, // Vértice Q
+        {327, 423, 200}, // Vértice R
+        {448, 500, 200}, // Vértice S
+        {428, 614, 200}, // Vértice T
+        {498, 635, 200}, // Vértice U
+    };
     double[][] FuegoMeteoro = {
         //X,Y,Z
         {200, 400, 100}, // Vértice A
@@ -209,19 +255,39 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     List<Figura> VolcanOblicuo = new ArrayList<Figura>();
     List<Figura> FuegosMeteoroPoligonal1 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal1 = new ArrayList<Poligono>();
-    int xMeteoro1, xMeteoro2;
+    int xMeteoro1, yMeteoro1;
+    int xMeteoro2, yMeteoro2;
+
+    int xMeteoro3, yMeteoro3;
+    int xMeteoro4, yMeteoro4;
+
+    int xMeteoro5, yMeteoro5;
+    int xMeteoro6, yMeteoro6;
 
     List<Figura> FuegosMeteoroPoligonal2 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal2 = new ArrayList<Poligono>();
 
+    List<Figura> FuegosMeteoroPoligonal3 = new ArrayList<Figura>();
+    List<Poligono> MeteoroPoligonal3 = new ArrayList<Poligono>();
+
+    List<Figura> FuegosMeteoroPoligonal4 = new ArrayList<Figura>();
+    List<Poligono> MeteoroPoligonal4 = new ArrayList<Poligono>();
+
+    List<Figura> FuegosMeteoroPoligonal5 = new ArrayList<Figura>();
+    List<Poligono> MeteoroPoligonal5 = new ArrayList<Poligono>();
+
+    List<Figura> FuegosMeteoroPoligonal6 = new ArrayList<Figura>();
+    List<Poligono> MeteoroPoligonal6 = new ArrayList<Poligono>();
+
     List<Figura> LavaOrtogonal = new ArrayList<Figura>();
     List<Poligono> HumoOblicua = new ArrayList<Poligono>();
-    int xMeteoro12, yMeteoro22;
+
     int xLava, yLava;
     int xVolcan, yVolcan;
     int xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH;
     int cont = 0;
     boolean mostrarExplosion = false;
+    boolean mostrarMeteoros = false;
 
     ProyectoFinalGraficas3erParcial() {
         setTitle("Proyecto Final gráficas 3er Parcial, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
@@ -255,15 +321,15 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 imprimirPuntosYdibujarContorno(false);
                 ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16), new int[]{1, 2, 3, 4}, mostrarExplosion);
-                //DibujarRoca3D(true);
-                //ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
-                //ColocarMeteoro2(xMeteoro12, xMeteoro22, 7, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
+                ColocarMeteoro(xMeteoro1, yMeteoro1, 5, FuegosMeteoroPoligonal1, MeteoroPoligonal1, mostrarMeteoros);
+                ColocarMeteoro2(xMeteoro2, yMeteoro2, 5, FuegosMeteoroPoligonal2, MeteoroPoligonal2, mostrarMeteoros);
 
                 g.drawImage(buffer, 0, 0, null);
                 g.dispose();
 
                 System.out.println("CORDENADAS DE E: " + xHumoE);
                 System.out.println("CORDENADAS DE H: " + xHumoH);
+                System.out.println("Y DE METEORO 1: " + yMeteoro1);
             }
         };
 
@@ -280,20 +346,20 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
         Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
 
-        Thread mover = new Thread(() -> rotacion.moverMeteoro(10, 150, 1, 10, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
-        Thread mover2 = new Thread(() -> rotacion.moverMeteoro2(10, 150, 10, 5, rotacion.FuegosMeteoroPoligonal2, rotacion.MeteoroPoligonal2));
+        Thread mover = new Thread(() -> rotacion.moverMeteoro(40, 150, 0, 0, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
+        Thread mover2 = new Thread(() -> rotacion.moverMeteoro2(500, 190, 0, 0, rotacion.FuegosMeteoroPoligonal2, rotacion.MeteoroPoligonal2));
 
         Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
         Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
+        Thread moverHumo = new Thread(() -> rotacion.moverHumo(0, 0, -3, -2, 3, -2, -2, -3, -1, -2, rotacion.HumoOblicua, new int[]{1, 2, 3, 4}));
 
         Thread contador = new Thread(() -> {
-            try {
-                moverLava.start();
-                Thread.sleep(5000);
-                moverVolcan.start();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            moverLava.start();
+            moverVolcan.start();
+            moverHumo.start();
+            mover.start();
+            mover2.start();
+
         });
         contador.start();
     }
@@ -357,8 +423,18 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                         }
                     }
                 }
+                Thread.sleep(200);
 
-                Thread.sleep(100);
+                if (xHumoE >= -340 && yLava == 305) {;  // como es negativo, entonces es mayor o igual no menor, por que menor seria que el numero fuese tendiendo a numeros positivos
+                    mostrarExplosion = true;
+                    moverHumo(0, 0, -3, -2, 3, -2, -2, -2, 1, -2, HumoOblicua, new int[]{1, 2, 3, 4});
+
+                } else {
+
+                    moverHumo(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, HumoOblicua, new int[]{1, 2, 3, 4});
+
+                }
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -805,25 +881,13 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
     }
 
-    public void ColocarMeteoro2(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
+    public void ColocarMeteoro2(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro, Boolean mostrar) {
 
-        xMeteoro12 = x;
-        yMeteoro22 = y;
+        xMeteoro2 = x;
+        yMeteoro2 = y;
         double meteoroTamaño = 7;
 
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 80, y + 75, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 100, y + 100, 5, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 80, 6, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 115, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 125, y + 80, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 132, y + 77, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 132, y + 60, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 112, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 75, 5, 6, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 100, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
-
-        double[][] cord2d = ProyeccionOrtogonal(METEORITOPOLIGONAL);
+        double[][] cord2d = ProyeccionOrtogonal(METEORITOPOLIGONAL2);
 
         // Aplicar transformaciones de posición (x, y) y tamaño inverso a los puntos en 2D
         for (int i = 0; i < cord2d.length; i++) {
@@ -839,34 +903,35 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             int index = indices[i];
             vertices[i] = new Puntos((int) cord2d[index][0], (int) cord2d[index][1]);
         }
-
         Poligono poligono = new Poligono(vertices);
+        if (mostrar == true) {
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 80, y + 75, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 100, y + 100, 5, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 80, 6, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 115, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 125, y + 80, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 132, y + 77, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 132, y + 60, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 112, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 75, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 110, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal2, x + 100, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+            Color colorBorde = Color.BLACK;
+            Color colorRellenoInicial = new Color(37, 37, 37);
+            Color colorRellenoFinal = new Color(105, 65, 44);
+
+            RellenarPoligono(poligono, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
+        }
 
         MeteoroPoligonal2.add(poligono);
-        Color colorBorde = Color.BLACK;
-        Color colorRellenoInicial = new Color(37, 37, 37);
-        Color colorRellenoFinal = new Color(105, 65, 44);
 
-        RellenarPoligono(poligono, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
     }
 
-    public void ColocarMeteoro(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro) {
+    public void ColocarMeteoro(int x, int y, double tamaño, List<Figura> FuegosMeteoro, List<Poligono> CuerpoMeteoro, Boolean mostrar) {
 
         xMeteoro1 = x;
-        xMeteoro2 = y;
+        yMeteoro2 = y;
         double meteoroTamaño = 7;
-
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 80, y + 75, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 100, y + 100, 5, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 80, 6, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 115, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 125, y + 80, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 132, y + 77, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 132, y + 60, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 112, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 75, 5, 6, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
-        FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 100, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
 
         double[][] cord2d = ProyeccionOrtogonal(METEORITOPOLIGONAL);
 
@@ -884,15 +949,29 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             int index = indices[i];
             vertices[i] = new Puntos((int) cord2d[index][0], (int) cord2d[index][1]);
         }
-
         Poligono poligono = new Poligono(vertices);
+        if (mostrar == true) {
+
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 80, y + 75, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 100, y + 100, 5, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 80, 6, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 115, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 125, y + 80, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 132, y + 77, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 132, y + 60, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 112, y + 70, 7, 4, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 75, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+            FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 100, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
+            Color colorBorde = Color.BLACK;
+            Color colorRellenoInicial = new Color(37, 37, 37);
+            Color colorRellenoFinal = new Color(105, 65, 44);
+
+            RellenarPoligono(poligono, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
+        }
 
         MeteoroPoligonal1.add(poligono);
-        Color colorBorde = Color.BLACK;
-        Color colorRellenoInicial = new Color(37, 37, 37);
-        Color colorRellenoFinal = new Color(105, 65, 44);
 
-        RellenarPoligono(poligono, colorBorde, colorRellenoInicial, colorRellenoFinal, false);
     }
 
     public void FuegoOrtogonal(List<Figura> Objeto, int x, int y, double tamaño, double ancho, Color c, Color inicial, Color colorfinal) {
@@ -933,16 +1012,16 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 };
 
                 // Actualizar las coordenadas del meteoro
-                if (xMeteoro12 == 0 && yMeteoro22 == 0) {
-                    xMeteoro12 = posX + desplazamientoX;
-                    yMeteoro22 = posY + desplazamientoY;
+                if (xMeteoro2 == 0 && yMeteoro2 == 0) {
+                    xMeteoro2 = posX + desplazamientoX;
+                    yMeteoro2 = posY + desplazamientoY;
                 } else {
-                    xMeteoro12 += desplazamientoX;
-                    yMeteoro22 += desplazamientoY;
+                    xMeteoro2 += desplazamientoX;
+                    yMeteoro2 += desplazamientoY;
                 }
 
                 // Recorrer la lista de figuras de fuego del meteoro y actualizar sus coordenadas
-                List<Figura> copiaFuegosMeteoro = new ArrayList<>(FuegosMeteoroPoligonal2);
+                List<Figura> copiaFuegosMeteoro = new ArrayList<>(FuegosMeteoro);
                 for (Figura fuego : copiaFuegosMeteoro) {
                     double[][] puntos = {
                         {fuego.getX()[0], fuego.getX()[1], fuego.getX()[2], fuego.getX()[3]}, // coordenadas x de los vértices
@@ -953,7 +1032,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                     fuego.setX(puntosTransformados[0]);
                     fuego.setY(puntosTransformados[1]);
                 }
-                List<Poligono> copiaCuerpoMeteoro = new ArrayList<>(MeteoroPoligonal2);
+                List<Poligono> copiaCuerpoMeteoro = new ArrayList<>(CuerpoMeteoro);
                 // Recorrer la lista de polígonos del meteoro y actualizar sus coordenadas
                 for (Poligono poligono : copiaCuerpoMeteoro) {
                     double[][] puntos = new double[3][poligono.getVertices().length];
@@ -972,6 +1051,18 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            if (xHumoE <= -340) {;  // como es negativo, entonces es mayor o igual no menor, por que menor seria que el numero fuese tendiendo a numeros positivos
+                mostrarMeteoros = true;
+                moverMeteoro(500, 90, 0, 10, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
+                moverMeteoro2(500, 90, 0, 10, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
+
+                if (yMeteoro1 == 700) {
+                    mostrarMeteoros = false;
+                    moverMeteoro(500, 90, 0, 0, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
+                    moverMeteoro2(500, 90, 0, 0, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
+                }
+
             }
 
             repaint();
@@ -1101,11 +1192,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 moverLava(posX, posY, 0, sacudida, Lava);
                 //EXPLOSION NUBE DE LAVA
                 sacudida = 8;
-                mostrarExplosion = true;
-                moverHumo(0, 0, -3, -2, 3, -2, -2, -3, -1, -2, HumoOblicua, new int[]{1, 2, 3, 4});
-                if(xHumoE==290){
-                    break;
-                }
+
             }
 
             if (yLava == 305) {
@@ -1127,16 +1214,16 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 };
 
                 // Actualizar las coordenadas del meteoro
-                if (xMeteoro1 == 0 && xMeteoro2 == 0) {
+                if (xMeteoro1 == 0 && yMeteoro1 == 0) {
                     xMeteoro1 = posX + desplazamientoX;
-                    xMeteoro2 = posY + desplazamientoY;
+                    yMeteoro1 = posY + desplazamientoY;
                 } else {
                     xMeteoro1 += desplazamientoX;
-                    xMeteoro2 += desplazamientoY;
+                    yMeteoro1 += desplazamientoY;
                 }
 
                 // Recorrer la lista de figuras de fuego del meteoro y actualizar sus coordenadas
-                List<Figura> copiaFuegosMeteoro = new ArrayList<>(FuegosMeteoroPoligonal1);
+                List<Figura> copiaFuegosMeteoro = new ArrayList<>(FuegosMeteoro);
                 for (Figura fuego : copiaFuegosMeteoro) {
                     double[][] puntos = {
                         {fuego.getX()[0], fuego.getX()[1], fuego.getX()[2], fuego.getX()[3]}, // coordenadas x de los vértices
@@ -1147,7 +1234,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                     fuego.setX(puntosTransformados[0]);
                     fuego.setY(puntosTransformados[1]);
                 }
-                List<Poligono> copiaCuerpoMeteoro = new ArrayList<>(MeteoroPoligonal1);
+                List<Poligono> copiaCuerpoMeteoro = new ArrayList<>(CuerpoMeteoro);
                 // Recorrer la lista de polígonos del meteoro y actualizar sus coordenadas
                 for (Poligono poligono : copiaCuerpoMeteoro) {
                     double[][] puntos = new double[3][poligono.getVertices().length];
