@@ -276,7 +276,7 @@ public class PerfilFragment extends Fragment {
                     Timestamp fechaInicioTimestamp = (Timestamp) fechas.get("fechaInicio");
                     Timestamp fechaFinalTimestamp = (Timestamp) fechas.get("fechaFinal");
                     String tipoMembresia = (String) fechas.get("tipo");
-                    Toast.makeText(getContext(), "TIPOMEMBRE " + tipoMembresia, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "TIPOMEMBRE " + tipoMembresia, Toast.LENGTH_SHORT).show();
 
                     // Convertir los timestamps a objetos Date
                     Date fechaInicio = fechaInicioTimestamp.toDate();

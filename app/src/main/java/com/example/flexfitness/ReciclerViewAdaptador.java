@@ -4,10 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -33,6 +37,13 @@ public class ReciclerViewAdaptador extends RecyclerView.Adapter<ReciclerViewAdap
     public void onBindViewHolder(@NonNull ReciclerViewAdaptador.MyViewHolder holder, int position) {
         holder.txtTitulo.setText(arrayEjercicios.get(position).getTitulo());
         holder.txtDesc.setText(arrayEjercicios.get(position).getDesc());
+
+        String vid = this.arrayEjercicios.get(position).getVideo();
+        int resourceId = this.context.getResources().getIdentifier(vid, "raw", this.context.getPackageName());
+        Toast.makeText(context, "nombreVid: " + vid + " id: " + resourceId, Toast.LENGTH_SHORT).show();
+
+        Glide.with(this.context).load(resourceId).into(holder.imgGif);
+
     }//onBindViewHolder
 
     @Override
@@ -43,12 +54,14 @@ public class ReciclerViewAdaptador extends RecyclerView.Adapter<ReciclerViewAdap
     //Constructor del ReciclerView
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView txtTitulo, txtDesc;
+        ImageView imgGif;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtDesc = itemView.findViewById(R.id.txtDescEjercicio);
             txtTitulo = itemView.findViewById(R.id.txtTituloEjercicio);
+            imgGif = itemView.findViewById(R.id.imgGif);
         }
     }//MyViewHolder
 

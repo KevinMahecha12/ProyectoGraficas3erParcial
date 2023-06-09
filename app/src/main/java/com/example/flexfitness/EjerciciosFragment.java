@@ -31,6 +31,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,6 +120,7 @@ public class EjerciciosFragment extends Fragment {
                 txtDia.setText("¡Hoy es Jueves!");
                 txtToca.setText("¡Dia de Pecho y Bicep!");
                 //Aqui definimos los ejercicios
+                ejerciciosJueves(root);
                 break;
             case Calendar.FRIDAY:
                 txtDia.setText("¡Hoy es Viernes!");
@@ -145,7 +148,7 @@ public class EjerciciosFragment extends Fragment {
     }//onCreateView
 
     public void ejerciciosLunesViernes(View root){
-        DocumentReference docRef = docRutinas.document("espalda");
+        DocumentReference docRef = docRutinas.document("pierna");
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -170,16 +173,11 @@ public class EjerciciosFragment extends Fragment {
                         //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
                         arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
 
-                        Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     //Log.d("TAG", "El documento no contiene el campo 'ejercicios'");
                     Toast.makeText(getContext(), "El documento no contiene el campo 'ejercicios'", Toast.LENGTH_SHORT).show();
-                }
-
-                for (ClaseEjercicio ejercicio : arrayEjercicios){
-                    Toast.makeText(getContext(), "Ejercicio: " + ejercicio.titulo + " video: " + ejercicio.desc, Toast.LENGTH_SHORT).show();
-
                 }
 
                 ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
@@ -196,8 +194,83 @@ public class EjerciciosFragment extends Fragment {
         });
     }//ejerciciosLunes
 
-    public void ejerciciosMartes(){
+    public void ejerciciosMartes(View root){
+        DocumentReference docRefHombro = docRutinas.document("hombro");
+        DocumentReference docRefTricep = docRutinas.document("tricep");
+        ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
+        RecyclerView recycler = root.findViewById(R.id.recycler);
 
+        docRefHombro.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                // Seleccionar aleatoriamente 3 ejercicios
+                Collections.shuffle(ejerciciosList);
+                List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+
+                // Utilizar los ejercicios aleatorios como desees
+                for (String ejercicio : ejerciciosAleatorios) {
+                    Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                    String video = (String) ejercicioMap.get("video");
+                    String desc = (String) ejercicioMap.get("desc");
+
+                    //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                    arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                    //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                }
+
+                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                recycler.setAdapter(adaptador);
+                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            }//onSuccess
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
+                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }//onFailure
+        });
+
+        docRefTricep.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                // Seleccionar aleatoriamente 3 ejercicios
+                Collections.shuffle(ejerciciosList);
+                List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+
+                // Utilizar los ejercicios aleatorios como desees
+                for (String ejercicio : ejerciciosAleatorios) {
+                    Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                    String video = (String) ejercicioMap.get("video");
+                    String desc = (String) ejercicioMap.get("desc");
+
+                    //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                    arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                    //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                }
+
+                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                recycler.setAdapter(adaptador);
+                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            }//onSuccess
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
+                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }//onFailure
+        });
     }//ejerciciosMartes
 
     public void ejerciciosMiercoles(View root){
@@ -226,17 +299,12 @@ public class EjerciciosFragment extends Fragment {
                             //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
                             arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
 
-                            Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         //Log.d("TAG", "El documento no contiene el campo 'ejercicios'");
                         Toast.makeText(getContext(), "El documento no contiene el campo 'ejercicios'", Toast.LENGTH_SHORT).show();
                     }
-
-                for (ClaseEjercicio ejercicio : arrayEjercicios){
-                    Toast.makeText(getContext(), "Ejercicio: " + ejercicio.titulo + " video: " + ejercicio.desc, Toast.LENGTH_SHORT).show();
-
-                }
 
                 ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
                 recycler.setAdapter(adaptador);
@@ -253,12 +321,86 @@ public class EjerciciosFragment extends Fragment {
 
     }//ejerciciosMiercoles
 
-    public void ejerciciosJueves(){
+    public void ejerciciosJueves(View root){
+        DocumentReference docRefPecho = docRutinas.document("pecho");
+        DocumentReference docRefBicep = docRutinas.document("bicep");
+        ArrayList<ClaseEjercicio> arrayEjercicios = new ArrayList<>();
+        RecyclerView recycler = root.findViewById(R.id.recycler);
+
+        docRefPecho.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                    Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                    List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                    // Seleccionar aleatoriamente 3 ejercicios
+                    Collections.shuffle(ejerciciosList);
+                    List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+
+                    // Utilizar los ejercicios aleatorios como desees
+                    for (String ejercicio : ejerciciosAleatorios) {
+                        Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                        String video = (String) ejercicioMap.get("video");
+                        String desc = (String) ejercicioMap.get("desc");
+
+                        //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                        arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                        //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                    }
+
+                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                recycler.setAdapter(adaptador);
+                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            }//onSuccess
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
+                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }//onFailure
+        });
+
+        docRefBicep.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                Map<String, Object> ejerciciosMap = (Map<String, Object>) documentSnapshot.getData().get("ejercicios");
+                List<String> ejerciciosList = new ArrayList<>(ejerciciosMap.keySet());
+
+                // Seleccionar aleatoriamente 3 ejercicios
+                Collections.shuffle(ejerciciosList);
+                List<String> ejerciciosAleatorios = ejerciciosList.subList(0, 3);
+
+                // Utilizar los ejercicios aleatorios como desees
+                for (String ejercicio : ejerciciosAleatorios) {
+                    Map<String, Object> ejercicioMap = (Map<String, Object>) ejerciciosMap.get(ejercicio);
+                    String video = (String) ejercicioMap.get("video");
+                    String desc = (String) ejercicioMap.get("desc");
+
+                    //ClaseEjercicio ej = new ClaseEjercicio(ejercicio, desc, video);
+                    arrayEjercicios.add(new ClaseEjercicio(ejercicio, desc, video));
+
+                    //Toast.makeText(getContext(), "Ejercicio aleatorio: " + ejercicio + " video: " + desc, Toast.LENGTH_SHORT).show();
+                }
+
+                ReciclerViewAdaptador adaptador = new ReciclerViewAdaptador(getContext(), arrayEjercicios);
+                recycler.setAdapter(adaptador);
+                recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            }//onSuccess
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Log.d("TAG", "Error al obtener el documento: " + e.getMessage());
+                Toast.makeText(getContext(), "Error al obtener el documento: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }//onFailure
+        });
+
 
     }//ejerciciosJueves
 
-    public void ejerciciosViernes(){
-
-    }//ejerciciosViernes
 
 }//EjerciciosFragment
