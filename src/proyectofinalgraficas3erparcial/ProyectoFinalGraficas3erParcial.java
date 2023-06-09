@@ -254,7 +254,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ArbolOrtogonal1(460, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 imprimirPuntosYdibujarContorno(false);
-                ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16), new int[]{1, 2});
+                ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF,xHumoG,yHumoG,xHumoH,yHumoH, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16), new int[]{1, 2,3,4});
                 //DibujarRoca3D(true);
                 //ColocarMeteoro(xMeteoro1, xMeteoro2, 7, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
                 //ColocarMeteoro2(xMeteoro12, xMeteoro22, 7, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
@@ -282,7 +282,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
         Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
         Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
-        Thread expanderhumo = new Thread(() -> rotacion.moverHumo(0, 0, -1, -1, 2, -2, rotacion.HumoOblicua, new int[]{1, 2}));
+        Thread expanderhumo = new Thread(() -> rotacion.moverHumo(0, 0, 0, 0, 0, 0,0,0,0,0, rotacion.HumoOblicua, new int[]{1, 2,3,4}));
         expanderhumo.start();
         Thread contador = new Thread(() -> {
             try {
@@ -296,7 +296,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         contador.start();
     }
 
-    public void moverHumo(int posX, int posY, int desplazamientoX1, int desplazamientoY1, int desplazamientoX2, int desplazamientoY2, List<Poligono> Humo, int[] puntosAMover) {
+    public void moverHumo(int posX, int posY, int desplazamientoX1, int desplazamientoY1, int desplazamientoX2, int desplazamientoY2,  int desplazamientoX3, int desplazamientoY3,int desplazamientoX4, int desplazamientoY4,List<Poligono> Humo, int[] puntosAMover) {
         while (true) {
             try {
                 // Actualizar las coordenadas del humo
@@ -315,6 +315,22 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                     xHumoF += desplazamientoX2;
                     yHumoF += desplazamientoY2;
                 }
+                
+                 if (xHumoG == 0 && yHumoG == 0) {
+                    xHumoG = posX + desplazamientoX3;
+                    yHumoG = posY + desplazamientoY3;
+                } else {
+                    xHumoG += desplazamientoX3;
+                    yHumoG += desplazamientoY3;
+                }
+                 
+                  if (xHumoH == 0 && yHumoH == 0) {
+                    xHumoH = posX + desplazamientoX4;
+                    yHumoH = posY + desplazamientoY4;
+                } else {
+                    xHumoH += desplazamientoX4;
+                    yHumoH += desplazamientoY4;
+                }
 
                 // Recorrer la lista de polígonos del humo y actualizar las coordenadas de los puntos seleccionados
                 for (Poligono poligono : Humo) {
@@ -329,13 +345,15 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                             } else if (punto == 2) { // Mover punto F
                                 puntos[5].setposX(puntos[5].getposX() + desplazamientoX2);
                                 puntos[5].setposY(puntos[5].getposY() + desplazamientoY2);
-                            } else { // No mover otros puntos
-                                System.out.println("El valor del punto a mover es inválido");
+                            } else if (punto == 3) { // Mover punto G
+                                puntos[6].setposX(puntos[6].getposX() + desplazamientoX3);
+                                puntos[6].setposY(puntos[6].getposY() + desplazamientoY3);
+                            }else if (punto == 4) { // Mover punto H
+                                puntos[7].setposX(puntos[7].getposX() + desplazamientoX4);
+                                puntos[7].setposY(puntos[7].getposY() + desplazamientoY4);
                             }
                         }
-                    } else {
-                        System.out.println("El polígono del humo no tiene suficientes puntos");
-                    }
+                    } 
                 }
 
                 Thread.sleep(100);
@@ -347,11 +365,15 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         }
     }
 
-    public void ColocarHumo(int x, int y, int xf, int yf, double tamaño, Color c, Color inicial, Color colorfinal, int[] puntosAMover) {
+    public void ColocarHumo(int x, int y, int xf, int yf, int xg, int yg,int xh, int yh, double tamaño, Color c, Color inicial, Color colorfinal, int[] puntosAMover) {
         xHumoE = x;
         yHumoE = y;
         xHumoF = xf;
         yHumoF = yf;
+        xHumoG = xg;
+        yHumoG = yg;
+        xHumoH = xh;
+        yHumoH = yh;
         double xp = 4;
         double yp = 6;
         double zp = 3;
@@ -401,13 +423,13 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                     putLineaDDA((int) (cordenadas2d[1][0] * escala), (int) (cordenadas2d[1][1] * escala), (int) xF, (int) yF, Color.RED);
                     break;
                 case 3: // Mover el punto G
-                    xG += x;
-                    yG += y;
+                    xG += xg;
+                    yG += yg;
                     putLineaDDA((int) (cordenadas2d[2][0] * escala), (int) (cordenadas2d[2][1] * escala), (int) xG, (int) yG, Color.RED);
                     break;
                 case 4: // Mover el punto H
-                    xH += x;
-                    yH += y;
+                    xH += xh;
+                    yH += yh;
                     putLineaDDA((int) (cordenadas2d[3][0] * escala), (int) (cordenadas2d[3][1] * escala), (int) xH, (int) yH, Color.RED);
                     break;
                 default:
