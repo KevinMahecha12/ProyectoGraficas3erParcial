@@ -298,17 +298,18 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {188, 100, 100}, // G
         {86, 120, 100} // H
     };
-    
-        double[][] cuadrado = {
-        {100, 130, 100}, // Vértice A
+
+    double[][] ceniza = {
+       {100, 130, 100}, // Vértice A
         {200, 130, 100}, // Vértice B
         {200, 180, 100}, // Vértice C
-        {100, 180, 100}, // Vértice D
-        {100, 100, 120}, // Vértice E
-        {200, 100, 120}, // Vértice F
+        {120, 180, 100}, // Vértice D
+        {100, 120, 120}, // Vértice E
+        {140, 100, 120}, // Vértice F
         {200, 200, 120}, // Vértice G
         {100, 200, 120} // Vértice H
     };
+
     List<Figura> VolcanOblicuo = new ArrayList<Figura>();
     List<Figura> FuegosMeteoroPoligonal1 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal1 = new ArrayList<Poligono>();
@@ -339,12 +340,41 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     List<Figura> LavaOrtogonal = new ArrayList<Figura>();
     List<Poligono> HumoOblicua = new ArrayList<Poligono>();
 
+    List<Figura> CenizaOblicua = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua1 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua2 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua3 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua4 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua5 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua6 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua7 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua8 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua9 = new ArrayList<Figura>();
+    List<Figura> CenizaOblicua10 = new ArrayList<Figura>();
+
+    int xCeniza, yCeniza;
+    int xCeniza1, yCeniza1;
+    int xCeniza2, yCeniza2;
+    int xCeniza3, yCeniza3;
+    int xCeniza4, yCeniza4;
+    int xCeniza5, yCeniza5;
+    int xCeniza6, yCeniza6;
+    int xCeniza7, yCeniza7;
+    int xCeniza8, yCeniza8;
+    int xCeniza9, yCeniza9;
+    int xCeniza10, yCeniza10;
+
     int xLava, yLava;
     int xVolcan, yVolcan;
     int xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH;
     int cont = 0;
+
     boolean mostrarExplosion = false;
     boolean mostrarMeteoros = false;
+    boolean mostrarCenizas = false;
+    Color colorInicialHumo;
+    Color colorFinalHumo;
+    int tamañoc=1;
 
     ProyectoFinalGraficas3erParcial() {
         setTitle("Proyecto Final gráficas 3er Parcial, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
@@ -376,10 +406,21 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 ArbolOrtogonal1(350, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(460, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
-                imprimirPuntosYdibujarContorno(false);
-                ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH, 1, Color.white, new Color(217, 14, 1), new Color(254, 102, 16), new int[]{1, 2, 3, 4}, mostrarExplosion);
 
                 try {
+                    imprimirPuntosYdibujarContorno(false);
+                    ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH, 1, colorInicialHumo, colorInicialHumo, colorFinalHumo, new int[]{1, 2, 3, 4}, mostrarExplosion);
+                    ColocarCeniza(xCeniza, yCeniza, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza2(xCeniza2, yCeniza2, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza3(xCeniza3, yCeniza3, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza4(xCeniza4, yCeniza4, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza5(xCeniza5, yCeniza5, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza6(xCeniza6, yCeniza6, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza7(xCeniza7, yCeniza7, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza8(xCeniza8, yCeniza8, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza9(xCeniza9, yCeniza9, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+                    ColocarCeniza10(xCeniza10, yCeniza10, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
+
                     ColocarMeteoro(xMeteoro1, yMeteoro1, 5, FuegosMeteoroPoligonal1, MeteoroPoligonal1, mostrarMeteoros);
                     ColocarMeteoro2(xMeteoro2, yMeteoro2, 5, FuegosMeteoroPoligonal2, MeteoroPoligonal2, mostrarMeteoros);
                     ColocarMeteoro3(xMeteoro3, yMeteoro3, 5, FuegosMeteoroPoligonal3, MeteoroPoligonal3, mostrarMeteoros);
@@ -390,7 +431,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 } catch (ArrayIndexOutOfBoundsException e) {
                     // Acciones a realizar cuando se produce la excepción
 
-                    System.out.println("Los meteoros han salido de la pantalla!");
+                    System.out.println("Los elementos han salido de la pantalla!");
                     // Otras acciones o manipulación de la excepción según tus necesidades
                 }
 
@@ -411,9 +452,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
         ProyectoFinalGraficas3erParcial rotacion = new ProyectoFinalGraficas3erParcial();
 
-        Thread rotar = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 1));
-        Thread rotar2 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 2));
-        Thread rotar3 = new Thread(() -> rotacion.rotacion(rotacion.Cuadrado, 45, 3));
+        Thread rotar1 = new Thread(() -> rotacion.rotacion(rotacion.ceniza, 45, 3));
 
         try {
             Thread mover = new Thread(() -> rotacion.moverMeteoro(40, 150, 0, 0, rotacion.FuegosMeteoroPoligonal1, rotacion.MeteoroPoligonal1));
@@ -424,10 +463,33 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             Thread mover6 = new Thread(() -> rotacion.moverMeteoro6(800, 120, 0, 0, rotacion.FuegosMeteoroPoligonal6, rotacion.MeteoroPoligonal6));
             Thread moverLava = new Thread(() -> rotacion.moverLava(400, 400, 0, -1, rotacion.LavaOrtogonal));
             Thread moverVolcan = new Thread(() -> rotacion.moverVolcan(0, 0, 0, 0, rotacion.VolcanOblicuo));
+            Thread moverCeniza = new Thread(() -> rotacion.moverCeniza(-380, -200, 0, 0, rotacion.CenizaOblicua));
+            Thread moverCeniza2 = new Thread(() -> rotacion.moverCeniza2(-230, -160, 0, 0, rotacion.CenizaOblicua2));
+            Thread moverCeniza3 = new Thread(() -> rotacion.moverCeniza3(-80, -230, 0, 0, rotacion.CenizaOblicua3));
+            Thread moverCeniza4 = new Thread(() -> rotacion.moverCeniza4(10, -200, 0, 0, rotacion.CenizaOblicua4));
+            Thread moverCeniza5 = new Thread(() -> rotacion.moverCeniza5(170, -200, 0, 0, rotacion.CenizaOblicua5));
+            Thread moverCeniza6 = new Thread(() -> rotacion.moverCeniza6(250, -130, 0, 0, rotacion.CenizaOblicua6));
+            Thread moverCeniza7 = new Thread(() -> rotacion.moverCeniza7(340, -160, 0, 0, rotacion.CenizaOblicua7));
+            Thread moverCeniza8 = new Thread(() -> rotacion.moverCeniza8(420, -200, 0, 0, rotacion.CenizaOblicua8));
+            Thread moverCeniza9 = new Thread(() -> rotacion.moverCeniza9(-350, -110, 0, 0, rotacion.CenizaOblicua9));
+            Thread moverCeniza10 = new Thread(() -> rotacion.moverCeniza10(-120, -70, 0, 0, rotacion.CenizaOblicua10));
+
             Thread moverHumo = new Thread(() -> rotacion.moverHumo(0, 0, -3, -2, 3, -2, -2, -3, -1, -2, rotacion.HumoOblicua, new int[]{1, 2, 3, 4}));
 
             Thread contador = new Thread(() -> {
                 try {
+                    rotar1.start();
+                    moverCeniza.start();
+                    moverCeniza2.start();
+                    moverCeniza3.start();
+                    moverCeniza4.start();
+                    moverCeniza5.start();
+                    moverCeniza6.start();
+                    moverCeniza7.start();
+                    moverCeniza8.start();
+                    moverCeniza9.start();
+                    moverCeniza10.start();
+
                     moverLava.start();
                     Thread.sleep(5000);
                     moverVolcan.start();
@@ -450,6 +512,1445 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             // Otras acciones o manipulación de la excepción según tus necesidades
         }
 
+    }
+
+    public void moverCeniza10(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza10 == 0 && yCeniza10 == 0) {
+                    xCeniza10 = posX + desplazamientoX;
+                    yCeniza10 = posY + desplazamientoY;
+                } else {
+                    xCeniza10 += desplazamientoX;
+                    yCeniza10 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                    try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza10(-120, -70, 0, 5, CenizaOblicua10);
+                
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+    }
+
+    public void moverCeniza9(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza9 == 0 && yCeniza9 == 0) {
+                    xCeniza9 = posX + desplazamientoX;
+                    yCeniza9 = posY + desplazamientoY;
+                } else {
+                    xCeniza9 += desplazamientoX;
+                    yCeniza9 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                     try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza9(-350, -110, 0, 5, CenizaOblicua9);
+                
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+    }
+
+    public void moverCeniza8(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza8 == 0 && yCeniza8 == 0) {
+                    xCeniza8 = posX + desplazamientoX;
+                    yCeniza8 = posY + desplazamientoY;
+                } else {
+                    xCeniza8 += desplazamientoX;
+                    yCeniza8 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                   try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza8(420, -200, 0, 5, CenizaOblicua8);
+                
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            
+            repaint();
+        }
+    }
+
+    public void moverCeniza7(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza7 == 0 && yCeniza7 == 0) {
+                    xCeniza7 = posX + desplazamientoX;
+                    yCeniza7 = posY + desplazamientoY;
+                } else {
+                    xCeniza7 += desplazamientoX;
+                    yCeniza7 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                  try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza7(340, -160, 0, 5, CenizaOblicua7);
+          
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+            }
+           
+            repaint();
+        }
+    }
+
+    public void moverCeniza6(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza6 == 0 && yCeniza6 == 0) {
+                    xCeniza6 = posX + desplazamientoX;
+                    yCeniza6 = posY + desplazamientoY;
+                } else {
+                    xCeniza6 += desplazamientoX;
+                    yCeniza6 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                      try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza6(250, -130, 0, 5, CenizaOblicua6);
+
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+    }
+
+    public void moverCeniza5(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza5 == 0 && yCeniza5 == 0) {
+                    xCeniza5 = posX + desplazamientoX;
+                    yCeniza5 = posY + desplazamientoY;
+                } else {
+                    xCeniza5 += desplazamientoX;
+                    yCeniza5 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                      try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza5(170, -200, 0, 5, CenizaOblicua5);
+
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+    }
+
+    public void moverCeniza4(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza4 == 0 && yCeniza4 == 0) {
+                    xCeniza4 = posX + desplazamientoX;
+                    yCeniza4 = posY + desplazamientoY;
+                } else {
+                    xCeniza4 += desplazamientoX;
+                    yCeniza4 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza4(10, -200, 0, 5, CenizaOblicua4);
+    
+                
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+    }
+
+    public void moverCeniza3(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza3 == 0 && yCeniza3 == 0) {
+                    xCeniza3 = posX + desplazamientoX;
+                    yCeniza3 = posY + desplazamientoY;
+                } else {
+                    xCeniza3 += desplazamientoX;
+                    yCeniza3 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                    try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza3(-80, -230, 0, 5, CenizaOblicua3);
+
+                
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+        
+    }
+
+    public void moverCeniza2(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza2 == 0 && yCeniza2 == 0) {
+                    xCeniza2 = posX + desplazamientoX;
+                    yCeniza2 = posY + desplazamientoY;
+                } else {
+                    xCeniza2 += desplazamientoX;
+                    yCeniza2 += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+                        if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                     try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+                moverCeniza2(-230, -160, 0, 5, CenizaOblicua2);
+
+                
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+    }
+
+    public void moverCeniza(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
+
+        while (true) {
+            try {
+                // Construir la matriz de transformación de traslación
+                double[][] matrizTranslacion = {
+                    {1, 0, desplazamientoX},
+                    {0, 1, desplazamientoY},
+                    {0, 0, 1}
+                };
+                // Actualizar las coordenadas de la lava
+                if (xCeniza == 0 && yCeniza == 0) {
+                    xCeniza = posX + desplazamientoX;
+                    yCeniza = posY + desplazamientoY;
+                } else {
+                    xCeniza += desplazamientoX;
+                    yCeniza += desplazamientoY;
+                }
+                // Recorrer la lista de figuras de lava y actualizar sus coordenadas
+                List<Figura> copiaVolcan = new ArrayList<>(Ceniza);
+                for (Figura ceniza : copiaVolcan) {
+                    double[][] puntos = {
+                        {ceniza.obtenerPT1().getposX(), ceniza.obtenerPT2().getposX(), ceniza.obtenerPT3().getposX(), ceniza.obtenerPT4().getposX()}, // coordenadas x de los vértices
+                        {ceniza.obtenerPT1().getposY(), ceniza.obtenerPT2().getposY(), ceniza.obtenerPT3().getposY(), ceniza.obtenerPT4().getposY()}, // coordenadas y de los vértices
+                        {1, 1, 1, 1} // coordenada homogénea de cada vértice
+                    };
+
+                    // Aplicar la transformación de traslación
+                    double[][] puntosTranslacion = matrizPorPuntos(matrizTranslacion, puntos);
+
+                    // Actualizar las coordenadas de la figura de lava
+                    ceniza.obtenerPT1().setposX((int) puntosTranslacion[0][0]);
+                    ceniza.obtenerPT2().setposX((int) puntosTranslacion[0][1]);
+                    ceniza.obtenerPT3().setposX((int) puntosTranslacion[0][2]);
+                    ceniza.obtenerPT4().setposX((int) puntosTranslacion[0][3]);
+                    ceniza.obtenerPT1().setposY((int) puntosTranslacion[1][0]);
+                    ceniza.obtenerPT2().setposY((int) puntosTranslacion[1][1]);
+                    ceniza.obtenerPT3().setposY((int) puntosTranslacion[1][2]);
+                    ceniza.obtenerPT4().setposY((int) puntosTranslacion[1][3]);
+                }
+                Thread.sleep(200);
+
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (yMeteoro1 >= 800) {
+                // Salir del bucle si tamañoc es igual o mayor a 20
+                if (tamañoc < 26) {
+                                      try {
+                        Thread.sleep(1200);
+                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                mostrarCenizas = true;
+
+                moverCeniza(-380, -200, 0, 5, CenizaOblicua);
+
+                
+                colorInicialHumo = Color.gray;
+                colorFinalHumo = Color.gray;
+
+            }
+            repaint();
+        }
+    }
+
+    public void ColocarCeniza10(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua10.add(cuadradoTrasero);
+        CenizaOblicua10.add(cuadradoFrontal);
+        CenizaOblicua10.add(cuadradoLateralIzquierdo);
+        CenizaOblicua10.add(cuadradoLateralDerecho);
+        CenizaOblicua10.add(cuadradoSuperiorTecho);
+        CenizaOblicua10.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza9(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua9.add(cuadradoTrasero);
+        CenizaOblicua9.add(cuadradoFrontal);
+        CenizaOblicua9.add(cuadradoLateralIzquierdo);
+        CenizaOblicua9.add(cuadradoLateralDerecho);
+        CenizaOblicua9.add(cuadradoSuperiorTecho);
+        CenizaOblicua9.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza8(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua8.add(cuadradoTrasero);
+        CenizaOblicua8.add(cuadradoFrontal);
+        CenizaOblicua8.add(cuadradoLateralIzquierdo);
+        CenizaOblicua8.add(cuadradoLateralDerecho);
+        CenizaOblicua8.add(cuadradoSuperiorTecho);
+        CenizaOblicua8.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza7(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua7.add(cuadradoTrasero);
+        CenizaOblicua7.add(cuadradoFrontal);
+        CenizaOblicua7.add(cuadradoLateralIzquierdo);
+        CenizaOblicua7.add(cuadradoLateralDerecho);
+        CenizaOblicua7.add(cuadradoSuperiorTecho);
+        CenizaOblicua7.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza6(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua6.add(cuadradoTrasero);
+        CenizaOblicua6.add(cuadradoFrontal);
+        CenizaOblicua6.add(cuadradoLateralIzquierdo);
+        CenizaOblicua6.add(cuadradoLateralDerecho);
+        CenizaOblicua6.add(cuadradoSuperiorTecho);
+        CenizaOblicua6.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza5(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua5.add(cuadradoTrasero);
+        CenizaOblicua5.add(cuadradoFrontal);
+        CenizaOblicua5.add(cuadradoLateralIzquierdo);
+        CenizaOblicua5.add(cuadradoLateralDerecho);
+        CenizaOblicua5.add(cuadradoSuperiorTecho);
+        CenizaOblicua5.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza4(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua4.add(cuadradoTrasero);
+        CenizaOblicua4.add(cuadradoFrontal);
+        CenizaOblicua4.add(cuadradoLateralIzquierdo);
+        CenizaOblicua4.add(cuadradoLateralDerecho);
+        CenizaOblicua4.add(cuadradoSuperiorTecho);
+        CenizaOblicua4.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza3(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua3.add(cuadradoTrasero);
+        CenizaOblicua3.add(cuadradoFrontal);
+        CenizaOblicua3.add(cuadradoLateralIzquierdo);
+        CenizaOblicua3.add(cuadradoLateralDerecho);
+        CenizaOblicua3.add(cuadradoSuperiorTecho);
+        CenizaOblicua3.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza2(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua2.add(cuadradoTrasero);
+        CenizaOblicua2.add(cuadradoFrontal);
+        CenizaOblicua2.add(cuadradoLateralIzquierdo);
+        CenizaOblicua2.add(cuadradoLateralDerecho);
+        CenizaOblicua2.add(cuadradoSuperiorTecho);
+        CenizaOblicua2.add(cuadradoinferior);
+    }
+
+    public void ColocarCeniza(int x, int y, int tamaño, Color c, Color inicial, Color colorfinal, boolean mostrar) {
+        double xp = 4;
+        double yp = 6;
+        double zp = 3;
+        double[][] puntos2D = hacerProyeccionOblicua(ceniza, tamaño, xp, yp, zp, Color.gray, false);
+
+        double escala = 1.0 / 1;
+
+        // Imprimir coordenadas 2D
+        for (int i = 0; i < puntos2D.length; i++) {
+            double[] punto = puntos2D[i];
+            System.out.println("Punto " + (i + 1) + ": (" + punto[0] + ", " + punto[1] + ")");
+        }
+
+        Figura cuadradoTrasero = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoFrontal = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y // Punto 4
+        );
+
+        Figura cuadradoLateralIzquierdo = new Figura(
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y, // Punto 2
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y, // Punto 3
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y // Punto 7
+        );
+
+        Figura cuadradoLateralDerecho = new Figura(
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y // Punto 8
+        );
+
+        Figura cuadradoSuperiorTecho = new Figura(
+                (int) (puntos2D[0][0] * escala) + x, (int) (puntos2D[0][1] * escala) + y, // Punto 1
+                (int) (puntos2D[4][0] * escala) + x, (int) (puntos2D[4][1] * escala) + y, // Punto 5
+                (int) (puntos2D[5][0] * escala) + x, (int) (puntos2D[5][1] * escala) + y, // Punto 6
+                (int) (puntos2D[1][0] * escala) + x, (int) (puntos2D[1][1] * escala) + y // Punto 2
+        );
+
+        Figura cuadradoinferior = new Figura(
+                (int) (puntos2D[3][0] * escala) + x, (int) (puntos2D[3][1] * escala) + y, // Punto 4
+                (int) (puntos2D[7][0] * escala) + x, (int) (puntos2D[7][1] * escala) + y, // Punto 8
+                (int) (puntos2D[6][0] * escala) + x, (int) (puntos2D[6][1] * escala) + y, // Punto 7
+                (int) (puntos2D[2][0] * escala) + x, (int) (puntos2D[2][1] * escala) + y // Punto 3
+        );
+        if (mostrar == true) {
+
+            RellenarFiguraScanLine(cuadradoinferior, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralIzquierdo, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoFrontal, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoSuperiorTecho, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoTrasero, Color.BLACK, Color.gray, Color.gray, false);
+            RellenarFiguraScanLine(cuadradoLateralDerecho, Color.BLACK, Color.gray, Color.gray, false);
+        }
+        CenizaOblicua.add(cuadradoTrasero);
+        CenizaOblicua.add(cuadradoFrontal);
+        CenizaOblicua.add(cuadradoLateralIzquierdo);
+        CenizaOblicua.add(cuadradoLateralDerecho);
+        CenizaOblicua.add(cuadradoSuperiorTecho);
+        CenizaOblicua.add(cuadradoinferior);
+    }
+
+    public double[][] hacerEscalacion(double[][] puntos2D, double Sx, double Sy, double Sz) {
+        // Calcular el centro de la figura
+        double sumX = 0;
+        double sumY = 0;
+        int numPuntos = puntos2D.length;
+
+        for (int i = 0; i < numPuntos; i++) {
+            sumX += puntos2D[i][0];
+            sumY += puntos2D[i][1];
+        }
+
+        double centroX = sumX / numPuntos;
+        double centroY = sumY / numPuntos;
+
+        // Crear la matriz de escalamiento
+        double[][] matrizEscalamiento = {
+            {Sx, 0, 0},
+            {0, Sy, 0},
+            {0, 0, Sz}
+        };
+
+        // Aplicar la escala a los puntos 2D
+        for (int i = 0; i < numPuntos; i++) {
+            double x = puntos2D[i][0] - centroX;
+            double y = puntos2D[i][1] - centroY;
+
+            double xNueva = matrizEscalamiento[0][0] * x + matrizEscalamiento[0][1] * y + matrizEscalamiento[0][2];
+            double yNueva = matrizEscalamiento[1][0] * x + matrizEscalamiento[1][1] * y + matrizEscalamiento[1][2];
+
+            puntos2D[i][0] = xNueva + centroX;
+            puntos2D[i][1] = yNueva + centroY;
+        }
+
+        return puntos2D;
     }
 
     public void moverHumo(int posX, int posY, int desplazamientoX1, int desplazamientoY1, int desplazamientoX2, int desplazamientoY2, int desplazamientoX3, int desplazamientoY3, int desplazamientoX4, int desplazamientoY4, List<Poligono> Humo, int[] puntosAMover) {
@@ -514,11 +2015,18 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 Thread.sleep(200);
 
                 if (xHumoE >= -340 && yLava == 305) {;  // como es negativo, entonces es mayor o igual no menor, por que menor seria que el numero fuese tendiendo a numeros positivos
+                    colorInicialHumo = new Color(217, 14, 1);
+                    colorFinalHumo = new Color(254, 102, 16);
                     mostrarExplosion = true;
                     moverHumo(0, 0, -3, -2, 3, -2, -2, -2, 1, -2, HumoOblicua, new int[]{1, 2, 3, 4});
 
                 } else {
+                    if (yMeteoro1 >= 800) {
 
+                        colorInicialHumo = new Color(191, 190, 189);
+                        colorFinalHumo = new Color(110, 107, 99);
+
+                    }
                     moverHumo(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, HumoOblicua, new int[]{1, 2, 3, 4});
 
                 }
@@ -544,7 +2052,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         double xp = 4;
         double yp = 6;
         double zp = 3;
-        double[][] cordenadas2d = hacerProyeccionOblicua(LavaHumo, 30, xp, yp, zp, Color.RED, false);
+        double[][] cordenadas2d = hacerProyeccionOblicua(LavaHumo, 30, xp, yp, zp, inicial, false);
 
         // Escala proporcional al tamaño inverso
         double escala = 1.0 / tamaño;
@@ -628,18 +2136,18 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 int puntoHX = (int) (cordenadas2d[7][0] * escala) + xh;
                 int puntoHY = (int) (cordenadas2d[7][1] * escala) + yh;
 
-                putLineaDDA(puntoAX, puntoAY, puntoBX, puntoBY, Color.RED); // A a B
-                putLineaDDA(puntoCX, puntoCY, puntoDX, puntoDY, Color.RED); // C a D
-                putLineaDDA(puntoAX, puntoAY, puntoCX, puntoCY, Color.RED); // A a C
-                putLineaDDA(puntoBX, puntoBY, puntoDX, puntoDY, Color.RED); // B a D
-                putLineaDDA(puntoAX, puntoAY, puntoEX, puntoEY, Color.RED); // A a E
-                putLineaDDA(puntoBX, puntoBY, puntoFX, puntoFY, Color.RED); // B a F
-                putLineaDDA(puntoCX, puntoCY, puntoGX, puntoGY, Color.RED); // C a G
-                putLineaDDA(puntoDX, puntoDY, puntoHX, puntoHY, Color.RED); // D a H
-                putLineaDDA(puntoEX, puntoEY, puntoFX, puntoFY, Color.RED); // E a F
-                putLineaDDA(puntoFX, puntoFY, puntoHX, puntoHY, Color.RED); // F a H
-                putLineaDDA(puntoHX, puntoHY, puntoGX, puntoGY, Color.RED); // H a G
-                putLineaDDA(puntoGX, puntoGY, puntoEX, puntoEY, Color.RED); // G a E
+                putLineaDDA(puntoAX, puntoAY, puntoBX, puntoBY, colorfinal); // A a B
+                putLineaDDA(puntoCX, puntoCY, puntoDX, puntoDY, colorfinal); // C a D
+                putLineaDDA(puntoAX, puntoAY, puntoCX, puntoCY, colorfinal); // A a C
+                putLineaDDA(puntoBX, puntoBY, puntoDX, puntoDY, colorfinal); // B a D
+                putLineaDDA(puntoAX, puntoAY, puntoEX, puntoEY, colorfinal); // A a E
+                putLineaDDA(puntoBX, puntoBY, puntoFX, puntoFY, colorfinal); // B a F
+                putLineaDDA(puntoCX, puntoCY, puntoGX, puntoGY, colorfinal); // C a G
+                putLineaDDA(puntoDX, puntoDY, puntoHX, puntoHY, colorfinal); // D a H
+                putLineaDDA(puntoEX, puntoEY, puntoFX, puntoFY, colorfinal); // E a F
+                putLineaDDA(puntoFX, puntoFY, puntoHX, puntoHY, colorfinal); // F a H
+                putLineaDDA(puntoHX, puntoHY, puntoGX, puntoGY, colorfinal); // H a G
+                putLineaDDA(puntoGX, puntoGY, puntoEX, puntoEY, colorfinal); // G a E
 
                 Puntos[] carafrontal = {new Puntos(puntoGX, puntoGY), new Puntos(puntoHX, puntoHY), new Puntos(puntoDX, puntoDY), new Puntos(puntoCX, puntoCY)}; //G,H,D,C
                 Puntos[] caralateralderecha = {new Puntos(puntoHX, puntoHY), new Puntos(puntoFX, puntoFY), new Puntos(puntoBX, puntoBY), new Puntos(puntoDX, puntoDY)}; //HFDB
@@ -658,10 +2166,10 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 RellenarPoligono(pcara1, c, inicial, colorfinal, false);
 
                 Poligono pcara2 = new Poligono(caralateralderecha);
-                RellenarPoligono(pcara2, c, new Color(217, 14, 1), new Color(239, 178, 15), false);
+                RellenarPoligono(pcara2, c, inicial, colorfinal, false);
 
                 Poligono pcara3 = new Poligono(caralateralizquierda);
-                RellenarPoligono(pcara3, c, new Color(217, 14, 1), new Color(239, 178, 15), false);
+                RellenarPoligono(pcara3, c, inicial, colorfinal, false);
 
                 Poligono techos = new Poligono(techo);
                 RellenarPoligono(techos, c, inicial, colorfinal, false);
@@ -1235,7 +2743,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 75, 5, 6, Color.RED, Color.RED, Color.ORANGE);
             FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 110, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
             FuegoOrtogonal(FuegosMeteoroPoligonal1, x + 100, y + 70, 5, 6, Color.RED, Color.RED, Color.ORANGE);
-            Color colorBorde = Color.BLACK;
+            Color colorBorde = Color.RED;
             Color colorRellenoInicial = new Color(37, 37, 37);
             Color colorRellenoFinal = new Color(105, 65, 44);
 
@@ -1514,7 +3022,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 e.printStackTrace();
             }
             try {
-             
+
                 if (xHumoE <= -340) {;  // como es negativo, entonces es mayor o igual no menor, por que menor seria que el numero fuese tendiendo a numeros positivos
 
                     mostrarMeteoros = true;
@@ -1589,9 +3097,9 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             int limiteX = 0;
 
             if (xVolcan < limiteX) {
-                moverVolcan(0, 0, 2, 0, VolcanOblicuo);
+                moverVolcan(0, 0, 4, 0, VolcanOblicuo);
             } else {
-                moverVolcan(0, 0, -2, 0, VolcanOblicuo);
+                moverVolcan(0, 0, -4, 0, VolcanOblicuo);
             }
         }
     }
@@ -1649,8 +3157,8 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             // Verificar la condición de detención
             if (yLava == 330) {
                 try {
-                    // Pausar durante 3 segundos
-                    Thread.sleep(4500);
+
+                    Thread.sleep(5500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -2050,6 +3558,98 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         }
     }
 
+    private double[][] hacerProyeccionOblicuaEscaladando(double[][] cord3d, int tamañoInicial, int tamañoFinal, double xp, double yp, double zp, Color Borde, boolean PonerContorno) {
+        int[][] conexiones = {
+            {0, 1}, {1, 2}, {2, 3}, {3, 0}, // Lados horizontales inferiores
+            {4, 5}, {5, 6}, {6, 7}, {7, 4}, // Lados horizontales superiores
+            {0, 4}, {1, 5}, {2, 6}, {3, 7} // Conexiones verticales
+        };
+
+        double[][] cord2d = new double[cord3d.length][2]; // Arreglo para almacenar las coordenadas 2D
+
+        double tamañoActual = tamañoInicial;
+        double incremento = (tamañoFinal - tamañoInicial) / 100.0; // Incremento para la escala gradual
+
+        while (tamañoActual <= tamañoFinal) {
+            // Matriz de transformación de escalación
+            double[][] matrizEscalacion = {
+                {tamañoActual, 0, 0},
+                {0, tamañoActual, 0},
+                {0, 0, tamañoActual}
+            };
+
+            // Aplicar la matriz de transformación a las coordenadas 3D
+            double[][] cord3dEscalado = aplicarTransformacion(cord3d, matrizEscalacion);
+
+            // Proyectar las coordenadas 3D escaladas a 2D
+            int ptX = 0, ptY = 0, ptX2 = 0, ptY2 = 0;
+
+            for (int i = 0; i < conexiones.length; i++) {
+                int p1Index = conexiones[i][0];
+                int p2Index = conexiones[i][1];
+
+                double[] p1 = cord3dEscalado[p1Index];
+                double[] p2 = cord3dEscalado[p2Index];
+
+                double u = -zp / (p1[2] - zp);
+                double x1 = xp + (p1[0] - xp) * u;
+                double y1 = yp + (p1[1] - yp) * u;
+
+                u = -zp / (p2[2] - zp);
+                double x2 = xp + (p2[0] - xp) * u;
+                double y2 = yp + (p2[1] - yp) * u;
+
+                ptX = ((int) (x1 * tamañoActual) + getWidth() / 2);
+                ptY = getHeight() / 2 - (int) (y1 * tamañoActual);
+
+                ptX2 = (int) (x2 * tamañoActual) + getWidth() / 2;
+                ptY2 = getHeight() / 2 - (int) (y2 * tamañoActual);
+
+                cord2d[p1Index][0] = ptX; // Guarda la coordenada X del punto en cord2d
+                cord2d[p1Index][1] = ptY; // Guarda la coordenada Y del punto en cord2d
+                cord2d[p2Index][0] = ptX2; // Guarda la coordenada X del punto en cord2d
+                cord2d[p2Index][1] = ptY2; // Guarda la coordenada Y del punto en cord2d
+
+                if (PonerContorno == true) {
+                    putLineaDDA(ptX, ptY, ptX2, ptY2, Borde);
+                }
+            }
+
+            // Realizar las operaciones de dibujo o actualización de la interfaz gráfica aquí
+            // Agregar un retraso para controlar la velocidad de la animación
+            try {
+                Thread.sleep(50); // Puedes ajustar el tiempo de espera según la velocidad deseada
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Actualizar el tamaño actual
+            tamañoActual += incremento;
+        }
+
+        return cord2d; // Devuelve el arreglo de coordenadas 2D
+    }
+
+// Método auxiliar para aplicar una matriz de transformación a las coordenadas 3D
+    private double[][] aplicarTransformacion(double[][] cord3d, double[][] matrizTransformacion) {
+        double[][] cord3dTransformado = new double[cord3d.length][3];
+
+        for (int i = 0; i < cord3d.length; i++) {
+            double[] punto3d = cord3d[i];
+            double[] punto3dTransformado = new double[3];
+
+            for (int j = 0; j < 3; j++) {
+                punto3dTransformado[j] = matrizTransformacion[j][0] * punto3d[0]
+                        + matrizTransformacion[j][1] * punto3d[1]
+                        + matrizTransformacion[j][2] * punto3d[2];
+            }
+
+            cord3dTransformado[i] = punto3dTransformado;
+        }
+
+        return cord3dTransformado;
+    }
+
     private double[][] hacerProyeccionOblicua(double[][] cord3d, int tamaño, double xp, double yp, double zp, Color Borde, boolean PonerContorno) {
         int[][] conexiones = {
             {0, 1}, {1, 2}, {2, 3}, {3, 0}, // Lados horizontales inferiores
@@ -2097,6 +3697,39 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     public int obtenerpuntos(double[][] cord3d) {
         int puntos = cord3d.length;
         return puntos;
+    }
+
+    public void escalacion(double[][] cord3d, int inicial, int finaltamaño) {
+        double[][] cord2d = hacerProyeccionOblicua(cord3d, 1, 4, 6, 3, Color.gray, false);
+        double tamañoActual = inicial;
+
+        while (true) {
+            // Escalar las coordenadas 2D
+            for (int i = 0; i < cord2d.length; i++) {
+                cord2d[i][0] = cord2d[i][0] * tamañoActual / inicial;
+                cord2d[i][1] = cord2d[i][1] * tamañoActual / inicial;
+            }
+
+            // Realizar las operaciones de dibujo o actualización de la interfaz gráfica aquí
+            // Actualizar el tamaño actual
+            tamañoActual += (finaltamaño - inicial) / 100.0; // Puedes ajustar el incremento según la velocidad deseada
+
+            // Detener la animación cuando se alcanza el tamaño final
+            if (tamañoActual >= finaltamaño) {
+                break;
+            }
+
+            // Agregar un retraso para controlar la velocidad de la animación
+            try {
+                Thread.sleep(50); // Puedes ajustar el tiempo de espera según la velocidad deseada
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Limpiar y actualizar la interfaz gráfica aquí
+            // Volver a obtener las coordenadas 2D proyectadas
+            cord2d = hacerProyeccionOblicua(cord3d, 1, 4, 6, 3, Color.gray, false);
+        }
     }
 
     public void rotacion(double[][] cord3d, int angulo, int eje) {
