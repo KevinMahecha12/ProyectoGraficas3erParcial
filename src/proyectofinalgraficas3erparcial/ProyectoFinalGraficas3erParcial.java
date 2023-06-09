@@ -298,6 +298,17 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         {188, 100, 100}, // G
         {86, 120, 100} // H
     };
+    
+        double[][] cuadrado = {
+        {100, 130, 100}, // Vértice A
+        {200, 130, 100}, // Vértice B
+        {200, 180, 100}, // Vértice C
+        {100, 180, 100}, // Vértice D
+        {100, 100, 120}, // Vértice E
+        {200, 100, 120}, // Vértice F
+        {200, 200, 120}, // Vértice G
+        {100, 200, 120} // Vértice H
+    };
     List<Figura> VolcanOblicuo = new ArrayList<Figura>();
     List<Figura> FuegosMeteoroPoligonal1 = new ArrayList<Figura>();
     List<Poligono> MeteoroPoligonal1 = new ArrayList<Poligono>();
@@ -416,15 +427,20 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             Thread moverHumo = new Thread(() -> rotacion.moverHumo(0, 0, -3, -2, 3, -2, -2, -3, -1, -2, rotacion.HumoOblicua, new int[]{1, 2, 3, 4}));
 
             Thread contador = new Thread(() -> {
-                moverLava.start();
-                moverVolcan.start();
-                moverHumo.start();
-                mover.start();
-                mover2.start();
-                mover3.start();
-                mover4.start();
-                mover5.start();
-                mover6.start();
+                try {
+                    moverLava.start();
+                    Thread.sleep(5000);
+                    moverVolcan.start();
+                    moverHumo.start();
+                    mover.start();
+                    mover2.start();
+                    mover3.start();
+                    mover4.start();
+                    mover5.start();
+                    mover6.start();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                }
             });
             contador.start();
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -1312,7 +1328,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             if (xHumoE <= -340) {;  // como es negativo, entonces es mayor o igual no menor, por que menor seria que el numero fuese tendiendo a numeros positivos
 
                 mostrarMeteoros = true;
-                moverMeteoro5(0, 0, 0, 3, FuegosMeteoroPoligonal5, MeteoroPoligonal5);
+                moverMeteoro5(0, 0, 0, 5, FuegosMeteoroPoligonal5, MeteoroPoligonal5);
 
             }
             repaint();
@@ -1375,7 +1391,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
                 mostrarMeteoros = true;
 
-                moverMeteoro6(0, 0, 0, 2, FuegosMeteoroPoligonal6, MeteoroPoligonal6);
+                moverMeteoro6(0, 0, 0, 5, FuegosMeteoroPoligonal6, MeteoroPoligonal6);
 
             }
             repaint();
@@ -1438,7 +1454,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
                 mostrarMeteoros = true;
 
-                moverMeteoro4(0, 0, 0, 2, FuegosMeteoroPoligonal4, MeteoroPoligonal4);
+                moverMeteoro4(0, 0, 0, 4, FuegosMeteoroPoligonal4, MeteoroPoligonal4);
 
             }
             repaint();
@@ -1503,7 +1519,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
                     mostrarMeteoros = true;
                     moverMeteoro(0, 0, 0, 5, FuegosMeteoroPoligonal1, MeteoroPoligonal1);
-                    moverMeteoro2(0, 0, 0, 3, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
+                    moverMeteoro2(0, 0, 0, 4, FuegosMeteoroPoligonal2, MeteoroPoligonal2);
 
                 }
 
