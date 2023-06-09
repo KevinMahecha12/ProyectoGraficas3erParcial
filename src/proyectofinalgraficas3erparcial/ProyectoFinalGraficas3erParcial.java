@@ -300,7 +300,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     };
 
     double[][] ceniza = {
-       {100, 130, 100}, // Vértice A
+        {100, 130, 100}, // Vértice A
         {200, 130, 100}, // Vértice B
         {200, 180, 100}, // Vértice C
         {120, 180, 100}, // Vértice D
@@ -374,7 +374,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
     boolean mostrarCenizas = false;
     Color colorInicialHumo;
     Color colorFinalHumo;
-    int tamañoc=1;
+    int tamañoc = 1;
 
     ProyectoFinalGraficas3erParcial() {
         setTitle("Proyecto Final gráficas 3er Parcial, Kevin Giovanni Mahecha Cabuto, 20310027, 6P");
@@ -392,22 +392,72 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 super.paintComponent(g);
 
                 ColocarFondoDetras();
+                PonerNube(200, 280, 60);
+                PonerNube(760, 260, 60);
+                PonerNube3(430, 170, 90);
                 ColocarMontaña1punto3(280, 210, 3);
                 ColocarMontaña1punto(0, 300, 2);
                 ColocarMontaña1punto(100, 400, 2);
                 ColocarMontaña1punto2(480, 320, 3);
                 ColocarFondoPiso(0, 600, 300);
                 ColocarVolcan();
-
+                ArbolOrtogonal1(3, 700, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(10, 780, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(20, 890, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(600, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(200, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(350, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(420, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(550, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(50, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(460, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
                 ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(800, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(890, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(600, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(900, 770, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(860, 740, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+
+                ArbolOrtogonal1(140, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(170, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(230, 900, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(280, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(310, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(380, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(790, 700, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(780, 780, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+
+                ArbolOrtogonal1(830, 780, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(870, 750, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(890, 760, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(790, 830, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(780, 890, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(840, 980, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(740, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(700, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(690, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(640, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(5, 700, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(-30, 725, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(-15, 760, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(-20, 795, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(-25, 820, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(-30, 845, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(-35, 880, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+
+                ArbolOrtogonal1(-35, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(35, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(85, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(135, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(155, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                ArbolOrtogonal1(185, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                    ArbolOrtogonal1(535, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                        ArbolOrtogonal1(635, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
+                            ArbolOrtogonal1(575, 920, 5, Color.BLACK, Color.BLACK, Color.BLACK);
 
                 try {
+                    ColocarLuna(960, 80, 100);
+
                     imprimirPuntosYdibujarContorno(false);
                     ColocarHumo(xHumoE, yHumoE, xHumoF, yHumoF, xHumoG, yHumoG, xHumoH, yHumoH, 1, colorInicialHumo, colorInicialHumo, colorFinalHumo, new int[]{1, 2, 3, 4}, mostrarExplosion);
                     ColocarCeniza(xCeniza, yCeniza, tamañoc, Color.gray, Color.gray, Color.gray, mostrarCenizas);
@@ -514,6 +564,77 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
     }
 
+    public void PonerNube3(int x, int y, int escala) {
+
+        llenarElipseAcumulativo(buffer, x + escala * 3 / 4, y - escala / 4, escala / 2, escala / 4, Color.WHITE);
+
+        llenarElipseAcumulativo(buffer, x - escala * 3 / 4, y - escala / 4, escala / 2, escala / 4, Color.WHITE);
+
+        llenarElipseAcumulativo(buffer, x - escala / 4, y, escala / 2, escala / 2, Color.WHITE);
+
+        llenarElipseAcumulativo(buffer, x - escala / 2, y - escala / 4, escala / 2, escala / 4, Color.WHITE);
+
+        llenarElipseAcumulativo(buffer, x - escala / 4, y - escala / 2, escala / 2, escala / 2, Color.WHITE);
+
+        llenarElipseAcumulativo(buffer, x + escala / 2, y - escala / 2, escala / 2, escala / 2, Color.WHITE);
+
+    }
+
+    public void PonerNube(int x, int y, int tamaño) {
+        // Actualizar las coordenadas globales de la nube
+
+        // Dibujar y agregar las formas de la nube a la lista
+        Elipse elipse1 = new Elipse(x + tamaño * 2, y, tamaño, tamaño / 2);
+
+        llenarElipseAcumulativo(buffer, x + tamaño * 2, y, tamaño, tamaño / 2, Color.WHITE);
+
+        llenarElipseAcumulativo(buffer, x, y, tamaño, tamaño, Color.WHITE);
+
+        llenarElipseAcumulativo(buffer, x - tamaño * 2, y - tamaño * -1 / 2, tamaño, tamaño / 2, Color.WHITE);
+
+        Elipse elipse4 = new Elipse(x - tamaño / 2, y + tamaño / 2, tamaño, tamaño / 2);
+
+        llenarElipseAcumulativo(buffer, x - tamaño / 2, y + tamaño / 2, tamaño, tamaño / 2, Color.WHITE);
+
+        Elipse elipse5 = new Elipse(x + tamaño / 2, y + tamaño / 2, tamaño, tamaño / 2);
+
+        llenarElipseAcumulativo(buffer, x + tamaño / 2, y + tamaño / 2, tamaño, tamaño / 2, Color.WHITE);
+    }
+
+    public void ColocarLuna(int x, int y, int tamaño) {
+        llenarElipseAcumulativo(buffer, x, y, tamaño, tamaño, Color.YELLOW);
+    }
+
+    public void llenarElipseAcumulativo(BufferedImage image, int xc, int yc, int rx, int ry, Color color) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        BufferedImage tempImage = new BufferedImage(width, height, image.getType());
+        Graphics2D g = tempImage.createGraphics();
+        g.drawImage(image, 0, 0, null);
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (Math.pow((x - xc), 2) / Math.pow(rx, 2) + Math.pow((y - yc), 2) / Math.pow(ry, 2) <= 1) {
+                    int pixel = image.getRGB(x, y);
+                    if (pixel != Color.BLACK.getRGB()) {
+                        Color currentColor = new Color(pixel);
+                        int red = Math.min(255, currentColor.getRed() + color.getRed());
+                        int green = Math.min(255, currentColor.getGreen() + color.getGreen());
+                        int blue = Math.min(255, currentColor.getBlue() + color.getBlue());
+                        int alpha = currentColor.getAlpha();
+                        Color newColor = new Color(red, green, blue, alpha);
+                        tempImage.setRGB(x, y, newColor.getRGB());
+                    } else {
+                        tempImage.setRGB(x, y, color.getRGB());
+                    }
+                }
+            }
+        }
+
+        image.setData(tempImage.getData());
+    }
+
     public void moverCeniza10(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
         while (true) {
             try {
@@ -558,12 +679,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-                        if (yMeteoro1 >= 800) {
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
                     try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -572,7 +693,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 mostrarCenizas = true;
 
                 moverCeniza10(-120, -70, 0, 5, CenizaOblicua10);
-                
+
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
 
@@ -625,12 +746,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-                        if (yMeteoro1 >= 800) {
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                     try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -639,7 +760,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 mostrarCenizas = true;
 
                 moverCeniza9(-350, -110, 0, 5, CenizaOblicua9);
-                
+
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
 
@@ -692,13 +813,13 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-                        if (yMeteoro1 >= 800) {
+
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                   try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -707,12 +828,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 mostrarCenizas = true;
 
                 moverCeniza8(420, -200, 0, 5, CenizaOblicua8);
-                
+
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
 
             }
-            
+
             repaint();
         }
     }
@@ -761,13 +882,13 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-                        if (yMeteoro1 >= 800) {
+
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                  try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -776,11 +897,11 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 mostrarCenizas = true;
 
                 moverCeniza7(340, -160, 0, 5, CenizaOblicua7);
-          
+
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
             }
-           
+
             repaint();
         }
     }
@@ -829,12 +950,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-                        if (yMeteoro1 >= 800) {
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                      try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -897,12 +1018,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-                        if (yMeteoro1 >= 800) {
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                      try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -965,12 +1086,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-                        if (yMeteoro1 >= 800) {
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -979,8 +1100,7 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 mostrarCenizas = true;
 
                 moverCeniza4(10, -200, 0, 5, CenizaOblicua4);
-    
-                
+
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
 
@@ -1034,12 +1154,12 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-                        if (yMeteoro1 >= 800) {
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                    try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -1049,14 +1169,13 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
                 moverCeniza3(-80, -230, 0, 5, CenizaOblicua3);
 
-                
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
 
             }
             repaint();
         }
-        
+
     }
 
     public void moverCeniza2(int posX, int posY, int desplazamientoX, int desplazamientoY, List<Figura> Ceniza) {
@@ -1104,13 +1223,13 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-                        if (yMeteoro1 >= 800) {
+
+            if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                     try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -1119,7 +1238,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                 mostrarCenizas = true;
                 moverCeniza2(-230, -160, 0, 5, CenizaOblicua2);
 
-                
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
 
@@ -1176,9 +1294,9 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             if (yMeteoro1 >= 800) {
                 // Salir del bucle si tamañoc es igual o mayor a 20
                 if (tamañoc < 26) {
-                                      try {
+                    try {
                         Thread.sleep(1200);
-                            tamañoc++; // Incrementar tamañoc solo si es menor a 20
+                        tamañoc++; // Incrementar tamañoc solo si es menor a 20
                     } catch (InterruptedException ex) {
                         Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -1188,7 +1306,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
 
                 moverCeniza(-380, -200, 0, 5, CenizaOblicua);
 
-                
                 colorInicialHumo = Color.gray;
                 colorFinalHumo = Color.gray;
 
@@ -3097,9 +3214,19 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
             int limiteX = 0;
 
             if (xVolcan < limiteX) {
-                moverVolcan(0, 0, 4, 0, VolcanOblicuo);
+                try {
+                    Thread.sleep(200);
+                    moverVolcan(0, 0, 4, 0, VolcanOblicuo);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
-                moverVolcan(0, 0, -4, 0, VolcanOblicuo);
+                try {
+                    Thread.sleep(70);
+                    moverVolcan(0, 0, -4, 0, VolcanOblicuo);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ProyectoFinalGraficas3erParcial.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -3514,7 +3641,6 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
                     intersecciones.add(xInterseccion);
                 }
             }
-
             intersecciones.sort(Comparator.naturalOrder());
 
             for (int i = 0; i < intersecciones.size(); i += 2) {
@@ -4189,5 +4315,5 @@ public class ProyectoFinalGraficas3erParcial extends JFrame {
         Figura figura = new Figura(minX, minY, minX + Ancho, minY, minX + Ancho, minY + Alto, minX, minY + Alto);
         return figura;
     }
-    //PROYECTO GRAFICAS EN CURSO....
 }
+    //PROYECTO TERMINADO, SE PUDO!'
