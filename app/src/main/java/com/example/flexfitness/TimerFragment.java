@@ -1,8 +1,18 @@
 package com.example.flexfitness;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
@@ -17,17 +27,12 @@ import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 
-
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TimerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TimerFragment extends Fragment implements View.OnClickListener{
 
     private MediaPlayer mediaPlayer;
 
+    private final static String CHANNEL_ID = "NOTIFICACION";
+    public final static int NOTIFICACION_ID = 0;
 
     private long timeCountInMilliSeconds = 1 * 60000;
 
@@ -44,8 +49,6 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
     private ImageView imageViewReset;
     private ImageView imageViewStartStop;
     private CountDownTimer countDownTimer;
-
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,12 +83,13 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-        View root = inflater.inflate(R.layout.fragment_perfil, container, false);
+        View root = inflater.inflate(R.layout.fragment_timer, container, false);
 
         mediaPlayer = MediaPlayer.create(getContext(), R.raw.sound);
 
@@ -102,24 +106,11 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    /**
-     * method to initialize the views
-     */
-
-
-    /**
-     * method to initialize the click listeners
-     */
     private void initListeners() {
         imageViewReset.setOnClickListener(this);
         imageViewStartStop.setOnClickListener(this);
     }
 
-    /**
-     * implemented method to listen clicks
-     *
-     * @param view
-     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -132,18 +123,11 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    /**
-     * method to reset count down timer
-     */
     private void reset() {
         stopCountDownTimer();
         startCountDownTimer();
     }
 
-
-    /**
-     * method to start and stop count down timer
-     */
     private void startStop() {
         if (timerStatus == TimerStatus.STOPPED) {
 
@@ -178,9 +162,6 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    /**
-     * method to initialize the values for count down timer
-     */
     private void setTimerValues() {
         int time = 0;
         if (!editTextMinute.getText().toString().isEmpty()) {
@@ -194,9 +175,6 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
         timeCountInMilliSeconds = time * 60 * 1000;
     }
 
-    /**
-     * method to start count down timer
-     */
     private void startCountDownTimer() {
 
         countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
@@ -224,35 +202,24 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
                 // changing the timer status to stopped
                 timerStatus = TimerStatus.STOPPED;
                 mediaPlayer.start();
+                crearCanalNotificacion();
+                crearNotificacion();
             }
 
         }.start();
         countDownTimer.start();
     }
 
-    /**
-     * method to stop count down timer
-     */
     private void stopCountDownTimer() {
         countDownTimer.cancel();
     }
 
-    /**
-     * method to set circular progress bar values
-     */
     private void setProgressBarValues() {
 
         progressBarCircle.setMax((int) timeCountInMilliSeconds / 1000);
         progressBarCircle.setProgress((int) timeCountInMilliSeconds / 1000);
     }
 
-
-    /**
-     * method to convert millisecond to time format
-     *
-     * @param milliSeconds
-     * @return HH:mm:ss time formatted string
-     */
     private String hmsTimeFormatter(long milliSeconds) {
 
         String hms = String.format("%02d:%02d:%02d",
@@ -262,8 +229,43 @@ public class TimerFragment extends Fragment implements View.OnClickListener{
 
         return hms;
 
-
     }
+
+    private void crearCanalNotificacion(){
+        //Validar si es version Android o superior a 0 (API >= 24)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            //Nombre del canal
+            CharSequence name = "NOTIFICACION";
+
+            //Instancia para gestionar el canal y el servicio de la notificación
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name,
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
+
+            notificationManager.createNotificationChannel(notificationChannel);
+
+        }//if version
+    }//crearCanalNotificacion
+
+    private void crearNotificacion(){
+        //Instancia para generar la notificación, especificado el contexto de la App y el canal de comunicación
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), CHANNEL_ID);
+
+        //Caracteristicas de la notificacion
+        builder.setSmallIcon(R.drawable.ejercicios);
+        builder.setContentTitle("Descanso Terminado");
+        builder.setContentText("¡Vuelve a tu ejercicio!");
+        builder.setColor(Color.BLUE);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.RED, 1000, 1000);
+        builder.setVibrate(new long[] {1000,1000,1000,1000, 100});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+
+        //Instancia que gestiona la notificacion del dispositivo
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getContext());
+        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
+
+    }//crearNotificacion
 
 
 }

@@ -1,7 +1,10 @@
 package com.example.flexfitness;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -10,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.provider.AlarmClock;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -136,8 +140,8 @@ public class PerfilFragment extends Fragment {
                 Toast.makeText(getContext(), "Error al cargar nombre", Toast.LENGTH_SHORT).show();
             }
         });
-        
-                existeMembresia();
+
+        existeMembresia();
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +181,7 @@ public class PerfilFragment extends Fragment {
         return root;
     }
 
-    public void renovarMembresia(){
+    public void renovarMembresia() {
         Calendar calendarioHoy = Calendar.getInstance();
         calendarioHoy.set(Calendar.HOUR_OF_DAY, 1);
         calendarioHoy.set(Calendar.MINUTE, 0);
@@ -185,55 +189,55 @@ public class PerfilFragment extends Fragment {
         calendarioHoy.set(Calendar.MILLISECOND, 0);
         Date fechaHoy = calendarioHoy.getTime();
 
-                    //Fecha de fin
-                    int tempoAno = calendarioHoy.get(Calendar.YEAR);
-                    int tempoMes = calendarioHoy.get(Calendar.MONTH);
-                    String tipoMembresia = "";
+        //Fecha de fin
+        int tempoAno = calendarioHoy.get(Calendar.YEAR);
+        int tempoMes = calendarioHoy.get(Calendar.MONTH);
+        String tipoMembresia = "";
 
-                    if(rbAnual.isChecked()){
-                        tempoAno += 1;
-                        tipoMembresia = "Anual";
-                    }else if(rbMensual.isChecked()){
-                        tipoMembresia = "Mensual";
+        if (rbAnual.isChecked()) {
+            tempoAno += 1;
+            tipoMembresia = "Anual";
+        } else if (rbMensual.isChecked()) {
+            tipoMembresia = "Mensual";
 
-                        if (mesAlarma == 11){
-                            tempoMes = 0;
-                        }else{
-                            tempoMes+=1;
-                        }
-                    }//tipoMembresia
+            if (mesAlarma == 11) {
+                tempoMes = 0;
+            } else {
+                tempoMes += 1;
+            }
+        }//tipoMembresia
 
-                    calendarioHoy.set(Calendar.YEAR, tempoAno);
-                    calendarioHoy.set(Calendar.MONTH, tempoMes); // Los meses comienzan desde 0 (enero = 0)
+        calendarioHoy.set(Calendar.YEAR, tempoAno);
+        calendarioHoy.set(Calendar.MONTH, tempoMes); // Los meses comienzan desde 0 (enero = 0)
 
-                    Date fechaFinal = calendarioHoy.getTime();
+        Date fechaFinal = calendarioHoy.getTime();
 
-                    Map<String, Object> membresiaMap = new HashMap<>();
-                    membresiaMap.put("fechaInicio", fechaHoy);
-                    membresiaMap.put("fechaFinal", fechaFinal);
-                    membresiaMap.put("tipo", tipoMembresia);
+        Map<String, Object> membresiaMap = new HashMap<>();
+        membresiaMap.put("fechaInicio", fechaHoy);
+        membresiaMap.put("fechaFinal", fechaFinal);
+        membresiaMap.put("tipo", tipoMembresia);
 
-                    docRef.update("membresia", membresiaMap)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // Actualización exitosa
-                                    Toast.makeText(getContext(), "Membresia Renovada Correctamente", Toast.LENGTH_SHORT).show();
-                                    existeMembresia();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Error al actualizar
-                                    Toast.makeText(getContext(), "Algo fallo en Renovar membresia update", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+        docRef.update("membresia", membresiaMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Actualización exitosa
+                        Toast.makeText(getContext(), "Membresia Renovada Correctamente", Toast.LENGTH_SHORT).show();
+                        existeMembresia();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Error al actualizar
+                        Toast.makeText(getContext(), "Algo fallo en Renovar membresia update", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
     }//renovarMembresia
 
-    public void borrarMembresia(){
+    public void borrarMembresia() {
         Map<String, Object> membresiaMap = new HashMap<>();
 
         docRef.update("membresia", membresiaMap)
@@ -254,7 +258,7 @@ public class PerfilFragment extends Fragment {
                 });
     }//borrarMembresia
 
-    public void existeMembresia(){
+    public void existeMembresia() {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -290,10 +294,10 @@ public class PerfilFragment extends Fragment {
                     edtFechaInicio.setText("Inicio: " + fechaFormateadaInicio);
                     edtFechaFinal.setText("Final: " + fechaFormateadaFinal);
 
-                    if (tipoMembresia == "Anual"){
+                    if (tipoMembresia == "Anual") {
                         rbAnual.setChecked(true);
                         rbMensual.setChecked(false);
-                    }else if(tipoMembresia == "Mensual"){
+                    } else if (tipoMembresia == "Mensual") {
                         rbMensual.setChecked(true);
                         rbAnual.setChecked(false);
                     }
@@ -307,7 +311,7 @@ public class PerfilFragment extends Fragment {
                         edtFechaInicio.setTextColor(Color.RED);
                         edtFechaFinal.setTextColor(Color.RED);
 
-                    } else  {
+                    } else {
                         int color = getResources().getColor(R.color.disabledColor);
                         btnRenovarMembresia.getBackground().setColorFilter(color, PorterDuff.Mode.SRC);
                         btnRenovarMembresia.setEnabled(false);
@@ -337,7 +341,7 @@ public class PerfilFragment extends Fragment {
         });
     }
 
-    public void setFechaMembresia(){
+    public void setFechaMembresia() {
         //Instancia para calendario
         Calendar horarioHoy = Calendar.getInstance();
         //Obtener los valores actuales del sistema
@@ -358,21 +362,21 @@ public class PerfilFragment extends Fragment {
         datePickerDialog.show();
     }//setFechaAlarma
 
-    public void registrarMembresia(){
+    public void registrarMembresia() {
         String tipoMembresia = "";
 
         //Toast.makeText((Context) this, (CharSequence) rbAnual, Toast.LENGTH_SHORT).show();
 
-        if(diaAlarma == 0 || mesAlarma == 0 || anoAlarma == 0){
+        if (diaAlarma == 0 || mesAlarma == 0 || anoAlarma == 0) {
             Toast.makeText(getContext(), "Seleccione la fecha en la que inició el periodo de su membresía.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(rbAnual.isChecked()){
+        if (rbAnual.isChecked()) {
             tipoMembresia = "Anual";
-        }else if(rbMensual.isChecked()){
+        } else if (rbMensual.isChecked()) {
             tipoMembresia = "Mensual";
-        }else{
+        } else {
             Toast.makeText(getContext(), "Seleccione el tipo de membresia que registrará.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -395,15 +399,15 @@ public class PerfilFragment extends Fragment {
         int tempoAno = anoAlarma;
         int tempoMes = mesAlarma;
 
-        if(tipoMembresia == "Anual"){
+        if (tipoMembresia == "Anual") {
             tempoAno += 1;
         }
 
-        if(tipoMembresia == "Mensual"){
-            if (mesAlarma == 11){
+        if (tipoMembresia == "Mensual") {
+            if (mesAlarma == 11) {
                 tempoMes = 0;
-            }else{
-                tempoMes+=1;
+            } else {
+                tempoMes += 1;
             }
         }//tipoMembresia
 
@@ -424,7 +428,7 @@ public class PerfilFragment extends Fragment {
         Toast.makeText(getContext(), "fecha inicio " + fechaFormateadaInicio, Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), "fecha final " + fechaFormateadaFinal, Toast.LENGTH_SHORT).show();
 
-                docRef.update("membresia", membresiaMap)
+        docRef.update("membresia", membresiaMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
