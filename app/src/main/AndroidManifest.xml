@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.flexfitness">
+    package="com.directoriofitness.flexfitness">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
@@ -20,28 +20,28 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB48P_hk5uAT7xwpVZAWB5GtmYHwHNqUlA" />
         <activity
-            android:name=".LoginActivity"
+            android:name="aplicacionfitness.directoriofitness.flexfitness.LoginActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name="aplicacionfitness.directoriofitness.flexfitness.MenuActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegistroActivity"
+            android:name="aplicacionfitness.directoriofitness.flexfitness.RegistroActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="aplicacionfitness.directoriofitness.flexfitness.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

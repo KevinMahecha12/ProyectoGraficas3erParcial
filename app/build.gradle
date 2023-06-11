@@ -8,7 +8,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.flexfitness"
+        applicationId "com.directoriofitness.flexfitness"
         minSdk 28
         targetSdk 33
         versionCode 1

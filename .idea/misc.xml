@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kevin/AndroidStudioProjects/MyApplication3/FlexFitness/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/kevin/AndroidStudioProjects/MyApplication3/FlexFitness/app/src/main/res/layout/activity_menu.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/kevin/AndroidStudioProjects/MyApplication3/FlexFitness/app/src/main/res/layout/fragment_ejercicios.xml" value="0.32760416666666664" />
+        <entry key="..\:/Users/kevin/AndroidStudioProjects/MyApplication3/FlexFitness/app/src/main/res/layout/fragment_gym.xml" value="0.32760416666666664" />
+        <entry key="..\:/Users/kevin/AndroidStudioProjects/MyApplication3/FlexFitness/app/src/main/res/layout/fragment_lector.xml" value="0.32760416666666664" />
+        <entry key="..\:/Users/kevin/AndroidStudioProjects/MyApplication3/FlexFitness/app/src/main/res/layout/fragment_timer.xml" value="0.32760416666666664" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2875" />
         <entry key="app/src/main/res/drawable/delete.xml" value="0.2875" />
         <entry key="app/src/main/res/drawable/drawable_circle_dark_blue.xml" value="0.2875" />
