@@ -178,7 +178,7 @@ public class EjerciciosFragment extends Fragment {
         try {
             dbw.execSQL(ejercicios);
         } catch (SQLException e) {
-            Toast.makeText(getContext(), "Error al crear la tabla 'pesos' O 'sqlEjercicios'.", Toast.LENGTH_SHORT).show();
+
         }
 
         String selectQuery = "SELECT COUNT(*) FROM ejercicios WHERE dia = ?";

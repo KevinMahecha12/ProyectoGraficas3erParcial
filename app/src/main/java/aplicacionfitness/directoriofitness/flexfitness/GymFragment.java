@@ -35,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class GymFragment extends Fragment {
@@ -151,35 +152,87 @@ public class GymFragment extends Fragment {
         btnGurdarGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Double> coordenadas = new HashMap<>();
-                coordenadas.put("lat", latlang.latitude);
-                coordenadas.put("lang", latlang.longitude);
+                // Verificar si el SearchView está vacío
+                if (searchView.getQuery().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Primero introduzca algo en la barra de búsqueda!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String lugar = searchView.getQuery().toString();
 
+                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
 
-                Map<String, Object> actualizaciones = new HashMap<>();
-                actualizaciones.put("latLng", coordenadas);
-                actualizaciones.put("gimnasio", location);
+                    try {
+                        List<Address> addresses = geocoder.getFromLocationName(lugar, 1);
 
-                DocumentReference usuariosRef = db.collection("usuarios").document(firebaseAuth.getCurrentUser().getUid());
+                        if (addresses != null && !addresses.isEmpty()) {
+                            // El lugar existe en Google Maps
+                            Address address = addresses.get(0);
 
-                usuariosRef.update(actualizaciones).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(getContext(), "Se ha guardado el gimnasio correctamente.", Toast.LENGTH_SHORT).show();
+                            // Obtén las coordenadas y realiza la actualización en la base de datos
+                            double latitud = address.getLatitude();
+                            double longitud = address.getLongitude();
+
+                            Map<String, Double> coordenadas = new HashMap<>();
+                            coordenadas.put("lat", latitud);
+                            coordenadas.put("lang", longitud);
+
+                            Map<String, Object> actualizaciones = new HashMap<>();
+                            actualizaciones.put("latLng", coordenadas);
+                            actualizaciones.put("gimnasio", lugar);
+
+                            DocumentReference usuariosRef = db.collection("usuarios").document(firebaseAuth.getCurrentUser().getUid());
+
+                            usuariosRef.update(actualizaciones).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getContext(), "Se ha guardado el gimnasio correctamente.", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getContext(), "No se pudo guardar el gimnasio, inténtelo más tarde.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            // El lugar no existe en Google Maps
+                            Toast.makeText(getContext(), "El lugar no existe en Google Maps.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "No se pudo guardar el gimnasio, intentelo más tarde.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }
             }
         });
 
         btnMostrarRutaGym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verEnGooglemaps();
+                if (searchView.getQuery().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Primero introduzca algo en la barra de búsqueda!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String lugar = searchView.getQuery().toString();
+
+                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+                    try {
+                        List<Address> addresses = geocoder.getFromLocationName(lugar, 1);
+
+                        if (addresses != null && !addresses.isEmpty()) {
+                            // El lugar existe en Google Maps
+                            Address address = addresses.get(0);
+                            double latitud = address.getLatitude();
+                            double longitud = address.getLongitude();
+                            LatLng latlang = new LatLng(latitud, longitud);
+
+                            // Llama al método verEnGooglemaps()
+                            verEnGooglemaps(latlang);
+                        } else {
+                            // El lugar no existe en Google Maps
+                            Toast.makeText(getContext(), "El lugar no existe en Google Maps.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
@@ -223,7 +276,7 @@ public class GymFragment extends Fragment {
                 });
     }
 
-    public void verEnGooglemaps() {
+    public void verEnGooglemaps(LatLng latlang) {
         double lat = latlang.latitude;
         double lng = latlang.longitude;
 
@@ -235,4 +288,5 @@ public class GymFragment extends Fragment {
             startActivity(mapIntent);
         }
     }
+
 }
